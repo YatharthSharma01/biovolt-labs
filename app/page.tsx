@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BioVoltExperience } from "./BioVoltExperience";
+import { HomeView } from "./BioVoltExperience";
 
 export const metadata: Metadata = {
   title: "BioVolt AI | From microbial metabolism to measurable electricity",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <BioVoltExperience />;
+  return <HomeView />;
 }

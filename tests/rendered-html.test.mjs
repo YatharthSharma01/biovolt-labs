@@ -4,13 +4,13 @@ import test from "node:test";
 
 const projectRoot = new URL("../", import.meta.url);
 
-async function render() {
+async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
+    new Request(`http://localhost${path}`, {
       headers: { accept: "text/html", host: "localhost" },
     }),
     {
@@ -25,19 +25,34 @@ async function render() {
   );
 }
 
-test("server-renders the BioVolt AI experience", async () => {
+test("server-renders the BioVolt AI cover", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>BioVolt AI \| From microbial metabolism/i);
-  assert.match(html, /From microbial metabolism to/);
-  assert.match(html, /Research library/);
-  assert.match(html, /College experiment/);
-  assert.match(html, /Digital twin preview/);
-  assert.match(html, /Synthetic preview/);
+  assert.match(html, /Intelligence for/);
+  assert.match(html, /living electricity/);
+  assert.match(html, /Research/);
+  assert.match(html, /Experiment/);
+  assert.match(html, /Digital twin/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+});
+
+test("server-renders every connected research page", async () => {
+  const routes = [
+    ["/research", /Research evidence, not a reading list/],
+    ["/experiment", /recovered experiment becomes structured evidence/],
+    ["/digital-twin", /digital twin that shows its working/],
+    ["/about", /Build slowly enough to remain scientifically useful/],
+  ];
+
+  for (const [path, expected] of routes) {
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    assert.match(await response.text(), expected, path);
+  }
 });
 
 test("removes the starter preview and ships project metadata", async () => {
@@ -47,7 +62,7 @@ test("removes the starter preview and ships project metadata", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /BioVoltExperience/);
+  assert.match(page, /HomeView/);
   assert.match(layout, /BioVolt AI/);
   assert.match(layout, /openGraph/);
   assert.match(layout, /\/og\.png/);

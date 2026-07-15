@@ -7,8 +7,10 @@ demonstration.
 
 ## Current capabilities
 
-- Interactive double-chamber MFC visualization
+- Full-viewport animated double-chamber MFC cover
 - Animated electron and proton pathways
+- Connected Home, Research, Experiment, Digital Twin and About pages
+- Research-paper-inspired editorial design and figure system
 - Historical apparatus and electrode documentation
 - Pseudomonas growth-curve visualization
 - Research-paper evidence cards with verification status
