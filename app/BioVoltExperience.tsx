@@ -5,7 +5,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export type PageKey = "home" | "research" | "experiment" | "twin" | "about";
-type PaperKind = "Review" | "Primary research";
+type PaperKind = "Review" | "Primary research" | "Supporting source";
 
 const navItems: Array<{ key: PageKey; label: string; issue: string }> = [
   { key: "home", label: "Home", issue: "00" },
@@ -52,13 +52,49 @@ const papers: Array<{
     record: "BV-LIT-003",
   },
   {
+    kind: "Review",
+    year: 2023,
+    authors: "Md. Shahinoor Islam et al.",
+    title: "MFC construction feature and application for sustainable wastewater treatment",
+    focus: "Wastewater / nitrogen / sulphides",
+    status: "Citation details to verify",
+    record: "BV-LIT-004",
+  },
+  {
+    kind: "Review",
+    year: 2025,
+    authors: "Tikam Chand Dakal et al.",
+    title: "New horizon in microbial fuel cell technology",
+    focus: "Nanotechnology / biosensors",
+    status: "Citation details to verify",
+    record: "BV-LIT-005",
+  },
+  {
+    kind: "Review",
+    year: 2025,
+    authors: "Prabhu Paramasivam et al.",
+    title: "Recent applications, challenges and future prospects of microbial fuel cell: A review",
+    focus: "Applications / challenges / future",
+    status: "Citation details to verify",
+    record: "BV-LIT-006",
+  },
+  {
+    kind: "Primary research",
+    year: 2025,
+    authors: "Inga Morkvenait et al.",
+    title: "Enhancing electron transfer efficiency in microbial fuel cells through gold nanoparticle modification of Saccharomyces cerevisiae",
+    focus: "Gold nanoparticles / electron transfer",
+    status: "Author spelling and citation to verify",
+    record: "BV-LIT-007",
+  },
+  {
     kind: "Primary research",
     year: 2016,
     authors: "Erick M. Bosire et al.",
     title: "Strain- and substrate-dependent redox mediator and electricity production by Pseudomonas aeruginosa",
     focus: "Pseudomonas / phenazines",
     status: "Citation details to verify",
-    record: "BV-LIT-004",
+    record: "BV-LIT-008",
   },
   {
     kind: "Primary research",
@@ -67,7 +103,34 @@ const papers: Array<{
     title: "Characterization of Pseudomonas aeruginosa using glucose, fructose and sucrose in double-chamber MFCs",
     focus: "Pseudomonas / substrates",
     status: "Citation details to verify",
-    record: "BV-LIT-005",
+    record: "BV-LIT-009",
+  },
+  {
+    kind: "Supporting source",
+    year: 2021,
+    authors: "Ross & Giacomo et al.",
+    title: "Use of biochar-based cathode and increase in electron flow by Pseudomonas to improve waste treatment in MFCs",
+    focus: "Biochar cathode / nanowires",
+    status: "Ambiguous author record in source deck",
+    record: "BV-SUP-001",
+  },
+  {
+    kind: "Primary research",
+    year: 2018,
+    authors: "Ankisha Vijay",
+    title: "Halophilic starch-degrading bacteria isolated from Sambhar Lake, India, as potential anode catalyst in microbial fuel cell: A promising process for saline wastewater",
+    focus: "Halophiles / Sambhar Lake / anode catalyst",
+    status: "Citation details to verify",
+    record: "BV-LIT-010",
+  },
+  {
+    kind: "Supporting source",
+    year: 2021,
+    authors: "Deepalaxmi Rathakrishnan",
+    title: "Isolation and characterization of halophilic isolates from Indian salterns and their screening for production of hydrolytic enzymes",
+    focus: "Halophile isolation / hydrolytic enzymes",
+    status: "Supporting microbiology source; citation to verify",
+    record: "BV-SUP-002",
   },
   {
     kind: "Primary research",
@@ -76,7 +139,7 @@ const papers: Array<{
     title: "Power generation by halophilic bacteria and assessment of salinity in a denitrification MFC",
     focus: "Halophiles / salinity",
     status: "Citation details to verify",
-    record: "BV-LIT-006",
+    record: "BV-LIT-011",
   },
 ];
 
@@ -123,7 +186,7 @@ function SiteHeader({ active, staticMode = false, overHero = false }: {
           </a>
         ))}
       </nav>
-      <a className="header-index" href={pageHref("research", staticMode)}><span>Index</span><b>6 records</b></a>
+      <a className="header-index" href={pageHref("research", staticMode)}><span>Index</span><b>11 core + 2 supporting</b></a>
     </header>
   );
 }
@@ -149,10 +212,10 @@ function SiteFooter({ staticMode = false }: { staticMode?: boolean }) {
           <p className="footer-kicker">Research profiles</p>
           <div className="social-row" aria-label="Research profiles">
             <a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer" aria-label="BioVolt AI on GitHub">GH</a>
-            <span aria-label="LinkedIn profile link pending" title="Profile link pending">in</span>
+            <a href="https://www.linkedin.com/in/yatharth-sharma-a13395288/" target="_blank" rel="noreferrer" aria-label="Yatharth Sharma on LinkedIn">in</a>
             <span aria-label="X profile link pending" title="Profile link pending">X</span>
           </div>
-          <small className="profile-note">GitHub is live. LinkedIn and X can be connected when profile URLs are provided.</small>
+          <small className="profile-note">GitHub and LinkedIn are live. X can be connected when its profile URL is provided.</small>
         </div>
       </div>
       <div className="footer-bottom"><p>© 2026 Yatharth Sharma. All rights reserved.</p><p>Designed as a living research manuscript.</p></div>
@@ -224,7 +287,7 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
         <FullPageReactor />
         <div className="hero-copy">
           <p className="hero-volume">Bioelectrochemical systems / Vol. 01</p>
-          <h1>Intelligence for<br /><em>living electricity.</em></h1>
+          <h1>From microbial<br />metabolism to<br /><em>measurable electricity.</em></h1>
           <p className="hero-deck">A research-led microbial fuel cell platform connecting evidence, historical experiments and an explainable digital twin.</p>
           <div className="hero-actions">
             <a className="button button-light" href={pageHref("experiment", staticMode)}>Read the experiment <span>↗</span></a>
@@ -238,7 +301,7 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
       <section className="issue-ledger">
         <div><span>System</span><strong>Double-chamber MFC</strong></div>
         <div><span>Organisms</span><strong>Halophiles / Pseudomonas</strong></div>
-        <div><span>Evidence</span><strong>6 papers / 1 experiment</strong></div>
+        <div><span>Evidence</span><strong>11 core papers / 2 supporting</strong></div>
         <div><span>Model status</span><strong>Transparent demonstration</strong></div>
       </section>
 
@@ -251,8 +314,23 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
         <aside className="margin-note"><b>Research principle</b><p>No prediction without provenance. No recommendation beyond the evidence domain.</p></aside>
       </article>
 
+      <section className="paper-spread author-introduction">
+        <SectionLabel number="00.2">Introduction by Yatharth Sharma</SectionLabel>
+        <div className="introduction-lead">
+          <p className="journal-kicker">Author-supplied manuscript / lightly copy-edited</p>
+          <h2>Why microbial fuel cells matter.</h2>
+          <p>Decades of reliance on conventional energy systems—including fossil fuels, hydropower, nuclear energy, coal, solar, wind, geothermal energy and battery storage—have exposed trade-offs such as environmental pollution, waste, low efficiency, high cost and infrastructure constraints [Panwar et al.].</p>
+        </div>
+        <div className="introduction-body">
+          <p>Bioelectrochemical systems have therefore gained attention as an eco-friendly route to simultaneous bioelectricity generation and wastewater treatment through electroactive microorganisms [Gude; Bhowmik et al., 2023]. Microbial fuel cells were conceptualized by Michael Cressé Potter in 1911, when he demonstrated electric-current generation using <i>Saccharomyces cerevisiae</i> as a biological catalyst [Ripel Chakma et al., 2025].</p>
+          <p>An MFC is a bioelectrochemical device that employs exoelectrogens to convert chemical energy from substrates such as wastewater, acetate and urine into direct electrical energy through microbial metabolism and electrochemical reactions [Ripel Chakma et al., 2025].</p>
+          <p>As a versatile alternative, MFCs may reduce excess sludge and carbon footprint, produce bioenergy, remove contaminants such as nitrate, and operate under mesophilic, near-neutral conditions without an external electrical source [Kumar et al., 2017]. They could play a defining role in wastewater management, water-scarcity response and lower-impact energy generation [J. O. Unuofin et al., 2023].</p>
+          <aside>Citation keys are preserved from the supplied introduction. Full references remain pending verification.</aside>
+        </div>
+      </section>
+
       <section className="paper-spread page-directory">
-        <SectionLabel number="00.2">Contents</SectionLabel>
+        <SectionLabel number="00.3">Contents</SectionLabel>
         <div className="directory-grid">
           {navItems.slice(1).map((item, index) => (
             <a key={item.key} href={pageHref(item.key, staticMode)}>
@@ -263,9 +341,9 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
       </section>
 
       <section className="paper-spread evidence-feature">
-        <SectionLabel number="00.3">Featured historical evidence</SectionLabel>
-        <figure><img src={staticMode ? "images/historical-mfc-setup.png" : "/images/historical-mfc-setup.png"} alt="Historical double-chamber microbial fuel cell setup" /><figcaption><b>Figure 1.</b> College MFC apparatus documented in the source presentation. The experiment used graphite electrodes, a KNO3–agar bridge and KMnO4 catholyte.</figcaption></figure>
-        <div className="feature-copy"><p className="journal-kicker">College record / image evidence</p><h2>The platform begins with the experiment that already exists.</h2><p>The first release recovers structure from Yatharth Sharma’s previous work while clearly marking missing units, unresolved electrode dimensions and image-derived readings.</p><a href={pageHref("experiment", staticMode)}>Open the full experimental record <span>↗</span></a></div>
+        <SectionLabel number="00.4">Development sequence</SectionLabel>
+        <figure className="process-figure"><img src={staticMode ? "images/mfc-development-process-v2.png" : "/images/mfc-development-process-v2.png"} alt="Development process for the historical double-chamber microbial fuel cell" /><figcaption><b>Figure 1.</b> Development sequence: graphite electrodes, KNO3–agar salt bridge, bacterial inoculation, completed MFC and voltage measurement. Background restyled for BioVolt AI; experimental content preserved from the supplied figure.</figcaption></figure>
+        <div className="feature-copy"><p className="journal-kicker">Experimental workflow / process evidence</p><h2>From components to measurable voltage.</h2><p>The figure records the practical sequence used to construct the historical double-chamber MFC. The complete apparatus and its recovered metadata are documented on the experiment page.</p><a href={pageHref("experiment", staticMode)}>Open the full experimental record <span>↗</span></a></div>
       </section>
       <SiteFooter staticMode={staticMode} />
     </main>
@@ -278,11 +356,12 @@ export function ResearchView({ staticMode = false }: { staticMode?: boolean }) {
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="research" staticMode={staticMode} />
-      <PageMasthead number="01" kicker="Literature register / evidence before prediction" title="Research evidence, not a reading list." abstract="The library is designed to turn papers into structured experimental evidence: organisms, substrates, electrodes, operating conditions, outcomes and uncertainty." />
+      <PageMasthead number="01" kicker="Literature register / 11 core papers + 2 supporting sources" title="Research evidence, not a reading list." abstract="The presentation documents 11 core MFC papers and two additional supporting or ambiguous records. The library turns those readings into structured evidence while keeping all citation details visibly unverified." />
       <section className="paper-spread research-register">
-        <SectionLabel number="01.1">Selected literature</SectionLabel>
+        <SectionLabel number="01.1">Literature recovered from the presentation</SectionLabel>
+        <div className="library-counts"><p><strong>11</strong><span>Core MFC papers</span></p><p><strong>2</strong><span>Supporting records</span></p><p><strong>13</strong><span>Total deck entries</span></p><aside>The stated reading count is preserved as 11. Two extra entries found on slides 5–6 remain visible but are separated from the core count.</aside></div>
         <div className="filter-row" aria-label="Filter research papers">
-          {(["All", "Review", "Primary research"] as const).map((kind) => <button key={kind} className={filter === kind ? "is-active" : ""} onClick={() => setFilter(kind)}>{kind}<sup>{kind === "All" ? papers.length : papers.filter((p) => p.kind === kind).length}</sup></button>)}
+          {(["All", "Review", "Primary research", "Supporting source"] as const).map((kind) => <button key={kind} className={filter === kind ? "is-active" : ""} onClick={() => setFilter(kind)}>{kind}<sup>{kind === "All" ? papers.length : papers.filter((p) => p.kind === kind).length}</sup></button>)}
         </div>
         <div className="paper-list">
           {visible.map((paper) => (
@@ -399,7 +478,7 @@ export function DigitalTwinView({ staticMode = false }: { staticMode?: boolean }
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="twin" staticMode={staticMode} />
-      <PageMasthead number="03" kicker="Predictive system preview / transparent by design" title="A digital twin that shows its working." abstract="The planned intelligence layer will predict power density and COD removal, detect anomalies and recommend experiments—while displaying uncertainty and evidence boundaries beside every output." />
+      <PageMasthead number="03" kicker="Predictive system preview / transparent by design" title="Intelligence for living electricity." abstract="The planned intelligence layer will predict power density and COD removal, detect anomalies and recommend experiments—while displaying uncertainty and evidence boundaries beside every output." />
       <section className="paper-spread twin-section"><SectionLabel number="03.1">Interactive demonstration</SectionLabel><div className="twin-intro"><h2>Explore an illustrative response surface.</h2><p>Adjust the controls to test the product interaction. The mathematical response is synthetic and deliberately labelled so it cannot be mistaken for a trained scientific model.</p></div><TwinControls /></section>
       <section className="paper-spread system-architecture"><SectionLabel number="03.2">System architecture</SectionLabel><div className="architecture-flow">{[['01','Inputs','pH, temperature, resistance, HRT'],['02','Evidence layer','Experiments + verified literature'],['03','Prediction','Power density + COD removal'],['04','Explanation','Intervals + feature importance'],['05','Decision','Recommended next experiment']].map(([num, title, copy]) => <article key={num}><span>{num}</span><h2>{title}</h2><p>{copy}</p></article>)}</div></section>
       <section className="paper-spread model-output-grid">
@@ -424,7 +503,7 @@ export function AboutView({ staticMode = false }: { staticMode?: boolean }) {
       <section className="paper-spread roadmap"><SectionLabel number="04.2">Development roadmap</SectionLabel>{[
         ['Now','Research platform','Multipage evidence library, recovered experiment and synthetic twin interface.'],['Next','Data foundation','Verified papers, normalized experiment schema and manual data entry.'],['Then','Validated models','Grouped cross-validation, intervals, importance and anomaly detection.'],['Later','Live MFC','ESP32 sensing, streaming dashboard, alerts and controlled recommendations.']
       ].map(([phase, title, copy], index) => <article key={phase}><span>{String(index + 1).padStart(2,'0')}</span><p>{phase}</p><h2>{title}</h2><div><i /><p>{copy}</p></div></article>)}</section>
-      <section className="paper-spread author-note"><SectionLabel number="04.3">Author note</SectionLabel><div><p className="journal-kicker">Researcher</p><h2>Yatharth Sharma</h2><p>The platform begins with previous college work on microbial fuel cells, halophilic isolates and Pseudomonas growth. It will evolve as papers, laboratory notes and new experiments are added.</p><div className="author-links"><a href="mailto:yatharth.01sharma@gmail.com">Email ↗</a><a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer">Open-source repository ↗</a></div></div><blockquote>“From microbial metabolism to measurable electricity.”</blockquote></section>
+      <section className="paper-spread author-note"><SectionLabel number="04.3">Author note</SectionLabel><div><p className="journal-kicker">Researcher</p><h2>Yatharth Sharma</h2><p>The platform begins with previous college work on microbial fuel cells, halophilic isolates and Pseudomonas growth. It will evolve as papers, laboratory notes and new experiments are added.</p><div className="author-links"><a href="mailto:yatharth.01sharma@gmail.com">Email ↗</a><a href="https://www.linkedin.com/in/yatharth-sharma-a13395288/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer">Open-source repository ↗</a></div></div><blockquote>“From microbial metabolism to measurable electricity.”</blockquote></section>
       <section className="paper-spread repository-note"><SectionLabel number="04.4">Open source</SectionLabel><h2>Inspect the work, not only the interface.</h2><p>The public repository contains the complete website source and automated publishing workflow. Future data and model documentation will be versioned alongside the product.</p><a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer">github.com/YatharthSharma01/biovolt-ai ↗</a></section>
       <NextArticle page="home" label="Return to cover" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />

@@ -24,7 +24,7 @@ img { display: block; max-width: 100%; }
 ::selection { color: #fff; background: var(--blue); }
 
 .site-shell { min-height: 100vh; overflow: clip; background: var(--paper); }
-.site-header { position: relative; z-index: 40; width: 100%; min-height: 86px; display: grid; grid-template-columns: 260px 1fr 150px; align-items: center; gap: 26px; padding: 0 max(36px, calc((100vw - 1320px) / 2)); border-bottom: 1px solid var(--rule); background: rgba(242, 239, 229, 0.96); backdrop-filter: blur(16px); }
+.site-header { position: relative; z-index: 40; width: 100%; min-height: 86px; display: grid; grid-template-columns: 260px 1fr 190px; align-items: center; gap: 26px; padding: 0 max(36px, calc((100vw - 1320px) / 2)); border-bottom: 1px solid var(--rule); background: rgba(242, 239, 229, 0.96); backdrop-filter: blur(16px); }
 .site-header--hero { position: absolute; inset: 0 0 auto; color: white; border-color: rgba(255,255,255,.18); background: linear-gradient(to bottom, rgba(0,0,0,.62), transparent); backdrop-filter: none; }
 .brand { display: inline-flex; align-items: center; gap: 12px; width: max-content; }
 .brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; font: 700 12px var(--mono); letter-spacing: -.04em; }
@@ -119,6 +119,12 @@ img { display: block; max-width: 100%; }
 .margin-note { align-self: start; padding: 20px 0; border-top: 4px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .margin-note b { font: 10px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
 .margin-note p { margin: 15px 0 0; font: italic 18px/1.45 var(--serif); }
+.author-introduction { display: grid; grid-template-columns: .78fr 1.22fr; gap: 90px; align-items: start; }
+.introduction-lead h2 { margin: 20px 0 30px; font: 500 56px/1.02 var(--serif); letter-spacing: -.04em; }
+.introduction-lead > p:last-child { margin: 0; font: 22px/1.55 var(--serif); }
+.introduction-body { columns: 2; column-gap: 44px; column-rule: 1px solid var(--rule); }
+.introduction-body p { break-inside: avoid; margin: 0 0 24px; color: var(--muted); font: 16px/1.65 var(--serif); }
+.introduction-body aside { break-inside: avoid; margin-top: 30px; padding: 16px 0; border-top: 3px solid var(--blue); border-bottom: 1px solid var(--blue); color: var(--ink); font: 10px/1.5 var(--mono); }
 .page-directory { padding-bottom: 130px; }
 .directory-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .directory-grid a { min-height: 315px; display: flex; flex-direction: column; padding: 22px; border-right: 1px solid var(--rule); transition: color .25s, background .25s; }
@@ -128,6 +134,7 @@ img { display: block; max-width: 100%; }
 .evidence-feature { display: grid; grid-template-columns: 1.12fr .88fr; gap: 72px; align-items: center; }
 .evidence-feature figure, .electrode-layout figure, .apparatus-figure, .growth-section figure { margin: 0; }
 .evidence-feature img, .apparatus-figure img { width: 100%; height: 500px; object-fit: cover; filter: saturate(.78) contrast(1.05); border: 1px solid var(--rule); }
+.process-figure img { object-fit: contain; background: #f2efe5; filter: none; }
 figcaption { margin-top: 13px; color: var(--muted); font: 10px/1.55 var(--mono); }
 figcaption b { color: var(--ink); }
 .journal-kicker { margin: 0; color: var(--blue); font: 9px var(--mono); text-transform: uppercase; letter-spacing: .14em; }
@@ -144,6 +151,11 @@ figcaption b { color: var(--ink); }
 .masthead-abstract { max-width: 830px; margin: 0; color: var(--muted); font: 17px/1.6 var(--serif); }.masthead-abstract b { color: var(--ink); }
 .page-masthead aside { align-self: stretch; display: flex; flex-direction: column; justify-content: center; gap: 10px; padding-left: 25px; border-left: 1px solid var(--rule); color: var(--muted); font: 9px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
 .filter-row { display: flex; margin-bottom: 42px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.library-counts { display: grid; grid-template-columns: repeat(3, 150px) 1fr; align-items: stretch; margin-bottom: 36px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.library-counts > p { display: flex; flex-direction: column; justify-content: center; gap: 6px; min-height: 112px; margin: 0; padding: 18px; border-right: 1px solid var(--rule); }
+.library-counts strong { color: var(--blue); font: 500 42px/.9 var(--serif); }
+.library-counts span { color: var(--muted); font: 9px/1.35 var(--mono); text-transform: uppercase; }
+.library-counts aside { align-self: center; padding: 22px 28px; color: var(--muted); font: 12px/1.55 var(--serif); }
 .filter-row button { flex: 1; min-height: 56px; border: 0; border-right: 1px solid var(--rule); background: transparent; cursor: pointer; font: 700 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
 .filter-row button:last-child { border-right: 0; }.filter-row button sup { margin-left: 7px; color: var(--muted); }.filter-row button:hover, .filter-row button.is-active { color: white; background: var(--blue); }.filter-row button.is-active sup { color: rgba(255,255,255,.65); }
 .paper-list { border-top: 1px solid var(--rule); }
@@ -206,7 +218,9 @@ figcaption b { color: var(--ink); }
   .full-hero { min-height: 820px; }.hero-copy { width: calc(100% - 32px); margin-left: 16px; padding-top: 170px; }.hero-copy h1 { font-size: clamp(50px, 17vw, 78px); line-height: .9; }.hero-deck { max-width: 430px; font-size: 16px; }.hero-actions { flex-direction: column; align-items: stretch; max-width: 410px; }.button { width: 100%; }.hero-reactor-stage { right: -26vw; top: 42%; width: 92vw; height: 70vw; opacity: .62; }.wire-sphere { width: 75vw; right: -36vw; bottom: 4%; }.label-organism, .label-proton, .hero-figure-note { display: none; }.label-electron { right: 16px; top: 48%; }.scroll-cue { left: 16px; bottom: 25px; }
   .issue-ledger { grid-template-columns: 1fr 1fr; }.issue-ledger div { min-height: 92px; padding: 18px; }.issue-ledger div:nth-child(2) { border-right: 0; }.issue-ledger div:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
   .paper-spread { padding: 70px 0; }.section-label { grid-template-columns: 50px 1fr; margin-bottom: 36px; }.home-abstract, .lead-copy, .evidence-feature, .evidence-matrix-section, .editorial-note, .apparatus-layout, .electrode-layout, .microbiology-layout, .growth-section, .twin-section, .recommendation-panel, .manifesto, .author-note, .repository-note { grid-template-columns: 1fr; }.home-abstract { gap: 45px; }.lead-copy { gap: 22px; }.lead-copy p { font-size: 18px; }.directory-grid { grid-template-columns: 1fr; }.directory-grid a { min-height: 230px; border-right: 0; border-bottom: 1px solid var(--rule); }.directory-grid a:last-child { border-bottom: 0; }.evidence-feature { gap: 34px; }.evidence-feature img, .apparatus-figure img { height: 380px; }.feature-copy h2, .matrix-copy h2, .twin-intro h2 { font-size: 40px; }
+  .author-introduction { grid-template-columns: 1fr; gap: 42px; }.introduction-lead h2 { font-size: 44px; }.introduction-body { columns: 1; }
   .page-masthead { min-height: auto; grid-template-columns: 1fr; gap: 0; padding-top: 55px; }.masthead-number { font-size: 85px; }.masthead-copy { padding: 15px 0 65px; }.masthead-copy h1 { font-size: clamp(48px, 15vw, 72px); }.citation-card { grid-template-columns: 1fr; }.citation-meta { grid-row: auto; flex-direction: row; flex-wrap: wrap; margin-bottom: 20px; }.citation-card h2 { font-size: 26px; }.citation-footer { grid-template-columns: 1fr; }.citation-footer > span { text-align: left; }.evidence-table > div { grid-template-columns: 90px 1fr; }.evidence-table i { grid-column: 2; text-align: left; }.editorial-note { gap: 35px; }.editorial-note blockquote { font-size: 34px; }
+  .library-counts { grid-template-columns: repeat(3, 1fr); }.library-counts aside { grid-column: 1 / -1; border-top: 1px solid var(--rule); }.library-counts > p { min-height: 96px; padding: 13px; }.library-counts strong { font-size: 35px; }
   .apparatus-spec h2, .electrode-copy h2, .growth-heading h2 { font-size: 41px; }.apparatus-layout, .electrode-layout { gap: 38px; }.electrode-layout figure { padding: 22px; }.electrode-layout img { height: 340px; }.microbiology-layout { background: transparent; gap: 0; }.microbiology-layout article { border-top: 1px solid var(--rule); }.growth-section { gap: 25px; }.growth-canvas { height: 330px; }.provenance-ledger { grid-template-columns: 1fr 1fr; }.provenance-ledger > div:nth-child(2) { border-right: 0; }
   .twin-console { grid-template-columns: 1fr; }.twin-console form { border-right: 0; border-bottom: 1px solid var(--ink); }.twin-results strong { font-size: 58px; }.architecture-flow { grid-template-columns: 1fr; }.architecture-flow article { min-height: 180px; border-right: 0; border-bottom: 1px solid var(--rule); }.architecture-flow article:not(:last-child)::after { right: 50%; top: auto; bottom: -14px; transform: rotate(90deg); }.architecture-flow h2 { margin-top: 42px; }.model-output-grid { grid-template-columns: 1fr; }.model-output-grid article { min-height: 230px; }.recommendation-panel h2 { font-size: 42px; }
   .manifesto { gap: 40px; }.manifesto > p { font-size: 34px; }.roadmap article { grid-template-columns: 42px 1fr; gap: 10px; padding: 25px 0; }.roadmap article > p { grid-column: 2; }.roadmap h2, .roadmap article div { grid-column: 2; }.author-note { gap: 45px; }.author-note h2 { font-size: 47px; }.repository-note > a { justify-self: start; word-break: break-all; }

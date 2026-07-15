@@ -11,6 +11,8 @@ demonstration.
 - Animated electron and proton pathways
 - Connected Home, Research, Experiment, Digital Twin and About pages
 - Research-paper-inspired editorial design and figure system
+- Researcher-authored MFC introduction with preserved citation keys
+- Literature register with 11 core MFC papers and 2 supporting records recovered from the source presentation
 - Historical apparatus and electrode documentation
 - Pseudomonas growth-curve visualization
 - Research-paper evidence cards with verification status
@@ -54,4 +56,4 @@ treated as verified references.
 
 ## Author
 
-Historical experimental work: Yatharth Sharma.
+Historical experimental work: [Yatharth Sharma](https://www.linkedin.com/in/yatharth-sharma-a13395288/).

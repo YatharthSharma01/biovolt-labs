@@ -32,8 +32,8 @@ test("server-renders the BioVolt AI cover", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>BioVolt AI \| From microbial metabolism/i);
-  assert.match(html, /Intelligence for/);
-  assert.match(html, /living electricity/);
+  assert.match(html, /From microbial/);
+  assert.match(html, /measurable electricity/);
   assert.match(html, /Research/);
   assert.match(html, /Experiment/);
   assert.match(html, /Digital twin/);
@@ -42,9 +42,9 @@ test("server-renders the BioVolt AI cover", async () => {
 
 test("server-renders every connected research page", async () => {
   const routes = [
-    ["/research", /Research evidence, not a reading list/],
+    ["/research", /11 core papers/],
     ["/experiment", /recovered experiment becomes structured evidence/],
-    ["/digital-twin", /digital twin that shows its working/],
+    ["/digital-twin", /Intelligence for living electricity/],
     ["/about", /Build slowly enough to remain scientifically useful/],
   ];
 
@@ -53,6 +53,20 @@ test("server-renders every connected research page", async () => {
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), expected, path);
   }
+});
+
+test("publishes the complete literature register and researcher profile", async () => {
+  const research = await render("/research");
+  const researchHtml = await research.text();
+  assert.match(researchHtml, /BV-LIT-011/);
+  assert.match(researchHtml, /BV-SUP-002/);
+  assert.match(researchHtml, /13.*Total deck entries/s);
+
+  const home = await render();
+  assert.match(await home.text(), /Introduction by Yatharth Sharma/);
+
+  const about = await render("/about");
+  assert.match(await about.text(), /linkedin\.com\/in\/yatharth-sharma-a13395288/);
 });
 
 test("removes the starter preview and ships project metadata", async () => {
