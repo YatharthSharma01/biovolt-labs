@@ -36,6 +36,11 @@ test("historical MFC images are included in the static artifact", async () => {
     access("github-dist/images/graphite-electrodes.png"),
     access("github-dist/images/voltage-evidence.png"),
     access("github-dist/images/mfc-development-process-v2.png"),
+    access("github-dist/images/halophile-growth-curve.png"),
+    access("github-dist/images/halophile-water-gram.png"),
+    access("github-dist/images/halophile-salt-gram.png"),
+    access("github-dist/images/catalase-water.jpeg"),
+    access("github-dist/images/tsi-test.jpeg"),
     access("github-dist/og.png"),
   ]);
 });

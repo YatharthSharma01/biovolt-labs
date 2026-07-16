@@ -3,9 +3,9 @@
 /* eslint-disable @next/next/no-img-element -- shared with the static GitHub Pages build */
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { papers, type PaperKind } from "./researchData";
 
 export type PageKey = "home" | "research" | "experiment" | "twin" | "about";
-type PaperKind = "Review" | "Primary research" | "Supporting source";
 
 const navItems: Array<{ key: PageKey; label: string; issue: string }> = [
   { key: "home", label: "Home", issue: "00" },
@@ -13,134 +13,6 @@ const navItems: Array<{ key: PageKey; label: string; issue: string }> = [
   { key: "experiment", label: "Experiment", issue: "02" },
   { key: "twin", label: "Digital twin", issue: "03" },
   { key: "about", label: "About", issue: "04" },
-];
-
-const papers: Array<{
-  kind: PaperKind;
-  year: number;
-  authors: string;
-  title: string;
-  focus: string;
-  status: string;
-  record: string;
-}> = [
-  {
-    kind: "Review",
-    year: 2023,
-    authors: "Soumitra Nath et al.",
-    title: "Microbial fuel cell: A state-of-the-art and revolutionizing technology for efficient energy recovery",
-    focus: "Architecture / energy recovery",
-    status: "Citation details to verify",
-    record: "BV-LIT-001",
-  },
-  {
-    kind: "Review",
-    year: 2022,
-    authors: "Jayesh M. Sonawane et al.",
-    title: "Recent progress in microbial fuel cells using substrates from diverse sources",
-    focus: "Substrates / performance",
-    status: "Citation details to verify",
-    record: "BV-LIT-002",
-  },
-  {
-    kind: "Review",
-    year: 2022,
-    authors: "Nabil K. Abd-Elrahman et al.",
-    title: "Applications of nanomaterials in microbial fuel cells",
-    focus: "Electrodes / nanomaterials",
-    status: "Citation details to verify",
-    record: "BV-LIT-003",
-  },
-  {
-    kind: "Review",
-    year: 2023,
-    authors: "Md. Shahinoor Islam et al.",
-    title: "MFC construction feature and application for sustainable wastewater treatment",
-    focus: "Wastewater / nitrogen / sulphides",
-    status: "Citation details to verify",
-    record: "BV-LIT-004",
-  },
-  {
-    kind: "Review",
-    year: 2025,
-    authors: "Tikam Chand Dakal et al.",
-    title: "New horizon in microbial fuel cell technology",
-    focus: "Nanotechnology / biosensors",
-    status: "Citation details to verify",
-    record: "BV-LIT-005",
-  },
-  {
-    kind: "Review",
-    year: 2025,
-    authors: "Prabhu Paramasivam et al.",
-    title: "Recent applications, challenges and future prospects of microbial fuel cell: A review",
-    focus: "Applications / challenges / future",
-    status: "Citation details to verify",
-    record: "BV-LIT-006",
-  },
-  {
-    kind: "Primary research",
-    year: 2025,
-    authors: "Inga Morkvenait et al.",
-    title: "Enhancing electron transfer efficiency in microbial fuel cells through gold nanoparticle modification of Saccharomyces cerevisiae",
-    focus: "Gold nanoparticles / electron transfer",
-    status: "Author spelling and citation to verify",
-    record: "BV-LIT-007",
-  },
-  {
-    kind: "Primary research",
-    year: 2016,
-    authors: "Erick M. Bosire et al.",
-    title: "Strain- and substrate-dependent redox mediator and electricity production by Pseudomonas aeruginosa",
-    focus: "Pseudomonas / phenazines",
-    status: "Citation details to verify",
-    record: "BV-LIT-008",
-  },
-  {
-    kind: "Primary research",
-    year: 2017,
-    authors: "Neem Ali et al.",
-    title: "Characterization of Pseudomonas aeruginosa using glucose, fructose and sucrose in double-chamber MFCs",
-    focus: "Pseudomonas / substrates",
-    status: "Citation details to verify",
-    record: "BV-LIT-009",
-  },
-  {
-    kind: "Supporting source",
-    year: 2021,
-    authors: "Ross & Giacomo et al.",
-    title: "Use of biochar-based cathode and increase in electron flow by Pseudomonas to improve waste treatment in MFCs",
-    focus: "Biochar cathode / nanowires",
-    status: "Ambiguous author record in source deck",
-    record: "BV-SUP-001",
-  },
-  {
-    kind: "Primary research",
-    year: 2018,
-    authors: "Ankisha Vijay",
-    title: "Halophilic starch-degrading bacteria isolated from Sambhar Lake, India, as potential anode catalyst in microbial fuel cell: A promising process for saline wastewater",
-    focus: "Halophiles / Sambhar Lake / anode catalyst",
-    status: "Citation details to verify",
-    record: "BV-LIT-010",
-  },
-  {
-    kind: "Supporting source",
-    year: 2021,
-    authors: "Deepalaxmi Rathakrishnan",
-    title: "Isolation and characterization of halophilic isolates from Indian salterns and their screening for production of hydrolytic enzymes",
-    focus: "Halophile isolation / hydrolytic enzymes",
-    status: "Supporting microbiology source; citation to verify",
-    record: "BV-SUP-002",
-  },
-  {
-    kind: "Primary research",
-    year: 2023,
-    authors: "Ankisha Vijay et al.",
-    title: "Power generation by halophilic bacteria and assessment of salinity in a denitrification MFC",
-    focus: "Halophiles / salinity",
-    status: "Citation details to verify",
-    record: "BV-LIT-011",
-  },
 ];
 
 const growthData = [
@@ -356,31 +228,43 @@ export function ResearchView({ staticMode = false }: { staticMode?: boolean }) {
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="research" staticMode={staticMode} />
-      <PageMasthead number="01" kicker="Literature register / 11 core papers + 2 supporting sources" title="Research evidence, not a reading list." abstract="The presentation documents 11 core MFC papers and two additional supporting or ambiguous records. The library turns those readings into structured evidence while keeping all citation details visibly unverified." />
+      <PageMasthead number="01" kicker="Evidence register / 13 verified records" title="Research evidence, not a reading list." abstract="Eleven core MFC papers and two supporting sources are now classified, cited and summarized. Each record preserves study design, reported measurements, relevance and limitations without redistributing the source files." />
       <section className="paper-spread research-register">
-        <SectionLabel number="01.1">Literature recovered from the presentation</SectionLabel>
-        <div className="library-counts"><p><strong>11</strong><span>Core MFC papers</span></p><p><strong>2</strong><span>Supporting records</span></p><p><strong>13</strong><span>Total deck entries</span></p><aside>The stated reading count is preserved as 11. Two extra entries found on slides 5–6 remain visible but are separated from the core count.</aside></div>
+        <SectionLabel number="01.1">Verified literature register</SectionLabel>
+        <div className="library-counts"><p><strong>13</strong><span>All records</span></p><p><strong>5</strong><span>Primary research</span></p><p><strong>6</strong><span>Review papers</span></p><p><strong>2</strong><span>Supporting sources</span></p><aside>The eleven core reading records are retained. Two microbiology and materials sources remain in a separate supporting category.</aside></div>
         <div className="filter-row" aria-label="Filter research papers">
-          {(["All", "Review", "Primary research", "Supporting source"] as const).map((kind) => <button key={kind} className={filter === kind ? "is-active" : ""} onClick={() => setFilter(kind)}>{kind}<sup>{kind === "All" ? papers.length : papers.filter((p) => p.kind === kind).length}</sup></button>)}
+          {(["All", "Primary research", "Review", "Supporting source"] as const).map((kind) => <button key={kind} className={filter === kind ? "is-active" : ""} onClick={() => setFilter(kind)}>{kind}<sup>{kind === "All" ? papers.length : papers.filter((p) => p.kind === kind).length}</sup></button>)}
         </div>
         <div className="paper-list">
           {visible.map((paper) => (
             <article className="citation-card" key={paper.record}>
               <div className="citation-meta"><span>{paper.record}</span><span>{paper.kind}</span><span>{paper.year}</span></div>
-              <p className="authors">{paper.authors}</p><h2>{paper.title}</h2>
-              <div className="citation-footer"><p><b>Evidence focus</b>{paper.focus}</p><p><b>Verification state</b>{paper.status}</p><span>DOI pending</span></div>
+              <div className="citation-heading"><p className="authors">{paper.authors}</p><h2>{paper.title}</h2><p className="journal-line">{paper.journal}</p></div>
+              <p className="paper-summary">{paper.summary}</p>
+              <div className="paper-metrics" aria-label={`Key reported measurements for ${paper.title}`}>
+                {paper.metrics.map((metric) => <p key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong></p>)}
+              </div>
+              <div className="citation-footer"><p><b>Evidence focus</b>{paper.focus}</p><p><b>Source status</b>{paper.sourceStatus}</p><a href={paper.url} target="_blank" rel="noreferrer">DOI {paper.doi} ↗</a></div>
+              <details className="paper-details">
+                <summary>Open evidence notes</summary>
+                <div className="paper-detail-grid">
+                  <div><h3>Study design</h3><p>{paper.studyDesign}</p><h3>Why it matters here</h3><p>{paper.relevance}</p></div>
+                  <div><h3>Key findings</h3><ul>{paper.keyFindings.map((finding) => <li key={finding}>{finding}</li>)}</ul></div>
+                  <aside><h3>Interpretation boundary</h3><p>{paper.caveat}</p><h3>Source reviewed</h3><p>{paper.sourcePages}</p><small>{paper.access}</small></aside>
+                </div>
+              </details>
             </article>
           ))}
         </div>
       </section>
       <section className="paper-spread evidence-matrix-section">
         <SectionLabel number="01.2">Extraction matrix</SectionLabel>
-        <div className="matrix-copy"><h2>What every uploaded paper will contribute.</h2><p>Full-text papers will be summarized into comparable fields. Citations will be verified before publication, and the original PDFs will not be redistributed.</p></div>
+        <div className="matrix-copy"><h2>A common structure for unlike experiments.</h2><p>Every paper has been read into comparable fields. Reported values retain their reactor context and are treated as literature evidence—not as training rows until units and normalization are harmonized.</p></div>
         <div className="evidence-table" role="table" aria-label="Research evidence extraction fields">
           {[['Biology','Organism / inoculum / mediator'],['Reactor','Architecture / volume / membrane'],['Operation','pH / temperature / HRT / resistance'],['Electrochemistry','Voltage / current / power density'],['Treatment','COD in / COD out / removal'],['Quality','Replicates / uncertainty / validation']].map(([group, fields]) => <div role="row" key={group}><b role="cell">{group}</b><span role="cell">{fields}</span><i role="cell">Required</i></div>)}
         </div>
       </section>
-      <section className="paper-spread editorial-note"><SectionLabel number="01.3">Editorial policy</SectionLabel><blockquote>“Citation details to verify” is a safety label, not a finished citation.</blockquote><p>Once PDFs, DOI records or BibTeX files are supplied, the register will gain verified references, evidence tables and links between each claim and its source.</p></section>
+      <section className="paper-spread editorial-note"><SectionLabel number="01.3">Editorial &amp; access policy</SectionLabel><blockquote>The library publishes analysis, not copies of the papers.</blockquote><p>BioVolt AI links to DOI or publisher records and displays original summaries, citations and selected reported measurements. PDF 11 was reviewed for research purposes but is not hosted because a redistribution licence was not confirmed. PDF 3 was a publisher security page, so that supporting record is limited to verified metadata and abstract-level evidence.</p></section>
       <NextArticle page="experiment" label="02 — College experiment" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>
@@ -415,34 +299,73 @@ function GrowthCurve() {
 }
 
 export function ExperimentView({ staticMode = false }: { staticMode?: boolean }) {
+  const image = (file: string) => staticMode ? `images/${file}` : `/images/${file}`;
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="experiment" staticMode={staticMode} />
-      <PageMasthead number="02" kicker="Historical laboratory record / college experiment" title="A recovered experiment becomes structured evidence." abstract="This record reconstructs the double-chamber MFC from presentation slides, photographs and a separate Pseudomonas growth workbook. Unknowns remain visible rather than being guessed." />
+      <PageMasthead number="02" kicker="Historical laboratory record / college experiment" title="A recovered experiment becomes structured evidence." abstract="This record reconstructs the Sambhar Lake halophile study, double-chamber MFC, growth kinetics and microbiological characterization from the original presentation, photographs and growth workbook. Unknowns remain visible rather than being guessed." />
+      <section className="paper-spread experiment-aims">
+        <SectionLabel number="02.1">Aim &amp; evidence boundary</SectionLabel>
+        <div><p className="journal-kicker">Original study aims</p><h2>From a natural halophile to a working MFC.</h2><p>The college project aimed to isolate halophilic bacteria from a natural habitat, compare growth under salt-containing culture conditions, study growth kinetics and test the isolate as the biological component of a microbial fuel cell.</p></div>
+        <ol><li>Isolate halophilic bacteria from Sambhar Lake samples.</li><li>Obtain distinct pure cultures and characterize them.</li><li>Study the growth phases of the recovered halophile.</li><li>Construct a double-chamber MFC and record electrical output.</li></ol>
+        <aside><b>Scope note</b><p>The presentation is a historical record, not a complete laboratory notebook. Volumes, replicate count, incubation duration for several tests, inoculum density, resistance and raw voltage time series are not available.</p></aside>
+      </section>
+      <section className="paper-spread method-section">
+        <SectionLabel number="02.2">Materials &amp; methods</SectionLabel>
+        <div className="method-intro"><p className="journal-kicker">Recovered protocol</p><h2>Four connected experimental stages.</h2><p>Only steps stated or pictured in the supplied work are included. Missing conditions are explicitly marked instead of being reconstructed from literature.</p></div>
+        <div className="method-grid">
+          <article><span>01</span><h3>Sample collection</h3><p>Water and salt samples were collected from Sambhar Lake, Rajasthan, as the environmental source of salt-tolerant microorganisms.</p><small>Documented in presentation</small></article>
+          <article><span>02</span><h3>Selective cultivation</h3><p>Samples were cultured on Mueller–Hinton agar containing 7.5% NaCl and mannitol motility agar containing 5% NaCl.</p><small>Temperature and incubation time missing</small></article>
+          <article><span>03</span><h3>Isolation &amp; screening</h3><p>Distinct colonies were subcultured to obtain pure isolates, followed by microscopy, colony morphology and biochemical tests.</p><small>Species identity not established</small></article>
+          <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in a halophilic-broth anode and a KMnO₄ cathode, joined by a water–KNO₃–agar salt bridge and connected for voltage measurement.</p><small>Reactor volume and resistance missing</small></article>
+        </div>
+        <div className="reaction-strip"><p><b>Anode</b>C₆H₁₂O₆ + 6H₂O → 6CO₂ + 24H⁺ + 24e⁻</p><p><b>Cathode</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p></div>
+      </section>
       <section className="paper-spread apparatus-layout">
-        <SectionLabel number="02.1">Reactor apparatus</SectionLabel>
-        <figure className="apparatus-figure"><img src={staticMode ? "images/historical-mfc-setup.png" : "/images/historical-mfc-setup.png"} alt="Historical double-chamber MFC apparatus" /><figcaption><b>Figure 2.</b> Historical MFC setup. The photograph is documentary evidence; it is not a calibrated dimensional record.</figcaption></figure>
+        <SectionLabel number="02.3">Reactor apparatus</SectionLabel>
+        <figure className="apparatus-figure"><img src={image("historical-mfc-setup.png")} alt="Historical double-chamber MFC apparatus" /><figcaption><b>Figure 2.</b> Historical MFC setup. The photograph is documentary evidence; it is not a calibrated dimensional record.</figcaption></figure>
         <div className="apparatus-spec">
           <p className="journal-kicker">Recorded configuration</p><h2>Double-chamber architecture</h2>
-          <dl><div><dt>Anode</dt><dd>Halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>KMnO4 solution + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>KNO3 + agar salt bridge</dd></div><div><dt>External circuit</dt><dd>Image-derived voltage evidence</dd></div><div><dt>Observed reading</dt><dd>Approximately 0.61 V</dd></div></dl>
+          <dl><div><dt>Anode</dt><dd>Halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>KMnO₄ solution + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>Water + KNO₃ + agar salt bridge</dd></div><div><dt>Mixing</dt><dd>Magnetic bead shown in anode schematic</dd></div><div><dt>Measurement</dt><dd>Direct voltage display; time series not retained</dd></div><div><dt>Observed reading</dt><dd>Approximately 0.61 V, image-derived</dd></div></dl>
         </div>
       </section>
       <section className="paper-spread electrode-layout">
-        <SectionLabel number="02.2">Electrode record</SectionLabel>
+        <SectionLabel number="02.4">Electrode record</SectionLabel>
         <div className="electrode-copy"><p className="journal-kicker">Material note / unresolved dimension</p><h2>Graphite rod electrodes</h2><p>The product evidence identifies an Achalnath Tools graphite rod and lists 6 × 1 × 1 centimetres. The description also says “6-inch long,” creating a conflict that prevents reliable exposed-area calculation.</p><div className="warning-note"><b>Action required</b><span>Measure the surviving electrode or recover the original purchase specification before normalizing power density.</span></div></div>
-        <figure><img src={staticMode ? "images/graphite-electrodes.png" : "/images/graphite-electrodes.png"} alt="Pair of pointed graphite rod electrodes" /><figcaption><b>Figure 3.</b> Graphite electrode reference recovered from the experimental presentation.</figcaption></figure>
+        <figure><img src={image("graphite-electrodes.png")} alt="Pair of pointed graphite rod electrodes" /><figcaption><b>Figure 3.</b> Graphite electrode reference recovered from the experimental presentation.</figcaption></figure>
       </section>
-      <section className="paper-spread microbiology-layout">
-        <SectionLabel number="02.3">Microbiology</SectionLabel>
-        <article><span>A</span><p className="journal-kicker">Halophilic isolate</p><h2>Salt-tolerant inoculum</h2><p>Presentation evidence records halophilic broth and environmental isolate screening. Species identity, salinity and inoculum age still need laboratory notes.</p></article>
-        <article><span>B</span><p className="journal-kicker">Pseudomonas record</p><h2>Growth-curve evidence</h2><p>A separate workbook contains 11 absorbance observations. The organism name is documented; time units, wavelength and replicate count are not.</p></article>
+      <section className="paper-spread results-section">
+        <SectionLabel number="02.5">Results &amp; discussion</SectionLabel>
+        <div className="results-lead"><p className="journal-kicker">What the surviving evidence supports</p><h2>Electrical activity was observed, while biological identity remained unresolved.</h2><p>The photographed meter shows approximately 0.61 V from the assembled MFC. Because exposed electrode area, external resistance, replicate count and a time-resolved voltage series are absent, current and power density cannot be calculated responsibly.</p></div>
+        <div className="result-callouts"><article><strong>≈0.61</strong><span>V / photographed reading</span></article><article><strong>2</strong><span>sample sources / water and salt</span></article><article><strong>1</strong><span>growth curve / halophile</span></article></div>
+        <div className="discussion-note"><b>Interpretation.</b><p>The result demonstrates a measurable potential difference in the historical configuration, but it does not yet establish stable power production or enable comparison with literature power density. A repeat experiment needs voltage over time, a polarization series, exposed electrode area and uncertainty from independent reactors.</p></div>
       </section>
-      <section className="paper-spread growth-section">
-        <SectionLabel number="02.4">Growth kinetics</SectionLabel>
-        <div className="growth-heading"><h2>Pseudomonas growth curve</h2><p>Maximum recorded absorbance: <b>0.71</b> at time values 25–29. Final recorded absorbance: <b>0.66</b> at time 50.</p></div>
-        <figure><GrowthCurve /><figcaption><b>Figure 4.</b> Reconstructed from the supplied spreadsheet. Axis units remain unconfirmed; the curve should not be merged with MFC performance records until experimental context is recovered.</figcaption></figure>
+      <section className="paper-spread halophile-growth-section">
+        <SectionLabel number="02.6">Growth kinetics of the halophile</SectionLabel>
+        <div className="halophile-growth-copy"><p className="journal-kicker">OD₆₀₀ / time in hours</p><h2>A complete four-phase growth profile.</h2><p>The original graph shows a short lag phase, sustained exponential growth, a peak OD₆₀₀ of approximately <b>1.40</b> around <b>50–52 h</b>, followed by decline to approximately <b>1.14</b> by the final recorded point near <b>77 h</b>.</p><div className="phase-list"><span><i>01</i>Lag / ≈0–8 h</span><span><i>02</i>Exponential / ≈8–50 h</span><span><i>03</i>Peak / ≈50–52 h</span><span><i>04</i>Decline / after ≈52 h</span></div><small>Values and phase boundaries are approximate readings from the archived graph because its raw table and replicate data were not embedded in the presentation.</small></div>
+        <figure><img src={image("halophile-growth-curve.png")} alt="Archived halophile growth curve showing lag, exponential, stationary and decline phases" /><figcaption><b>Figure 4.</b> Original halophile growth-kinetics graph from the college presentation. Image-derived values are kept distinct from measured spreadsheet data.</figcaption></figure>
       </section>
-      <section className="paper-spread provenance-ledger"><SectionLabel number="02.5">Evidence provenance</SectionLabel>{[['Measured','Spreadsheet observations'],['Documented','Text recorded in presentation'],['Image-derived','Approximate reading interpreted from photograph'],['Missing','Required value not present in supplied record']].map(([label, copy]) => <div key={label}><i className={`provenance-dot ${label.toLowerCase()}`} /><b>{label}</b><span>{copy}</span></div>)}</section>
+      <section className="paper-spread morphology-section">
+        <SectionLabel number="02.7">Morphological characterization</SectionLabel>
+        <div className="character-heading"><p className="journal-kicker">Water isolate / salt isolate</p><h2>Two Gram-positive rod morphologies.</h2><p>Both preparations stained Gram-positive, but their cell arrangement and colony dimensions differed. These observations characterize phenotype only; they do not identify species.</p></div>
+        <div className="micrograph-grid"><figure><img src={image("halophile-water-gram.png")} alt="Gram-stained microscopy image of the water isolate" /><figcaption><b>Water isolate.</b> Short rods; mostly discrete or scattered; moderate purple staining; high cell density.</figcaption></figure><figure><img src={image("halophile-salt-gram.png")} alt="Gram-stained microscopy image of the salt isolate" /><figcaption><b>Salt isolate.</b> Elongated bacilli; dense, interwoven arrangement; intense violet staining; very high cell density.</figcaption></figure></div>
+        <div className="result-table morphology-table" role="table" aria-label="Morphological characterization of water and salt isolates"><div role="row"><b role="columnheader">Characteristic</b><b role="columnheader">Water isolate</b><b role="columnheader">Salt isolate</b></div>{[["Gram reaction","Positive","Positive"],["Cell form","Short rods","Elongated bacilli"],["Arrangement","Discrete / scattered","Dense / interwoven"],["Colony diameter","0.7 cm","0.9 cm"],["Colony form","Circular","Circular"],["Colony margin","Smooth","Smooth"]].map((row) => <div role="row" key={row[0]}>{row.map((cell) => <span role="cell" key={cell}>{cell}</span>)}</div>)}</div>
+      </section>
+      <section className="paper-spread biochemical-section">
+        <SectionLabel number="02.8">Biochemical characterization</SectionLabel>
+        <div className="character-heading"><p className="journal-kicker">Qualitative test panel</p><h2>The water isolate differed in catalase; the salt isolate differed in TSI.</h2><p>All remaining recorded reactions were negative for both isolates. “Indole red” reproduces the terminology in the original presentation.</p></div>
+        <div className="result-table biochemical-table" role="table" aria-label="Biochemical test results"><div role="row"><b role="columnheader">Test</b><b role="columnheader">Water isolate</b><b role="columnheader">Salt isolate</b></div>{[["Catalase","Positive","Negative"],["Amylase / starch","Negative","Negative"],["Motility","Negative","Negative"],["Methyl red","Negative","Negative"],["Voges–Proskauer","Negative","Negative"],["Indole red","Negative","Negative"],["Citrate utilization","Negative","Negative"],["Triple sugar iron (TSI)","Negative","Positive"]].map((row) => <div role="row" key={row[0]}>{row.map((cell) => <span role="cell" className={cell === "Positive" ? "positive-result" : ""} key={cell}>{cell}</span>)}</div>)}</div>
+        <div className="assay-gallery">
+          {[["catalase-water.jpeg","Catalase / water isolate"],["catalase-salt.jpeg","Catalase / salt isolate"],["motility-test.jpeg","Motility test"],["methyl-red-test.jpeg","Methyl red test"],["voges-proskauer-test.jpeg","Voges–Proskauer test"],["indole-red-test.jpeg","Indole red test"],["citrate-test.jpeg","Citrate test"],["tsi-test.jpeg","TSI test"],["starch-water.jpeg","Starch / water isolate"],["starch-salt.jpeg","Starch / salt isolate"]].map(([file, label]) => <figure key={file}><img src={image(file)} alt={`${label} observation from the college experiment`} /><figcaption>{label}</figcaption></figure>)}
+        </div>
+        <div className="discussion-note"><b>Interpretation boundary.</b><p>The tests provide a preliminary phenotype, not a taxonomic conclusion. The next study should repeat the panel with controls and replicates, document incubation conditions, and add 16S rRNA sequencing or another validated molecular identification method.</p></div>
+      </section>
+      <section className="paper-spread growth-section historical-growth">
+        <SectionLabel number="02.9">Separate historical dataset</SectionLabel>
+        <div className="growth-heading"><p className="journal-kicker">Pseudomonas workbook</p><h2>Pseudomonas growth curve</h2><p>Maximum recorded absorbance: <b>0.71</b> at time values 25–29. Final recorded absorbance: <b>0.66</b> at time 50.</p></div>
+        <figure><GrowthCurve /><figcaption><b>Figure 5.</b> Reconstructed from the supplied spreadsheet. Time units, measurement wavelength and replicate count remain unconfirmed, so this record is not merged with the halophile experiment.</figcaption></figure>
+      </section>
+      <section className="paper-spread provenance-ledger"><SectionLabel number="02.10">Evidence provenance</SectionLabel>{[["Measured","Values retained in spreadsheet"],["Documented","Text or result recorded in presentation"],["Image-derived","Approximate value interpreted from graph or photograph"],["Missing","Required value absent from supplied record"]].map(([label, copy]) => <div key={label}><i className={`provenance-dot ${label.toLowerCase()}`} /><b>{label}</b><span>{copy}</span></div>)}</section>
       <NextArticle page="twin" label="03 — Digital twin" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>

@@ -42,7 +42,7 @@ test("server-renders the BioVolt AI cover", async () => {
 
 test("server-renders every connected research page", async () => {
   const routes = [
-    ["/research", /11 core papers/],
+    ["/research", /13 verified records/],
     ["/experiment", /recovered experiment becomes structured evidence/],
     ["/digital-twin", /Intelligence for living electricity/],
     ["/about", /Build slowly enough to remain scientifically useful/],
@@ -60,7 +60,16 @@ test("publishes the complete literature register and researcher profile", async 
   const researchHtml = await research.text();
   assert.match(researchHtml, /BV-LIT-011/);
   assert.match(researchHtml, /BV-SUP-002/);
-  assert.match(researchHtml, /13.*Total deck entries/s);
+  assert.match(researchHtml, /10\.15171\/ijb\.1608/);
+  assert.match(researchHtml, /5.*Primary research/s);
+  assert.match(researchHtml, /6.*Review papers/s);
+
+  const experiment = await render("/experiment");
+  const experimentHtml = await experiment.text();
+  assert.match(experimentHtml, /Growth kinetics of the halophile/);
+  assert.match(experimentHtml, /Biochemical characterization/);
+  assert.match(experimentHtml, /Triple sugar iron/);
+  assert.match(experimentHtml, /approximately 0\.61 V/i);
 
   const home = await render();
   assert.match(await home.text(), /Introduction by Yatharth Sharma/);
