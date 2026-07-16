@@ -64,6 +64,9 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(researchHtml, /BV-SUP-002/);
   assert.match(researchHtml, /10\.15171\/ijb\.1608/);
   assert.match(researchHtml, /10\.1080\/08927014\.2011\.564615/);
+  assert.match(researchHtml, /Literature-audit stage/);
+  assert.match(researchHtml, /16.*Condition rows/s);
+  assert.match(researchHtml, /Download evidence matrix/);
   assert.match(researchHtml, /6.*Primary research/s);
   assert.match(researchHtml, /6.*Review papers/s);
 

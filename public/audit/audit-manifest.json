@@ -1,0 +1,19 @@
+{
+  "name": "BioVolt AI literature audit",
+  "version": "0.1",
+  "papersReviewed": 14,
+  "conditionRows": 16,
+  "publicRows": 12,
+  "privateRows": 4,
+  "calculatorBenchmarkRows": 10,
+  "notes": [
+    "Rows are condition-level evidence, not model predictions.",
+    "PDF 11 is represented by derived fields only and is not redistributed.",
+    "Review-paper maxima are kept in the paper register and are not independent training observations.",
+    "Open-circuit voltage is not treated as loaded voltage."
+  ],
+  "files": {
+    "csv": "literature-audit.csv",
+    "protocol": "../../audit/README.md"
+  }
+}

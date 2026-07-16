@@ -40,6 +40,8 @@ next-env.d.ts
 /github-dist/
 /.wrangler/
 /outputs/
+/audit-output/
+/audit/node_modules/
 /backend/data/*.db
 /backend/data/*.db-*
 __pycache__/

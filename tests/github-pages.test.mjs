@@ -45,3 +45,17 @@ test("historical MFC images are included in the static artifact", async () => {
     access("github-dist/og.png"),
   ]);
 });
+
+test("literature audit artifacts are included in the static artifact", async () => {
+  await Promise.all([
+    access("github-dist/audit/literature-audit.csv"),
+    access("github-dist/audit/paper-register.csv"),
+    access("github-dist/audit/audit-manifest.json"),
+  ]);
+  const html = await readFile("github-dist/research.html", "utf8");
+  const scriptPath = html.match(/src="(\.\/assets\/[^\"]+\.js)"/)?.[1];
+  assert.ok(scriptPath);
+  const bundle = await readFile(`github-dist/${scriptPath.slice(2)}`, "utf8");
+  assert.match(bundle, /literature-audit\.csv/);
+  assert.match(bundle, /audit-manifest\.json/);
+});

@@ -4,6 +4,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { papers, type PaperKind } from "./researchData";
+import { auditRows, auditSummary } from "./literatureAudit";
 
 export type PageKey = "home" | "research" | "experiment" | "registry" | "twin" | "about";
 
@@ -267,7 +268,16 @@ export function ResearchView({ staticMode = false }: { staticMode?: boolean }) {
           {[['Biology','Organism / inoculum / mediator'],['Reactor','Architecture / volume / membrane'],['Operation','pH / temperature / HRT / resistance'],['Electrochemistry','Voltage / current / power density'],['Treatment','COD in / COD out / removal'],['Quality','Replicates / uncertainty / validation']].map(([group, fields]) => <div role="row" key={group}><b role="cell">{group}</b><span role="cell">{fields}</span><i role="cell">Required</i></div>)}
         </div>
       </section>
-      <section className="paper-spread editorial-note"><SectionLabel number="01.3">Editorial &amp; access policy</SectionLabel><blockquote>The library publishes analysis, not copies of the papers.</blockquote><p>BioVolt AI links to DOI or publisher records and displays original summaries, citations and selected reported measurements. PDF 11 was reviewed for research purposes but is not hosted because a redistribution licence was not confirmed. PDF 3 was a publisher security page, so that supporting record is limited to verified metadata and abstract-level evidence.</p></section>
+      <section className="paper-spread audit-stage-section">
+        <SectionLabel number="01.3">Literature-audit stage</SectionLabel>
+        <div className="audit-stage-copy"><p className="journal-kicker">Condition-level evidence / version 0.1</p><h2>Every number keeps its experimental address.</h2><p>The future estimator will use these rows as evidence anchors. Review papers define variables and mechanisms; primary studies provide condition-level measurements. Blank fields are genuinely unreported, and flagged rows are kept out of numerical pooling.</p><div className="audit-actions"><a href={staticMode ? "./audit/literature-audit.csv" : "/audit/literature-audit.csv"}>Download evidence matrix ↗</a><a href={staticMode ? "./audit/audit-manifest.json" : "/audit/audit-manifest.json"}>Open audit manifest ↗</a></div></div>
+        <div className="audit-stat-grid"><p><strong>{auditSummary.conditionRows}</strong><span>Condition rows</span></p><p><strong>{auditSummary.calculatorBenchmarks}</strong><span>Calculator benchmarks</span></p><p><strong>{auditSummary.flaggedRows}</strong><span>Rows with quality flags</span></p><p><strong>{auditSummary.privateRows}</strong><span>Private-source rows</span></p></div>
+        <div className="audit-table" role="table" aria-label="Condition-level literature audit matrix">
+          <div className="audit-table-row audit-table-head" role="row"><b role="columnheader">Condition</b><b role="columnheader">Biology / substrate</b><b role="columnheader">Electrical context</b><b role="columnheader">Treatment / use</b></div>
+          {auditRows.map((row) => <details className="audit-table-row" key={row.conditionId}><summary><span><b>{row.conditionId}</b><small>{row.paperRecord} / {row.evidenceKind}</small></span><span>{row.microbe}<small>{row.substrate}</small></span><span>{row.voltageV == null ? "Voltage not reported" : `${Math.round(row.voltageV * 1000)} mV`}{row.externalResistanceOhm == null ? "" : ` at ${row.externalResistanceOhm} Ω`}<small>{row.powerDensityMwM2 == null ? "Power density not reported" : `${row.powerDensityMwM2} mW/m²`}</small></span><span>{row.codRemovalPercent == null ? "No COD value" : `${row.codRemovalPercent}% COD removal`}<small>{row.use}</small></span></summary><div className="audit-row-detail"><p><b>Configuration.</b> {row.anode}; {row.cathode}; {row.reactor}.</p><p><b>Source.</b> {row.sourceLocator}. {row.access === "Private reviewed" ? "Private source: derived fields only; original PDF is not redistributed." : ""}</p><p><b>Quality flag.</b> {row.qualityFlag}</p></div></details>)}
+        </div>
+      </section>
+      <section className="paper-spread editorial-note"><SectionLabel number="01.4">Editorial &amp; access policy</SectionLabel><blockquote>The library publishes analysis, not copies of the papers.</blockquote><p>BioVolt AI links to DOI or publisher records and displays original summaries, citations and selected reported measurements. PDF 11 was reviewed for research purposes but is not hosted because a redistribution licence was not confirmed. PDF 3 was a publisher security page, so that supporting record is limited to verified metadata and abstract-level evidence.</p></section>
       <NextArticle page="experiment" label="02 — College experiment" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>
