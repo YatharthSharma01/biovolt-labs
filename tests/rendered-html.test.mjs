@@ -42,8 +42,9 @@ test("server-renders the BioVolt AI cover", async () => {
 
 test("server-renders every connected research page", async () => {
   const routes = [
-    ["/research", /13 verified records/],
+    ["/research", /14 verified records/],
     ["/experiment", /recovered experiment becomes structured evidence/],
+    ["/registry", /One trustworthy row at a time/],
     ["/digital-twin", /Intelligence for living electricity/],
     ["/about", /Build slowly enough to remain scientifically useful/],
   ];
@@ -59,9 +60,11 @@ test("publishes the complete literature register and researcher profile", async 
   const research = await render("/research");
   const researchHtml = await research.text();
   assert.match(researchHtml, /BV-LIT-011/);
+  assert.match(researchHtml, /BV-LIT-012/);
   assert.match(researchHtml, /BV-SUP-002/);
   assert.match(researchHtml, /10\.15171\/ijb\.1608/);
-  assert.match(researchHtml, /5.*Primary research/s);
+  assert.match(researchHtml, /10\.1080\/08927014\.2011\.564615/);
+  assert.match(researchHtml, /6.*Primary research/s);
   assert.match(researchHtml, /6.*Review papers/s);
 
   const experiment = await render("/experiment");
@@ -70,6 +73,12 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /Biochemical characterization/);
   assert.match(experimentHtml, /Triple sugar iron/);
   assert.match(experimentHtml, /approximately 0\.61 V/i);
+
+  const registry = await render("/registry");
+  const registryHtml = await registry.text();
+  assert.match(registryHtml, /FastAPI \+ SQLite/);
+  assert.match(registryHtml, /Short-circuit MFC/);
+  assert.match(registryHtml, /Download CSV row/);
 
   const home = await render();
   assert.match(await home.text(), /Introduction by Yatharth Sharma/);

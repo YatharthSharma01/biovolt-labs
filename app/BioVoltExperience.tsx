@@ -5,14 +5,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { papers, type PaperKind } from "./researchData";
 
-export type PageKey = "home" | "research" | "experiment" | "twin" | "about";
+export type PageKey = "home" | "research" | "experiment" | "registry" | "twin" | "about";
 
 const navItems: Array<{ key: PageKey; label: string; issue: string }> = [
   { key: "home", label: "Home", issue: "00" },
   { key: "research", label: "Research", issue: "01" },
   { key: "experiment", label: "Experiment", issue: "02" },
-  { key: "twin", label: "Digital twin", issue: "03" },
-  { key: "about", label: "About", issue: "04" },
+  { key: "registry", label: "Registry", issue: "03" },
+  { key: "twin", label: "Digital twin", issue: "04" },
+  { key: "about", label: "About", issue: "05" },
 ];
 
 const growthData = [
@@ -24,6 +25,7 @@ const staticPageHrefs: Record<PageKey, string> = {
   home: "./index.html",
   research: "./research.html",
   experiment: "./experiment.html",
+  registry: "./registry.html",
   twin: "./digital-twin.html",
   about: "./about.html",
 };
@@ -32,6 +34,7 @@ const hostedPageHrefs: Record<PageKey, string> = {
   home: "/",
   research: "/research",
   experiment: "/experiment",
+  registry: "/registry",
   twin: "/digital-twin",
   about: "/about",
 };
@@ -58,7 +61,7 @@ function SiteHeader({ active, staticMode = false, overHero = false }: {
           </a>
         ))}
       </nav>
-      <a className="header-index" href={pageHref("research", staticMode)}><span>Index</span><b>11 core + 2 supporting</b></a>
+      <a className="header-index" href={pageHref("research", staticMode)}><span>Index</span><b>12 core + 2 supporting</b></a>
     </header>
   );
 }
@@ -173,7 +176,7 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
       <section className="issue-ledger">
         <div><span>System</span><strong>Double-chamber MFC</strong></div>
         <div><span>Organisms</span><strong>Halophiles / Pseudomonas</strong></div>
-        <div><span>Evidence</span><strong>11 core papers / 2 supporting</strong></div>
+        <div><span>Evidence</span><strong>12 core papers / 2 supporting</strong></div>
         <div><span>Model status</span><strong>Transparent demonstration</strong></div>
       </section>
 
@@ -228,10 +231,10 @@ export function ResearchView({ staticMode = false }: { staticMode?: boolean }) {
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="research" staticMode={staticMode} />
-      <PageMasthead number="01" kicker="Evidence register / 13 verified records" title="Research evidence, not a reading list." abstract="Eleven core MFC papers and two supporting sources are now classified, cited and summarized. Each record preserves study design, reported measurements, relevance and limitations without redistributing the source files." />
+      <PageMasthead number="01" kicker="Evidence register / 14 verified records" title="Research evidence, not a reading list." abstract="Twelve core MFC papers and two supporting sources are now classified, cited and summarized. Each record preserves study design, reported measurements, relevance and limitations without redistributing the source files." />
       <section className="paper-spread research-register">
         <SectionLabel number="01.1">Verified literature register</SectionLabel>
-        <div className="library-counts"><p><strong>13</strong><span>All records</span></p><p><strong>5</strong><span>Primary research</span></p><p><strong>6</strong><span>Review papers</span></p><p><strong>2</strong><span>Supporting sources</span></p><aside>The eleven core reading records are retained. Two microbiology and materials sources remain in a separate supporting category.</aside></div>
+        <div className="library-counts"><p><strong>14</strong><span>All records</span></p><p><strong>6</strong><span>Primary research</span></p><p><strong>6</strong><span>Review papers</span></p><p><strong>2</strong><span>Supporting sources</span></p><aside>The original eleven core reading records and the new COD-removal study form a twelve-paper evidence base. Two microbiology and materials sources remain in a separate supporting category.</aside></div>
         <div className="filter-row" aria-label="Filter research papers">
           {(["All", "Primary research", "Review", "Supporting source"] as const).map((kind) => <button key={kind} className={filter === kind ? "is-active" : ""} onClick={() => setFilter(kind)}>{kind}<sup>{kind === "All" ? papers.length : papers.filter((p) => p.kind === kind).length}</sup></button>)}
         </div>
@@ -366,7 +369,143 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
         <figure><GrowthCurve /><figcaption><b>Figure 5.</b> Reconstructed from the supplied spreadsheet. Time units, measurement wavelength and replicate count remain unconfirmed, so this record is not merged with the halophile experiment.</figcaption></figure>
       </section>
       <section className="paper-spread provenance-ledger"><SectionLabel number="02.10">Evidence provenance</SectionLabel>{[["Measured","Values retained in spreadsheet"],["Documented","Text or result recorded in presentation"],["Image-derived","Approximate value interpreted from graph or photograph"],["Missing","Required value absent from supplied record"]].map(([label, copy]) => <div key={label}><i className={`provenance-dot ${label.toLowerCase()}`} /><b>{label}</b><span>{copy}</span></div>)}</section>
-      <NextArticle page="twin" label="03 — Digital twin" staticMode={staticMode} />
+      <NextArticle page="registry" label="03 — Experiment registry" staticMode={staticMode} />
+      <SiteFooter staticMode={staticMode} />
+    </main>
+  );
+}
+
+type RegistryDraft = {
+  experimentCode: string; title: string; status: string; provenance: string; startedOn: string;
+  organism: string; inoculumSource: string; substrate: string; substrateConcentration: string;
+  temperature: string; ph: string; conductivity: string; salinity: string; resistance: string;
+  anodeMaterial: string; cathodeMaterial: string; anodeArea: string; cathodeArea: string;
+  reactorVolume: string; membrane: string; hrt: string; codIn: string; codOut: string;
+  voltage: string; current: string; powerDensity: string; replicates: string; notes: string;
+};
+
+const blankRegistryDraft: RegistryDraft = {
+  experimentCode: "MFC-NEW-001", title: "", status: "planned", provenance: "measured", startedOn: "",
+  organism: "", inoculumSource: "", substrate: "", substrateConcentration: "", temperature: "",
+  ph: "", conductivity: "", salinity: "", resistance: "", anodeMaterial: "", cathodeMaterial: "",
+  anodeArea: "", cathodeArea: "", reactorVolume: "", membrane: "", hrt: "", codIn: "", codOut: "",
+  voltage: "", current: "", powerDensity: "", replicates: "", notes: "",
+};
+
+const historicalRegistryDraft: RegistryDraft = {
+  ...blankRegistryDraft,
+  experimentCode: "COLLEGE-MFC-001",
+  title: "Historical Sambhar Lake halophile MFC",
+  status: "archived",
+  provenance: "documented",
+  organism: "Halophilic environmental isolate; species unresolved",
+  inoculumSource: "Water and salt samples from Sambhar Lake, Rajasthan",
+  substrate: "Halophilic broth; composition not retained",
+  anodeMaterial: "Graphite rod",
+  cathodeMaterial: "Graphite rod in KMnO₄ catholyte",
+  membrane: "Water + KNO₃ + agar salt bridge",
+  voltage: "0.61",
+  notes: "Voltage is approximate and image-derived. Reactor volume, resistance, exposed electrode area, COD, HRT, replicate count and time series are missing.",
+};
+
+const registryFields: Array<{ key: keyof RegistryDraft; label: string; unit?: string; type?: string; placeholder?: string }> = [
+  { key: "organism", label: "Organism / inoculum", placeholder: "Halophilic mixed culture" },
+  { key: "inoculumSource", label: "Inoculum source", placeholder: "Sambhar Lake water" },
+  { key: "substrate", label: "Substrate", placeholder: "Acetate / wastewater / glucose" },
+  { key: "substrateConcentration", label: "Substrate concentration", unit: "mg/L", type: "number" },
+  { key: "temperature", label: "Temperature", unit: "°C", type: "number" },
+  { key: "ph", label: "pH", type: "number" },
+  { key: "conductivity", label: "Conductivity", unit: "mS/cm", type: "number" },
+  { key: "salinity", label: "Salinity", unit: "g/L", type: "number" },
+  { key: "resistance", label: "External resistance", unit: "Ω", type: "number" },
+  { key: "anodeMaterial", label: "Anode material" },
+  { key: "cathodeMaterial", label: "Cathode material" },
+  { key: "anodeArea", label: "Exposed anode area", unit: "cm²", type: "number" },
+  { key: "cathodeArea", label: "Exposed cathode area", unit: "cm²", type: "number" },
+  { key: "reactorVolume", label: "Working volume", unit: "mL", type: "number" },
+  { key: "membrane", label: "Membrane / salt bridge" },
+  { key: "hrt", label: "Hydraulic retention time", unit: "h", type: "number" },
+  { key: "codIn", label: "COD before treatment", unit: "mg/L", type: "number" },
+  { key: "codOut", label: "COD after treatment", unit: "mg/L", type: "number" },
+  { key: "voltage", label: "Voltage", unit: "V", type: "number" },
+  { key: "current", label: "Current", unit: "mA", type: "number" },
+  { key: "powerDensity", label: "Power density", unit: "mW/m²", type: "number" },
+  { key: "replicates", label: "Independent replicates", type: "number" },
+];
+
+const registryCsvNames: Record<keyof RegistryDraft, string> = {
+  experimentCode: "experiment_code", title: "title", status: "status", provenance: "provenance",
+  startedOn: "started_on", organism: "organism", inoculumSource: "inoculum_source", substrate: "substrate",
+  substrateConcentration: "substrate_concentration_mg_l", temperature: "temperature_c", ph: "ph",
+  conductivity: "conductivity_ms_cm", salinity: "salinity_g_l", resistance: "external_resistance_ohm",
+  anodeMaterial: "anode_material", cathodeMaterial: "cathode_material", anodeArea: "anode_area_cm2",
+  cathodeArea: "cathode_area_cm2", reactorVolume: "reactor_volume_ml", membrane: "membrane_or_bridge",
+  hrt: "hrt_hours", codIn: "cod_in_mg_l", codOut: "cod_out_mg_l", voltage: "voltage_v",
+  current: "current_ma", powerDensity: "power_density_mw_m2", replicates: "replicate_count", notes: "notes",
+};
+
+function csvValue(value: string | number) {
+  const text = String(value);
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+export function RegistryView({ staticMode = false }: { staticMode?: boolean }) {
+  const [draft, setDraft] = useState<RegistryDraft>(blankRegistryDraft);
+  const codRemoval = useMemo(() => {
+    const before = Number(draft.codIn); const after = Number(draft.codOut);
+    return draft.codIn && draft.codOut && before > 0 ? ((before - after) / before * 100).toFixed(1) : null;
+  }, [draft.codIn, draft.codOut]);
+
+  const update = (key: keyof RegistryDraft, value: string) => setDraft((current) => ({ ...current, [key]: value }));
+  const downloadCsv = () => {
+    const entries = (Object.entries(draft) as Array<[keyof RegistryDraft, string]>).map(([key, value]) => [registryCsvNames[key], value]);
+    entries.push(["cod_removal_percent", codRemoval ?? ""]);
+    const csv = `${entries.map(([name]) => csvValue(name)).join(",")}\n${entries.map(([, value]) => csvValue(value)).join(",")}\n`;
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url; link.download = `${draft.experimentCode || "biovolt-experiment"}.csv`; link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <main className="site-shell paper-page">
+      <SiteHeader active="registry" staticMode={staticMode} />
+      <PageMasthead number="03" kicker="Data foundation / experiment registry v1" title="One trustworthy row at a time." abstract="The registry gives every MFC run a consistent structure, calculates COD removal only from paired measurements and keeps literature benchmarks outside the researcher’s own experimental dataset." />
+      <section className="paper-spread registry-principles">
+        <SectionLabel number="03.1">Registry contract</SectionLabel>
+        <div><p className="journal-kicker">Evidence before prediction</p><h2>Measured experiments and published benchmarks never share a table.</h2><p>Your reactor observations belong to the experiment registry. Values extracted from papers belong to the literature benchmark register. They can be compared, but they are not interchangeable training rows.</p></div>
+        <aside><span><b>Experiment store</b>FastAPI + SQLite</span><span><b>Literature store</b>Separate benchmark table</span><span><b>Public interface</b>Local CSV preparation</span></aside>
+      </section>
+      <section className="paper-spread cod-benchmark-section">
+        <SectionLabel number="03.2">COD benchmark / Erable et al. (2011)</SectionLabel>
+        <div className="benchmark-heading"><p className="journal-kicker">Urban wastewater / 24-hour comparison</p><h2>Treatment optimum is not the power optimum.</h2><p>The paper compared identical COD-removal endpoints across an anaerobic control, a 1000 Ω MFC, a short-circuited MFC and a compact microbial electrochemical snorkel.</p></div>
+        <div className="cod-bars" aria-label="COD removal benchmarks reported by Erable and colleagues in 2011">
+          {[["Anaerobic control",15],["MFC / 1000 Ω",50],["Short-circuit MFC",72],["Compact MES",69]].map(([label, value]) => <article key={label}><div><i style={{ width: `${value}%` }} /></div><strong>{value}%</strong><span>{label}</span></article>)}
+        </div>
+        <div className="benchmark-citation"><p><b>Interpretation.</b> After subtracting approximately 15% background removal, the authors estimated about 35% COD removal for the maximum-power MFC and about 55% for MES-type operation—a relative gain of roughly 57%.</p><a href="https://doi.org/10.1080/08927014.2011.564615" target="_blank" rel="noreferrer">Erable, Etcheverry &amp; Bergel, Biofouling 27(3), 319–326 ↗</a></div>
+      </section>
+      <section className="paper-spread registry-form-section">
+        <SectionLabel number="03.3">Prepare an experiment record</SectionLabel>
+        <div className="registry-form-intro"><p className="journal-kicker">Manual entry / no upload</p><h2>Create a standardized CSV row.</h2><p>This public form processes the draft only in your browser and downloads a CSV; it does not transmit or permanently save the record. The FastAPI service in the public source provides SQLite storage when the research workspace is run locally.</p><div className="registry-actions"><button type="button" onClick={() => setDraft(historicalRegistryDraft)}>Load historical MFC draft</button><button type="button" onClick={() => setDraft(blankRegistryDraft)}>Clear form</button></div></div>
+        <form className="registry-form" onSubmit={(event) => event.preventDefault()}>
+          <div className="registry-core-fields">
+            <label><span>Experiment code</span><input value={draft.experimentCode} onChange={(event) => update("experimentCode", event.target.value)} required /></label>
+            <label className="wide-field"><span>Experiment title</span><input value={draft.title} onChange={(event) => update("title", event.target.value)} placeholder="Repeat halophile MFC with complete metadata" required /></label>
+            <label><span>Status</span><select value={draft.status} onChange={(event) => update("status", event.target.value)}><option value="planned">Planned</option><option value="running">Running</option><option value="completed">Completed</option><option value="archived">Archived</option></select></label>
+            <label><span>Dominant provenance</span><select value={draft.provenance} onChange={(event) => update("provenance", event.target.value)}><option value="measured">Measured</option><option value="documented">Documented</option><option value="image-derived">Image-derived</option></select></label>
+            <label><span>Start date</span><input type="date" value={draft.startedOn} onChange={(event) => update("startedOn", event.target.value)} /></label>
+          </div>
+          <div className="registry-field-grid">{registryFields.map((field) => <label key={field.key}><span>{field.label}{field.unit && <i>{field.unit}</i>}</span><input type={field.type ?? "text"} step={field.type === "number" ? "any" : undefined} min={field.type === "number" ? "0" : undefined} value={draft[field.key]} onChange={(event) => update(field.key, event.target.value)} placeholder={field.placeholder} /></label>)}</div>
+          <label className="registry-notes"><span>Notes, anomalies and field-level provenance</span><textarea value={draft.notes} onChange={(event) => update("notes", event.target.value)} rows={5} placeholder="Record deviations, uncertain values and which fields were image-derived." /></label>
+          <div className="registry-output"><div><small>Calculated COD removal</small><strong>{codRemoval ?? "—"}{codRemoval && "%"}</strong><span>{codRemoval ? "Calculated from COD before and after" : "Enter both COD measurements"}</span></div><button type="button" className="download-record" onClick={downloadCsv} disabled={!draft.experimentCode || !draft.title}>Download CSV row ↗</button></div>
+        </form>
+      </section>
+      <section className="paper-spread registry-schema">
+        <SectionLabel number="03.4">Minimum useful training row</SectionLabel>
+        <div className="schema-table" role="table" aria-label="Minimum useful MFC experiment fields">{[["Identity","Experiment code, date, organism and inoculum"],["Reactor","Architecture, volume, electrodes and exposed areas"],["Operation","Substrate, temperature, pH, conductivity, salinity, HRT and resistance"],["Electrical","Voltage-time data, current and power-density normalization"],["Treatment","COD before, COD after, elapsed time and calculated removal"],["Quality","Independent replicates, uncertainty, provenance and deviations"]].map(([group, fields]) => <div role="row" key={group}><b role="cell">{group}</b><span role="cell">{fields}</span></div>)}</div>
+        <aside><b>Gate for modelling</b><p>A row may be stored with missing values, but it should not enter model training until outcome, units, reactor context and provenance are complete.</p></aside>
+      </section>
+      <NextArticle page="twin" label="04 — Digital twin" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>
   );
@@ -401,17 +540,17 @@ export function DigitalTwinView({ staticMode = false }: { staticMode?: boolean }
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="twin" staticMode={staticMode} />
-      <PageMasthead number="03" kicker="Predictive system preview / transparent by design" title="Intelligence for living electricity." abstract="The planned intelligence layer will predict power density and COD removal, detect anomalies and recommend experiments—while displaying uncertainty and evidence boundaries beside every output." />
-      <section className="paper-spread twin-section"><SectionLabel number="03.1">Interactive demonstration</SectionLabel><div className="twin-intro"><h2>Explore an illustrative response surface.</h2><p>Adjust the controls to test the product interaction. The mathematical response is synthetic and deliberately labelled so it cannot be mistaken for a trained scientific model.</p></div><TwinControls /></section>
-      <section className="paper-spread system-architecture"><SectionLabel number="03.2">System architecture</SectionLabel><div className="architecture-flow">{[['01','Inputs','pH, temperature, resistance, HRT'],['02','Evidence layer','Experiments + verified literature'],['03','Prediction','Power density + COD removal'],['04','Explanation','Intervals + feature importance'],['05','Decision','Recommended next experiment']].map(([num, title, copy]) => <article key={num}><span>{num}</span><h2>{title}</h2><p>{copy}</p></article>)}</div></section>
+      <PageMasthead number="04" kicker="Predictive system preview / transparent by design" title="Intelligence for living electricity." abstract="The planned intelligence layer will predict power density and COD removal, detect anomalies and recommend experiments—while displaying uncertainty and evidence boundaries beside every output." />
+      <section className="paper-spread twin-section"><SectionLabel number="04.1">Interactive demonstration</SectionLabel><div className="twin-intro"><h2>Explore an illustrative response surface.</h2><p>Adjust the controls to test the product interaction. The mathematical response is synthetic and deliberately labelled so it cannot be mistaken for a trained scientific model.</p></div><TwinControls /></section>
+      <section className="paper-spread system-architecture"><SectionLabel number="04.2">System architecture</SectionLabel><div className="architecture-flow">{[['01','Inputs','pH, temperature, resistance, HRT'],['02','Evidence layer','Experiments + verified literature'],['03','Prediction','Power density + COD removal'],['04','Explanation','Intervals + feature importance'],['05','Decision','Recommended next experiment']].map(([num, title, copy]) => <article key={num}><span>{num}</span><h2>{title}</h2><p>{copy}</p></article>)}</div></section>
       <section className="paper-spread model-output-grid">
-        <SectionLabel number="03.3">Planned outputs</SectionLabel>
+        <SectionLabel number="04.3">Planned outputs</SectionLabel>
         {[
           ['Power-density prediction','Gradient-boosting regression with grouped validation.'],['COD-removal prediction','Treatment outcome with calibrated intervals.'],['Anomaly detection','Sensor drift, sudden decline and domain warnings.'],['Fouling alert','Evidence-led performance decline classification.'],['Feature importance','SHAP or permutation importance after validation.'],['Next experiment','Constrained recommendation, never unrestricted optimization.']
         ].map(([title, copy], i) => <article key={title}><span>{String(i + 1).padStart(2,'0')}</span><h2>{title}</h2><p>{copy}</p></article>)}
       </section>
-      <section className="paper-spread recommendation-panel"><SectionLabel number="03.4">Recommended next experiment</SectionLabel><div><p className="journal-kicker">Current recommendation / data acquisition</p><h2>Repeat the historical configuration with complete metadata.</h2><p>Record voltage over time, external resistance, exposed electrode area, temperature, pH, conductivity, COD before and after treatment, HRT and inoculum details. This creates the first trustworthy training row.</p></div><aside><b>Priority 01</b><span>Recover electrode dimensions</span><b>Priority 02</b><span>Confirm growth-curve units</span><b>Priority 03</b><span>Collect a polarization series</span></aside></section>
-      <NextArticle page="about" label="04 — Project method" staticMode={staticMode} />
+      <section className="paper-spread recommendation-panel"><SectionLabel number="04.4">Recommended next experiment</SectionLabel><div><p className="journal-kicker">Current recommendation / data acquisition</p><h2>Repeat the historical configuration with complete metadata.</h2><p>Record voltage over time, external resistance, exposed electrode area, temperature, pH, conductivity, COD before and after treatment, HRT and inoculum details. This creates the first trustworthy training row.</p></div><aside><b>Priority 01</b><span>Recover electrode dimensions</span><b>Priority 02</b><span>Confirm growth-curve units</span><b>Priority 03</b><span>Collect a polarization series</span></aside></section>
+      <NextArticle page="about" label="05 — Project method" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>
   );
@@ -421,13 +560,13 @@ export function AboutView({ staticMode = false }: { staticMode?: boolean }) {
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="about" staticMode={staticMode} />
-      <PageMasthead number="04" kicker="Project method / open research infrastructure" title="Build slowly enough to remain scientifically useful." abstract="BioVolt AI is a flagship project, but its credibility will come from traceable evidence, disciplined data collection and models that admit when they do not know." />
-      <section className="paper-spread manifesto"><SectionLabel number="04.1">Manifesto</SectionLabel><p>BioVolt AI should feel advanced without pretending that sparse historical evidence is a production-ready digital twin. The platform therefore separates the research archive, experimental record and predictive layer—and keeps their provenance visible.</p><aside><span>01</span><b>Evidence before automation.</b><span>02</span><b>Uncertainty before certainty.</b><span>03</span><b>Reproducibility before scale.</b></aside></section>
-      <section className="paper-spread roadmap"><SectionLabel number="04.2">Development roadmap</SectionLabel>{[
+      <PageMasthead number="05" kicker="Project method / open research infrastructure" title="Build slowly enough to remain scientifically useful." abstract="BioVolt AI is a flagship project, but its credibility will come from traceable evidence, disciplined data collection and models that admit when they do not know." />
+      <section className="paper-spread manifesto"><SectionLabel number="05.1">Manifesto</SectionLabel><p>BioVolt AI should feel advanced without pretending that sparse historical evidence is a production-ready digital twin. The platform therefore separates the research archive, experimental record and predictive layer—and keeps their provenance visible.</p><aside><span>01</span><b>Evidence before automation.</b><span>02</span><b>Uncertainty before certainty.</b><span>03</span><b>Reproducibility before scale.</b></aside></section>
+      <section className="paper-spread roadmap"><SectionLabel number="05.2">Development roadmap</SectionLabel>{[
         ['Now','Research platform','Multipage evidence library, recovered experiment and synthetic twin interface.'],['Next','Data foundation','Verified papers, normalized experiment schema and manual data entry.'],['Then','Validated models','Grouped cross-validation, intervals, importance and anomaly detection.'],['Later','Live MFC','ESP32 sensing, streaming dashboard, alerts and controlled recommendations.']
       ].map(([phase, title, copy], index) => <article key={phase}><span>{String(index + 1).padStart(2,'0')}</span><p>{phase}</p><h2>{title}</h2><div><i /><p>{copy}</p></div></article>)}</section>
-      <section className="paper-spread author-note"><SectionLabel number="04.3">Author note</SectionLabel><div><p className="journal-kicker">Researcher</p><h2>Yatharth Sharma</h2><p>The platform begins with previous college work on microbial fuel cells, halophilic isolates and Pseudomonas growth. It will evolve as papers, laboratory notes and new experiments are added.</p><div className="author-links"><a href="mailto:yatharth.01sharma@gmail.com">Email ↗</a><a href="https://www.linkedin.com/in/yatharth-sharma-a13395288/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer">Open-source repository ↗</a></div></div><blockquote>“From microbial metabolism to measurable electricity.”</blockquote></section>
-      <section className="paper-spread repository-note"><SectionLabel number="04.4">Open source</SectionLabel><h2>Inspect the work, not only the interface.</h2><p>The public repository contains the complete website source and automated publishing workflow. Future data and model documentation will be versioned alongside the product.</p><a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer">github.com/YatharthSharma01/biovolt-ai ↗</a></section>
+      <section className="paper-spread author-note"><SectionLabel number="05.3">Author note</SectionLabel><div><p className="journal-kicker">Researcher</p><h2>Yatharth Sharma</h2><p>The platform begins with previous college work on microbial fuel cells, halophilic isolates and Pseudomonas growth. It will evolve as papers, laboratory notes and new experiments are added.</p><div className="author-links"><a href="mailto:yatharth.01sharma@gmail.com">Email ↗</a><a href="https://www.linkedin.com/in/yatharth-sharma-a13395288/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer">Open-source repository ↗</a></div></div><blockquote>“From microbial metabolism to measurable electricity.”</blockquote></section>
+      <section className="paper-spread repository-note"><SectionLabel number="05.4">Open source</SectionLabel><h2>Inspect the work, not only the interface.</h2><p>The public repository contains the complete website source and automated publishing workflow. Future data and model documentation will be versioned alongside the product.</p><a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer">github.com/YatharthSharma01/biovolt-ai ↗</a></section>
       <NextArticle page="home" label="Return to cover" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>

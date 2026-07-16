@@ -40,4 +40,9 @@ next-env.d.ts
 /github-dist/
 /.wrangler/
 /outputs/
+/backend/data/*.db
+/backend/data/*.db-*
+__pycache__/
+.pytest_cache/
+.venv/
 /work/

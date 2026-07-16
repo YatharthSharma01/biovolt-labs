@@ -9,10 +9,11 @@ demonstration.
 
 - Full-viewport animated double-chamber MFC cover
 - Animated electron and proton pathways
-- Connected Home, Research, Experiment, Digital Twin and About pages
+- Connected Home, Research, Experiment, Registry, Digital Twin and About pages
 - Research-paper-inspired editorial design and figure system
 - Researcher-authored MFC introduction with preserved citation keys
-- Literature register with 11 core MFC papers and 2 supporting records recovered from the source presentation
+- Literature register with 12 core MFC papers and 2 supporting records, including a COD-removal benchmark study
+- Provenance-aware experiment registry with a FastAPI + SQLite backend and public CSV preparation form
 - Historical apparatus and electrode documentation
 - Pseudomonas growth-curve visualization
 - Research-paper evidence cards with verification status
@@ -50,9 +51,9 @@ available.
 
 ## Evidence policy
 
-Every displayed value should retain its source and confidence status. Citation
-details marked `to verify` are placeholders for paper ingestion and must not be
-treated as verified references.
+Every displayed value retains its source and confidence status. Literature
+measurements remain separate from researcher-generated experiment records and
+are not treated as interchangeable model-training rows.
 
 ## Author
 
