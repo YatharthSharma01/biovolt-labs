@@ -26,12 +26,21 @@ predictions and must not be used to operate an MFC.
 
 ## MFC calculator development
 
-Phase 1 defines the calculator's scientific and usability contract before the
-public interface is implemented:
+Phase 1 defines the calculator's scientific and usability contract. Phase 2
+audits every condition-level literature row and prevents unsupported estimates
+from entering the public calculator:
 
 - [Scientific specification](docs/calculator/SCIENTIFIC_SPECIFICATION.md)
 - [Machine-readable input schema](docs/calculator/calculator-input-schema.json)
 - [Validation and refusal cases](docs/calculator/validation-cases.json)
+- [Phase 2 evidence review](docs/calculator/PHASE_2_EVIDENCE_REVIEW.md)
+- [Machine-readable benchmark decisions](docs/calculator/benchmark-adjudication.json)
+- [Phase 2 evidence-gate workbook](docs/calculator/BioVolt_AI_Phase_2_Evidence_Gate.xlsx)
+
+The Phase 2 decision is **go** for the measured formula calculator and cited
+single-study references. Pooled estimates, confidence intervals and trained AI
+predictions remain disabled until sufficiently comparable independent studies
+are available.
 
 ## Run locally
 

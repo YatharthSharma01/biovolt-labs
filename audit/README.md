@@ -26,4 +26,14 @@ Rows marked `Do not pool` or `Context only` should not enter a numerical model. 
 
 ## Calculator specification gate
 
-The matrix still requires review of electrode-area basis, starch concentration in PDF 11, and the internal normalization inconsistencies reported in PDF 1. The approved calculator contract is developed in `docs/calculator/SCIENTIFIC_SPECIFICATION.md`. Formula calculations may proceed independently, while literature estimates remain gated by evidence eligibility and reconciliation rules.
+Phase 2 reviewed all 16 condition rows. The decisions are recorded in
+`docs/calculator/benchmark-adjudication.json`, explained in
+`docs/calculator/PHASE_2_EVIDENCE_REVIEW.md`, and summarized in the reviewable
+`docs/calculator/BioVolt_AI_Phase_2_Evidence_Gate.xlsx` workbook.
+
+The measured formula calculator may proceed. Two BV-LIT-011 conditions may
+support low-tier power references and eight conditions may support
+target-specific COD references. No current domain is cleared for a pooled
+estimate, confidence interval or trained prediction. Electrode-area basis in
+BV-LIT-009, starch concentration and load points in private BV-LIT-010, and the
+BV-LIT-008 current-density conversion remain explicit open issues.
