@@ -42,6 +42,17 @@ single-study references. Pooled estimates, confidence intervals and trained AI
 predictions remain disabled until sufficiently comparable independent studies
 are available.
 
+Phase 3 implements the first public calculator release at `/calculator`:
+
+- five-step premium research workflow;
+- equation-derived current, power, density, energy and COD removal;
+- safe V/mV, mA/A, ohm/kilohm and cm2/m2 conversions;
+- open-circuit and loaded-voltage separation;
+- current-versus-`V/R` reconciliation warnings;
+- evidence-gated power and COD references with condition IDs and DOI links;
+- outside-domain refusal instead of unsupported numerical estimates;
+- fully client-side processing in the GitHub Pages edition.
+
 ## Run locally
 
 Requirements: Node.js 22.13 or newer.

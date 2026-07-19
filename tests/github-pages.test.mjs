@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("GitHub Pages build contains five linked page entries", async () => {
+test("GitHub Pages build contains six linked page entries", async () => {
   const pages = [
     ["index.html", "home"],
     ["research.html", "research"],
     ["experiment.html", "experiment"],
+    ["calculator.html", "calculator"],
     ["digital-twin.html", "twin"],
     ["about.html", "about"],
   ];
@@ -25,7 +26,7 @@ test("static navigation points to every research article", async () => {
   const scriptPath = html.match(/src="(\.\/assets\/[^\"]+\.js)"/)?.[1];
   assert.ok(scriptPath);
   const bundle = await readFile(`github-dist/${scriptPath.slice(2)}`, "utf8");
-  for (const href of ["research.html", "experiment.html", "digital-twin.html", "about.html"]) {
+  for (const href of ["research.html", "experiment.html", "calculator.html", "digital-twin.html", "about.html"]) {
     assert.match(bundle, new RegExp(href.replace(".", "\\.")));
   }
   assert.doesNotMatch(bundle, /registry\.html/);
@@ -54,4 +55,18 @@ test("retired registry and audit surfaces are absent", async () => {
     assert.rejects(access("github-dist/audit/paper-register.csv")),
     assert.rejects(access("github-dist/audit/audit-manifest.json")),
   ]);
+});
+
+test("calculator bundle includes measured equations and evidence refusal language", async () => {
+  const html = await readFile("github-dist/calculator.html", "utf8");
+  const scriptPath = html.match(/src="(\.\/assets\/[^"]+\.js)"/)?.[1];
+  assert.ok(scriptPath);
+  const bundle = await readFile(`github-dist/${scriptPath.slice(2)}`, "utf8");
+  for (const phrase of [
+    "Calculate from measurements",
+    "Compare with literature",
+    "Outside evidence domain",
+    "No numerical estimate produced",
+    "OPEN_CIRCUIT_NO_LOAD",
+  ]) assert.match(bundle, new RegExp(phrase));
 });
