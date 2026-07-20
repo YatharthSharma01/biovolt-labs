@@ -141,7 +141,7 @@ export function PageMasthead({ number, kicker, title, abstract }: { number: stri
     <section className="page-masthead">
       <div className="masthead-number">{number}</div>
       <div className="masthead-copy"><p className="journal-kicker">{kicker}</p><h1>{title}</h1><p className="masthead-abstract"><b>Abstract.</b> {abstract}</p></div>
-      <aside><span>BioVolt AI</span><span>Research edition 01</span><span>15 July 2026</span></aside>
+      <aside><span>BioVolt AI</span><span>Research edition 01</span></aside>
     </section>
   );
 }
@@ -235,7 +235,7 @@ export function ResearchView({ staticMode = false }: { staticMode?: boolean }) {
       <PageMasthead number="01" kicker="Evidence register / 14 verified records" title="Research evidence, not a reading list." abstract="Twelve core MFC papers and two supporting sources are now classified, cited and summarized. Each record preserves study design, reported measurements, relevance and limitations without redistributing the source files." />
       <section className="paper-spread research-register">
         <SectionLabel number="01.1">Verified literature register</SectionLabel>
-        <div className="library-counts"><p><strong>14</strong><span>All records</span></p><p><strong>6</strong><span>Primary research</span></p><p><strong>6</strong><span>Review papers</span></p><p><strong>2</strong><span>Supporting sources</span></p><aside>The original eleven core reading records and the new COD-removal study form a twelve-paper evidence base. Two microbiology and materials sources remain in a separate supporting category.</aside></div>
+        <div className="library-counts"><p><strong>14</strong><span>All records</span></p><p><strong>6</strong><span>Primary research</span></p><p><strong>6</strong><span>Review papers</span></p><p><strong>2</strong><span>Supporting sources</span></p><aside>The original eleven core reading records and the COD-removal study form a twelve-paper evidence base. Two microbiology and materials sources remain in a separate supporting category.</aside></div>
         <div className="filter-row" aria-label="Filter research papers">
           {(["All", "Primary research", "Review", "Supporting source"] as const).map((kind) => <button key={kind} className={filter === kind ? "is-active" : ""} onClick={() => setFilter(kind)}>{kind}<sup>{kind === "All" ? papers.length : papers.filter((p) => p.kind === kind).length}</sup></button>)}
         </div>
@@ -248,13 +248,13 @@ export function ResearchView({ staticMode = false }: { staticMode?: boolean }) {
               <div className="paper-metrics" aria-label={`Key reported measurements for ${paper.title}`}>
                 {paper.metrics.map((metric) => <p key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong></p>)}
               </div>
-              <div className="citation-footer"><p><b>Evidence focus</b>{paper.focus}</p><p><b>Source status</b>{paper.sourceStatus}</p><a href={paper.url} target="_blank" rel="noreferrer">DOI {paper.doi} ↗</a></div>
+              <div className="citation-footer"><p><b>Evidence focus</b>{paper.focus}</p><a href={paper.url} target="_blank" rel="noreferrer">DOI {paper.doi} ↗</a></div>
               <details className="paper-details">
                 <summary>Open evidence notes</summary>
                 <div className="paper-detail-grid">
                   <div><h3>Study design</h3><p>{paper.studyDesign}</p><h3>Why it matters here</h3><p>{paper.relevance}</p></div>
                   <div><h3>Key findings</h3><ul>{paper.keyFindings.map((finding) => <li key={finding}>{finding}</li>)}</ul></div>
-                  <aside><h3>Interpretation boundary</h3><p>{paper.caveat}</p><h3>Source reviewed</h3><p>{paper.sourcePages}</p><small>{paper.access}</small></aside>
+                  <aside><h3>Interpretation boundary</h3><p>{paper.caveat}</p><small>{paper.access}</small></aside>
                 </div>
               </details>
             </article>
