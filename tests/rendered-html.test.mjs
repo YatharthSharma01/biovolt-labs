@@ -73,11 +73,14 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /Growth kinetics of the halophile/);
   assert.match(experimentHtml, /Biochemical characterization/);
   assert.match(experimentHtml, /Triple sugar iron/);
-  assert.match(experimentHtml, /approximately 0\.61 V/i);
+  assert.match(experimentHtml, /1\.21 mV/);
+  assert.match(experimentHtml, /≈0\.56% \(v\/v\)/);
+  assert.match(experimentHtml, /No voltage time-series dataset is available/);
+  assert.doesNotMatch(experimentHtml, /presentation/i);
 
   const home = await render();
   const homeHtml = await home.text();
-  assert.match(homeHtml, /Introduction by Yatharth Sharma/);
+  assert.match(homeHtml, /Introduction of MFC/);
   assert.doesNotMatch(homeHtml, />Registry</);
 
   const about = await render("/about");

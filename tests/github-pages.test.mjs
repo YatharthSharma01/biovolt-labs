@@ -73,3 +73,24 @@ test("calculator bundle includes measured equations and evidence refusal languag
     "OPEN_CIRCUIT_NO_LOAD",
   ]) assert.match(bundle, new RegExp(phrase));
 });
+
+test("experiment page includes the revised operating record", async () => {
+  const html = await readFile("github-dist/experiment.html", "utf8");
+  const scriptPath = html.match(/src="(\.\/assets\/[^\"]+\.js)"/)?.[1];
+  assert.ok(scriptPath);
+  const bundle = await readFile(`github-dist/${scriptPath.slice(2)}`, "utf8");
+  for (const phrase of [
+    "Experimental conditions",
+    "280 mL",
+    "0.6 mM KMnO₄",
+    "37 °C",
+    "24–48 h",
+    "48–72 h",
+    "≈0.56% (v/v)",
+    "1:179",
+    "No voltage time-series dataset is available",
+    "No external resistance used",
+    "1.21 mV",
+    "Millivolts measure potential difference, not current",
+  ]) assert.match(bundle, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+});

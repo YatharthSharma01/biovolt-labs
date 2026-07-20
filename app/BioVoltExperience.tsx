@@ -307,57 +307,75 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
   return (
     <main className="site-shell paper-page">
       <SiteHeader active="experiment" staticMode={staticMode} />
-      <PageMasthead number="02" kicker="Laboratory record / college experiment" title="A recovered experiment becomes structured evidence." abstract="This record reconstructs the Sambhar Lake halophile study, double-chamber MFC, growth kinetics and microbiological characterization, photographs and growth workbook." />
+      <PageMasthead number="02" kicker="Laboratory record / college experiment" title="A recovered experiment becomes structured evidence." abstract="This record reconstructs the Sambhar Lake halophile study, double-chamber MFC, growth kinetics and microbiological characterization from the retained laboratory evidence. Recorded conditions and unresolved data gaps are kept clearly separate." />
       <section className="paper-spread experiment-aims">
         <SectionLabel number="02.1">Aim &amp; evidence boundary</SectionLabel>
         <div><p className="journal-kicker">Original study aims</p><h2>From a natural halophile to a working MFC.</h2><p>The college project aimed to isolate halophilic bacteria from a natural habitat, compare growth under salt-containing culture conditions, study growth kinetics and test the isolate as the biological component of a microbial fuel cell.</p></div>
         <ol><li>Isolate halophilic bacteria from Sambhar Lake samples.</li><li>Obtain distinct pure cultures and characterize them.</li><li>Study the growth phases of the recovered halophile.</li><li>Construct a double-chamber MFC and record electrical output.</li></ol>
-        <aside><b>Scope note</b><p>The presentation is a historical record, not a complete laboratory notebook. Volumes, replicate count, incubation duration for several tests, inoculum density, resistance and raw voltage time series are not available.</p></aside>
+        <aside><b>Scope note</b><p>Reactor volumes, incubation conditions, inoculum preparation and the absence of an external resistor are now defined. Replicate count, exposed electrode area and a voltage time series remain unavailable.</p></aside>
+      </section>
+      <section className="paper-spread experiment-summary">
+        <SectionLabel number="02.2">Experimental conditions</SectionLabel>
+        <div className="condition-intro"><p className="journal-kicker">Recorded operating envelope</p><h2>The experiment at a glance.</h2><p>Culture preparation and MFC operation are presented as separate time windows so that the biological incubation period is not confused with the duration of the electrical test.</p></div>
+        <aside className="record-status"><span>Record status</span><strong>Partially complete</strong><p>Operating conditions are available; continuous electrical measurements and replicate-level uncertainty are not.</p></aside>
+        <div className="condition-grid">
+          <article><span>Anodic chamber</span><strong>280 mL</strong><p>Halophilic broth</p></article>
+          <article><span>Cathodic chamber</span><strong>280 mL</strong><p>0.6 mM KMnO₄ solution</p></article>
+          <article><span>Temperature</span><strong>37 °C</strong><p>Culture incubation condition</p></article>
+          <article><span>MFC test duration</span><strong>24–48 h</strong><p>Electrical observation window</p></article>
+          <article><span>Halophile incubation</span><strong>48–72 h</strong><p>Before use in the MFC</p></article>
+          <article><span>External resistance</span><strong>None</strong><p>No external load resistor was used</p></article>
+        </div>
+        <div className="inoculum-record">
+          <div><p className="journal-kicker">Inoculum preparation</p><h3>1 mL inoculum + 179 mL culture medium</h3><p>One millilitre of halophilic broth was added to 179 mL of halophilic culture medium, giving a final mixture volume of approximately 180 mL.</p></div>
+          <dl><div><dt>Inoculum size</dt><dd>≈0.56% (v/v)</dd></div><div><dt>Inoculum : medium</dt><dd>1:179</dd></div><div><dt>Calculation</dt><dd>1 ÷ 180 × 100</dd></div></dl>
+        </div>
+        <div className="data-boundary"><b>Electrical data boundary</b><p>No voltage time-series dataset is available. The retained values are single observed readings, so stability, peak timing, rate of decline and energy production cannot be reconstructed.</p></div>
       </section>
       <section className="paper-spread method-section">
-        <SectionLabel number="02.2">Materials &amp; methods</SectionLabel>
-        <div className="method-intro"><p className="journal-kicker">Protocol of experiment</p><h2>Four connected experimental stages.</h2><p>Only steps stated or pictured in the supplied work are included. Missing conditions are explicitly marked instead of being reconstructed from literature.</p></div>
+        <SectionLabel number="02.3">Materials &amp; methods</SectionLabel>
+        <div className="method-intro"><p className="journal-kicker">Protocol of experiment</p><h2>Four connected experimental stages.</h2><p>The workflow separates environmental sampling, selective cultivation, characterization and MFC operation while retaining the conditions available for each stage.</p></div>
         <div className="method-grid">
-          <article><span>01</span><h3>Sample collection</h3><p>Water and salt samples were collected from Sambhar Lake, Rajasthan, as the environmental source of salt-tolerant microorganisms.</p><small>Documented in presentation</small></article>
-          <article><span>02</span><h3>Selective cultivation</h3><p>Samples were cultured on Mueller–Hinton agar containing 7.5% NaCl and mannitol motility agar containing 5% NaCl.</p><small>Temperature and incubation time missing</small></article>
+          <article><span>01</span><h3>Sample collection</h3><p>Water and salt samples were collected from Sambhar Lake, Rajasthan, as the environmental source of salt-tolerant microorganisms.</p><small>Environmental inoculum source</small></article>
+          <article><span>02</span><h3>Selective cultivation</h3><p>Samples were cultured on Mueller–Hinton agar containing 7.5% NaCl and mannitol motility agar containing 5% NaCl.</p><small>37 °C / halophile incubation 48–72 h</small></article>
           <article><span>03</span><h3>Isolation &amp; screening</h3><p>Distinct colonies were subcultured to obtain pure isolates, followed by microscopy, colony morphology and biochemical tests.</p><small>Species identity not established</small></article>
-          <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in a halophilic-broth anode and a KMnO₄ cathode, joined by a water–KNO₃–agar salt bridge and connected for voltage measurement.</p><small>Reactor volume and resistance missing</small></article>
+          <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in 280 mL of halophilic broth at the anode and 280 mL of 0.6 mM KMnO₄ at the cathode, joined by a water–KNO₃–agar salt bridge.</p><small>24–48 h test / no external resistor</small></article>
         </div>
         <div className="reaction-strip"><p><b>Anode</b>C₆H₁₂O₆ + 6H₂O → 6CO₂ + 24H⁺ + 24e⁻</p><p><b>Cathode</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p></div>
       </section>
       <section className="paper-spread apparatus-layout">
-        <SectionLabel number="02.3">Reactor apparatus</SectionLabel>
+        <SectionLabel number="02.4">Reactor apparatus</SectionLabel>
         <figure className="apparatus-figure"><img src={image("historical-mfc-setup.png")} alt="Historical double-chamber MFC apparatus" /><figcaption><b>Figure 2.</b> Historical MFC setup. The photograph is documentary evidence; it is not a calibrated dimensional record.</figcaption></figure>
         <div className="apparatus-spec">
           <p className="journal-kicker">Recorded configuration</p><h2>Double-chamber architecture</h2>
-          <dl><div><dt>Anode</dt><dd>Halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>KMnO₄ solution + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>Water + KNO₃ + agar salt bridge</dd></div><div><dt>Mixing</dt><dd>Magnetic bead shown in anode schematic</dd></div><div><dt>Measurement</dt><dd>Direct voltage display; time series not retained</dd></div><div><dt>Observed reading</dt><dd>Approximately 0.61 V, image-derived</dd></div></dl>
+          <dl><div><dt>Anode</dt><dd>280 mL halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>280 mL of 0.6 mM KMnO₄ + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>Water + KNO₃ + agar salt bridge</dd></div><div><dt>Temperature</dt><dd>37 °C</dd></div><div><dt>Test window</dt><dd>24–48 hours</dd></div><div><dt>External load</dt><dd>No external resistance used</dd></div><div><dt>Measurement</dt><dd>Individual voltage readings; no time series retained</dd></div></dl>
         </div>
       </section>
       <section className="paper-spread electrode-layout">
-        <SectionLabel number="02.4">Electrode record</SectionLabel>
+        <SectionLabel number="02.5">Electrode record</SectionLabel>
         <div className="electrode-copy"><p className="journal-kicker">Material note / unresolved dimension</p><h2>Graphite rod electrodes</h2><p>The product evidence identifies an Achalnath Tools graphite rod and lists 6 × 1 × 1 centimetres. The description also says “6-inch long,” creating a conflict that prevents reliable exposed-area calculation.</p><div className="warning-note"><b>Action required</b><span>Measure the surviving electrode or recover the original purchase specification before normalizing power density.</span></div></div>
-        <figure><img src={image("graphite-electrodes.png")} alt="Pair of pointed graphite rod electrodes" /><figcaption><b>Figure 3.</b> Graphite electrode reference recovered from the experimental presentation.</figcaption></figure>
+        <figure><img src={image("graphite-electrodes.png")} alt="Pair of pointed graphite rod electrodes" /><figcaption><b>Figure 3.</b> Graphite electrode reference associated with the experimental setup.</figcaption></figure>
       </section>
       <section className="paper-spread results-section">
-        <SectionLabel number="02.5">Results &amp; discussion</SectionLabel>
-        <div className="results-lead"><p className="journal-kicker">What the surviving evidence supports</p><h2>Electrical activity was observed, while biological identity remained unresolved.</h2><p>The photographed meter shows approximately 0.61 V from the assembled MFC. Because exposed electrode area, external resistance, replicate count and a time-resolved voltage series are absent, current and power density cannot be calculated responsibly.</p></div>
-        <div className="result-callouts"><article><strong>≈0.61</strong><span>V / photographed reading</span></article><article><strong>2</strong><span>sample sources / water and salt</span></article><article><strong>1</strong><span>growth curve / halophile</span></article></div>
-        <div className="discussion-note"><b>Interpretation.</b><p>The result demonstrates a measurable potential difference in the historical configuration, but it does not yet establish stable power production or enable comparison with literature power density. A repeat experiment needs voltage over time, a polarization series, exposed electrode area and uncertainty from independent reactors.</p></div>
+        <SectionLabel number="02.6">Results &amp; discussion</SectionLabel>
+        <div className="results-lead"><p className="journal-kicker">What the electrical record supports</p><h2>Voltage was observed; current was not measured.</h2><p>The maximum recorded electrical reading for the MFC operated with <i>Pseudomonas aeruginosa</i> was <b>1.21 mV</b>. Millivolts measure potential difference, not current. Because no external resistance was used and no independent current measurement or voltage time series is available, current, power and power density cannot be calculated responsibly.</p></div>
+        <div className="result-callouts"><article><strong>1.21</strong><span>mV / maximum Pseudomonas voltage reading</span></article><article><strong>24–48</strong><span>hours / MFC test duration</span></article><article><strong>None</strong><span>external load resistance</span></article></div>
+        <div className="discussion-note"><b>Interpretation.</b><p>The 1.21 mV value confirms a recorded potential difference under the stated configuration, but it should not be reported as current. A repeat experiment needs voltage over time and a known external resistor—or a direct current measurement—plus a polarization series, exposed electrode area and independent replicates.</p></div>
       </section>
       <section className="paper-spread halophile-growth-section">
-        <SectionLabel number="02.6">Growth kinetics of the halophile</SectionLabel>
-        <div className="halophile-growth-copy"><p className="journal-kicker">OD₆₀₀ / time in hours</p><h2>A complete four-phase growth profile.</h2><p>The original graph shows a short lag phase, sustained exponential growth, a peak OD₆₀₀ of approximately <b>1.40</b> around <b>50–52 h</b>, followed by decline to approximately <b>1.14</b> by the final recorded point near <b>77 h</b>.</p><div className="phase-list"><span><i>01</i>Lag / ≈0–8 h</span><span><i>02</i>Exponential / ≈8–50 h</span><span><i>03</i>Peak / ≈50–52 h</span><span><i>04</i>Decline / after ≈52 h</span></div><small>Values and phase boundaries are approximate readings from the archived graph because its raw table and replicate data were not embedded in the presentation.</small></div>
-        <figure><img src={image("halophile-growth-curve.png")} alt="Archived halophile growth curve showing lag, exponential, stationary and decline phases" /><figcaption><b>Figure 4.</b> Original halophile growth-kinetics graph from the college presentation. Image-derived values are kept distinct from measured spreadsheet data.</figcaption></figure>
+        <SectionLabel number="02.7">Growth kinetics of the halophile</SectionLabel>
+        <div className="halophile-growth-copy"><p className="journal-kicker">OD₆₀₀ / time in hours</p><h2>A complete four-phase growth profile.</h2><p>The archived graph shows a short lag phase, sustained exponential growth, a peak OD₆₀₀ of approximately <b>1.40</b> around <b>50–52 h</b>, followed by decline to approximately <b>1.14</b> by the final recorded point near <b>77 h</b>.</p><div className="phase-list"><span><i>01</i>Lag / ≈0–8 h</span><span><i>02</i>Exponential / ≈8–50 h</span><span><i>03</i>Peak / ≈50–52 h</span><span><i>04</i>Decline / after ≈52 h</span></div><small>Values and phase boundaries are approximate readings from the archived graph because its raw table and replicate data are unavailable. The documented halophile incubation window was 48–72 h at 37 °C.</small></div>
+        <figure><img src={image("halophile-growth-curve.png")} alt="Archived halophile growth curve showing lag, exponential, stationary and decline phases" /><figcaption><b>Figure 4.</b> Archived halophile growth-kinetics graph. Image-derived values are kept distinct from measured spreadsheet data.</figcaption></figure>
       </section>
       <section className="paper-spread morphology-section">
-        <SectionLabel number="02.7">Morphological characterization</SectionLabel>
+        <SectionLabel number="02.8">Morphological characterization</SectionLabel>
         <div className="character-heading"><p className="journal-kicker">Water isolate / salt isolate</p><h2>Two Gram-positive rod morphologies.</h2><p>Both preparations stained Gram-positive, but their cell arrangement and colony dimensions differed. These observations characterize phenotype only; they do not identify species.</p></div>
         <div className="micrograph-grid"><figure><img src={image("halophile-water-gram.png")} alt="Gram-stained microscopy image of the water isolate" /><figcaption><b>Water isolate.</b> Short rods; mostly discrete or scattered; moderate purple staining; high cell density.</figcaption></figure><figure><img src={image("halophile-salt-gram.png")} alt="Gram-stained microscopy image of the salt isolate" /><figcaption><b>Salt isolate.</b> Elongated bacilli; dense, interwoven arrangement; intense violet staining; very high cell density.</figcaption></figure></div>
         <div className="result-table morphology-table" role="table" aria-label="Morphological characterization of water and salt isolates"><div role="row"><b role="columnheader">Characteristic</b><b role="columnheader">Water isolate</b><b role="columnheader">Salt isolate</b></div>{[["Gram reaction","Positive","Positive"],["Cell form","Short rods","Elongated bacilli"],["Arrangement","Discrete / scattered","Dense / interwoven"],["Colony diameter","0.7 cm","0.9 cm"],["Colony form","Circular","Circular"],["Colony margin","Smooth","Smooth"]].map((row) => <div role="row" key={row[0]}>{row.map((cell) => <span role="cell" key={cell}>{cell}</span>)}</div>)}</div>
       </section>
       <section className="paper-spread biochemical-section">
-        <SectionLabel number="02.8">Biochemical characterization</SectionLabel>
-        <div className="character-heading"><p className="journal-kicker">Qualitative test panel</p><h2>The water isolate differed in catalase; the salt isolate differed in TSI.</h2><p>All remaining recorded reactions were negative for both isolates. “Indole red” reproduces the terminology in the original presentation.</p></div>
+        <SectionLabel number="02.9">Biochemical characterization</SectionLabel>
+        <div className="character-heading"><p className="journal-kicker">Qualitative test panel</p><h2>The water isolate differed in catalase; the salt isolate differed in TSI.</h2><p>All remaining recorded reactions were negative for both isolates. “Indole red” retains the terminology used in the experimental record.</p></div>
         <div className="result-table biochemical-table" role="table" aria-label="Biochemical test results"><div role="row"><b role="columnheader">Test</b><b role="columnheader">Water isolate</b><b role="columnheader">Salt isolate</b></div>{[["Catalase","Positive","Negative"],["Amylase / starch","Negative","Negative"],["Motility","Negative","Negative"],["Methyl red","Negative","Negative"],["Voges–Proskauer","Negative","Negative"],["Indole red","Negative","Negative"],["Citrate utilization","Negative","Negative"],["Triple sugar iron (TSI)","Negative","Positive"]].map((row) => <div role="row" key={row[0]}>{row.map((cell) => <span role="cell" className={cell === "Positive" ? "positive-result" : ""} key={cell}>{cell}</span>)}</div>)}</div>
         <div className="assay-gallery">
           {[["catalase-water.jpeg","Catalase / water isolate"],["catalase-salt.jpeg","Catalase / salt isolate"],["motility-test.jpeg","Motility test"],["methyl-red-test.jpeg","Methyl red test"],["voges-proskauer-test.jpeg","Voges–Proskauer test"],["indole-red-test.jpeg","Indole red test"],["citrate-test.jpeg","Citrate test"],["tsi-test.jpeg","TSI test"],["starch-water.jpeg","Starch / water isolate"],["starch-salt.jpeg","Starch / salt isolate"]].map(([file, label]) => <figure key={file}><img src={image(file)} alt={`${label} observation from the college experiment`} /><figcaption>{label}</figcaption></figure>)}
@@ -365,11 +383,11 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
         <div className="discussion-note"><b>Interpretation boundary.</b><p>The tests provide a preliminary phenotype, not a taxonomic conclusion. The next study should repeat the panel with controls and replicates, document incubation conditions, and add 16S rRNA sequencing or another validated molecular identification method.</p></div>
       </section>
       <section className="paper-spread growth-section historical-growth">
-        <SectionLabel number="02.9">Separate historical dataset</SectionLabel>
-        <div className="growth-heading"><p className="journal-kicker">Pseudomonas workbook</p><h2>Pseudomonas growth curve</h2><p>Maximum recorded absorbance: <b>0.71</b> at time values 25–29. Final recorded absorbance: <b>0.66</b> at time 50.</p></div>
+        <SectionLabel number="02.10">Separate Pseudomonas record</SectionLabel>
+        <div className="growth-heading"><p className="journal-kicker">Pseudomonas workbook</p><h2>Pseudomonas growth curve</h2><p>Maximum recorded absorbance: <b>0.71</b> at time values 25–29. Final recorded absorbance: <b>0.66</b> at time 50. The maximum observed MFC voltage associated with <i>Pseudomonas aeruginosa</i> was <b>1.21 mV</b>.</p></div>
         <figure><GrowthCurve /><figcaption><b>Figure 5.</b> Reconstructed from the supplied spreadsheet. Time units, measurement wavelength and replicate count remain unconfirmed, so this record is not merged with the halophile experiment.</figcaption></figure>
       </section>
-      <section className="paper-spread provenance-ledger"><SectionLabel number="02.10">Evidence provenance</SectionLabel>{[["Measured","Values retained in spreadsheet"],["Documented","Text or result recorded in presentation"],["Image-derived","Approximate value interpreted from graph or photograph"],["Missing","Required value absent from supplied record"]].map(([label, copy]) => <div key={label}><i className={`provenance-dot ${label.toLowerCase()}`} /><b>{label}</b><span>{copy}</span></div>)}</section>
+      <section className="paper-spread provenance-ledger"><SectionLabel number="02.11">Evidence status</SectionLabel>{[["Measured","Values retained in spreadsheet"],["Recorded","Condition or result retained in the experimental record"],["Image-derived","Approximate value interpreted from graph or photograph"],["Missing","Required value absent from the available record"]].map(([label, copy]) => <div key={label}><i className={`provenance-dot ${label.toLowerCase()}`} /><b>{label}</b><span>{copy}</span></div>)}</section>
       <NextArticle page="calculator" label="03 — MFC calculator" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>
