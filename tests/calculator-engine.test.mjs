@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculateMfc } from "../app/calculatorEngine.ts";
+import { calculateMfc, estimateBridgeResistanceOhm, sumCharacterizedResistanceOhm } from "../app/calculatorEngine.ts";
+import { interpretSubstrateConcentration } from "../app/calculatorResearch.ts";
 import { findEvidenceReference } from "../app/calculatorEvidence.ts";
 
 const base = {
@@ -42,6 +43,37 @@ test("open-circuit voltage is never substituted for loaded voltage", () => {
   assert.equal(result.currentMa, null);
   assert.equal(result.powerMw, null);
   assert.ok(result.warnings.some((warning) => warning.code === "OPEN_CIRCUIT_NO_LOAD"));
+});
+
+test("resistance projection uses OCV, Rext and total Rint without changing measured mode", () => {
+  const result = calculateMfc({
+    ...base,
+    calculationMode: "projected",
+    openCircuitVoltageV: 0.7,
+    externalResistanceOhm: 500,
+    internalResistanceOhm: 500,
+    areaCm2: 10,
+    areaBasis: "anode_geometric",
+  });
+  assert.equal(result.currentMa, 0.7);
+  assert.equal(result.loadVoltageV, 0.35);
+  assert.equal(result.powerMw, 0.245);
+  assert.equal(result.powerDensityMwM2, 245);
+  assert.equal(result.recommendedExternalResistanceOhm, 500);
+  assert.equal(result.confidence, "model_estimate");
+});
+
+test("salt bridge calculation is explicitly a bridge-only component", () => {
+  const bridge = estimateBridgeResistanceOhm({ conductivityMsCm: 1, lengthCm: 6, diameterCm: 1 });
+  assert.ok(Math.abs(bridge - 7639.437268410976) < 1e-9);
+  assert.equal(sumCharacterizedResistanceOhm([80, 120, 150, 100], 50, true), 500);
+});
+
+test("substrate concentration changes audited interpretation, not V/R arithmetic", () => {
+  const optimum = interpretSubstrateConcentration({ organism: "pseudomonas aeruginosa", substrate: "glucose", concentrationGL: 3, reactorArchitecture: "double_chamber" });
+  const inhibited = interpretSubstrateConcentration({ organism: "pseudomonas aeruginosa", substrate: "glucose", concentrationGL: 4, reactorArchitecture: "double_chamber" });
+  assert.equal(optimum.match, "strong");
+  assert.match(inhibited.headline, /inhibition/i);
 });
 
 test("unknown area basis blocks density while retaining electrical power", () => {

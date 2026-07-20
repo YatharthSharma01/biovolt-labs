@@ -13,6 +13,8 @@ export type EvidenceInputs = {
   salinityGL: number | null;
   temperatureC: number | null;
   ph: number | null;
+  substrateConcentrationGL?: number | null;
+  separator?: string;
 };
 
 export type EvidenceReference = {
@@ -60,18 +62,20 @@ function numericSimilarity(userValue: number | null, sourceValue: number | null,
 
 const configuredWeight = (inputs: EvidenceInputs, key: keyof EvidenceInputs) => {
   const value = inputs[key];
-  return value !== "" && value !== null;
+  return value !== "" && value !== null && value !== undefined;
 };
 
 function scoreRow(inputs: EvidenceInputs, row: (typeof auditRows)[number], target: "power" | "cod") {
   const weights = target === "power"
-    ? { reactor: 10, organism: 12, substrate: 12, anode: 10, cathode: 8, resistance: 14, salinity: 10, temperature: 5, ph: 5 }
-    : { reactor: 8, organism: 12, substrate: 14, anode: 5, cathode: 3, resistance: 5, salinity: 8, temperature: 6, ph: 6 };
+    ? { reactor: 10, organism: 12, substrate: 12, concentration: 8, separator: 5, anode: 10, cathode: 8, resistance: 14, salinity: 10, temperature: 5, ph: 5 }
+    : { reactor: 8, organism: 12, substrate: 14, concentration: 8, separator: 4, anode: 5, cathode: 3, resistance: 5, salinity: 8, temperature: 6, ph: 6 };
 
   const comparisons: Array<[number, boolean | number | null, boolean]> = [
     [weights.reactor, categoricalMatch(inputs.reactorArchitecture, row.reactor, "reactor"), configuredWeight(inputs, "reactorArchitecture")],
     [weights.organism, categoricalMatch(inputs.organism, row.microbe, "generic"), configuredWeight(inputs, "organism")],
     [weights.substrate, categoricalMatch(inputs.substrate, row.substrate, "generic"), configuredWeight(inputs, "substrate")],
+    [weights.concentration, numericSimilarity(inputs.substrateConcentrationGL ?? null, row.substrateConcentrationG_L, "linear", 2), configuredWeight(inputs, "substrateConcentrationGL")],
+    [weights.separator, categoricalMatch(inputs.separator ?? "", row.membrane, "generic"), configuredWeight(inputs, "separator")],
     [weights.anode, categoricalMatch(inputs.anodeMaterial, row.anode, "generic"), configuredWeight(inputs, "anodeMaterial")],
     [weights.cathode, categoricalMatch(inputs.cathodeMaterial, row.cathode, "generic"), configuredWeight(inputs, "cathodeMaterial")],
     [weights.resistance, numericSimilarity(inputs.externalResistanceOhm, row.externalResistanceOhm, "resistance", 0.8), configuredWeight(inputs, "externalResistanceOhm")],

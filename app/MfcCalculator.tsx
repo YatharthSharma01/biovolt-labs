@@ -10,14 +10,18 @@ import {
 } from "./BioVoltExperience";
 import {
   calculateMfc,
+  estimateBridgeResistanceOhm,
   parseOptionalNumber,
+  sumCharacterizedResistanceOhm,
   type AreaBasis,
   type CalculatorInputs,
   type LoadMode,
 } from "./calculatorEngine";
 import { findEvidenceReference, type EvidenceReference } from "./calculatorEvidence";
+import { interpretSubstrateConcentration, type ConcentrationEvidence } from "./calculatorResearch";
 
-type CalculatorMode = "measured" | "literature";
+type CalculatorMode = "measured" | "projected" | "literature";
+type InternalResistanceMethod = "direct" | "components";
 
 type FormState = {
   mode: CalculatorMode;
@@ -40,6 +44,21 @@ type FormState = {
   measuredCurrent: string;
   openCircuitVoltage: string;
   resistance: string;
+  separatorType: string;
+  bridgeElectrolyte: string;
+  bridgeSaltMolarity: string;
+  bridgeAgarPercent: string;
+  bridgeConductivity: string;
+  bridgeLengthCm: string;
+  bridgeDiameterCm: string;
+  internalResistanceMethod: InternalResistanceMethod;
+  internalResistance: string;
+  ohmicResistance: string;
+  anodeChargeTransferResistance: string;
+  cathodeChargeTransferResistance: string;
+  massTransportResistance: string;
+  otherResistance: string;
+  includeBridgeResistance: boolean;
   codIn: string;
   codOut: string;
   duration: string;
@@ -70,6 +89,21 @@ const initialState: FormState = {
   measuredCurrent: "",
   openCircuitVoltage: "",
   resistance: "",
+  separatorType: "agar_salt_bridge",
+  bridgeElectrolyte: "KNO3",
+  bridgeSaltMolarity: "",
+  bridgeAgarPercent: "",
+  bridgeConductivity: "",
+  bridgeLengthCm: "",
+  bridgeDiameterCm: "",
+  internalResistanceMethod: "direct",
+  internalResistance: "",
+  ohmicResistance: "",
+  anodeChargeTransferResistance: "",
+  cathodeChargeTransferResistance: "",
+  massTransportResistance: "",
+  otherResistance: "",
+  includeBridgeResistance: false,
   codIn: "",
   codOut: "",
   duration: "",
@@ -104,7 +138,22 @@ function canonicalNumber(value: string, multiplier = 1) {
 }
 
 function canonicalInputs(state: FormState): CalculatorInputs {
+  const bridgeResistanceOhm = estimateBridgeResistanceOhm({
+    conductivityMsCm: canonicalNumber(state.bridgeConductivity),
+    lengthCm: canonicalNumber(state.bridgeLengthCm),
+    diameterCm: canonicalNumber(state.bridgeDiameterCm),
+  });
+  const internalResistanceOhm = state.internalResistanceMethod === "direct"
+    ? canonicalNumber(state.internalResistance)
+    : sumCharacterizedResistanceOhm([
+      canonicalNumber(state.ohmicResistance),
+      canonicalNumber(state.anodeChargeTransferResistance),
+      canonicalNumber(state.cathodeChargeTransferResistance),
+      canonicalNumber(state.massTransportResistance),
+      canonicalNumber(state.otherResistance),
+    ], bridgeResistanceOhm, state.includeBridgeResistance);
   return {
+    calculationMode: state.mode === "projected" ? "projected" : "measured",
     loadMode: state.loadMode,
     loadedVoltageV: canonicalNumber(state.voltage, state.voltageUnit === "mV" ? 0.001 : 1),
     measuredCurrentMa: canonicalNumber(state.measuredCurrent, state.currentUnit === "A" ? 1000 : 1),
@@ -115,7 +164,15 @@ function canonicalInputs(state: FormState): CalculatorInputs {
     codInMgL: canonicalNumber(state.codIn),
     codOutMgL: canonicalNumber(state.codOut),
     durationHours: canonicalNumber(state.duration),
+    internalResistanceOhm,
+    bridgeResistanceOhm,
   };
+}
+
+function separatorDescriptor(state: FormState) {
+  if (state.separatorType === "agar_salt_bridge") return `agar salt bridge ${state.bridgeElectrolyte}`;
+  if (state.separatorType === "ion_exchange_membrane") return "ion exchange membrane";
+  return state.separatorType;
 }
 
 function Field({ id, label, help, children, wide = false }: {
@@ -190,11 +247,29 @@ function EvidenceCard({ reference }: { reference: EvidenceReference }) {
   );
 }
 
-function ResultPanel({ state, result, powerReference, codReference, full = false }: {
+function ConcentrationEvidenceCard({ evidence }: { evidence: ConcentrationEvidence }) {
+  const label = evidence.match === "strong" ? "Strong study match" : evidence.match === "eligible" ? "Eligible context" : evidence.match === "partial" ? "Partial match" : "Outside evidence";
+  return (
+    <article className={`calculator-evidence-card concentration-evidence concentration-evidence--${evidence.match}`}>
+      <div><span>Substrate concentration</span><b>{label}</b></div>
+      <h3>{evidence.headline}</h3>
+      <p>{evidence.message}</p>
+      <dl>
+        <div><dt>Benchmark</dt><dd>{evidence.benchmark}</dd></div>
+        <div><dt>Electrical effect</dt><dd>Context only</dd></div>
+        <div><dt>Model rule</dt><dd>No invented multiplier</dd></div>
+      </dl>
+      <a href={evidence.sourceUrl} target="_blank" rel="noreferrer">Ali et al. (2017) ↗</a>
+    </article>
+  );
+}
+
+function ResultPanel({ state, result, powerReference, codReference, concentrationEvidence, full = false }: {
   state: FormState;
   result: ReturnType<typeof calculateMfc>;
   powerReference: EvidenceReference;
   codReference: EvidenceReference;
+  concentrationEvidence: ConcentrationEvidence;
   full?: boolean;
 }) {
   const primary = result.powerDensityMwM2 ?? result.powerMw;
@@ -202,8 +277,8 @@ function ResultPanel({ state, result, powerReference, codReference, full = false
   return (
     <aside className={`calculator-results ${full ? "calculator-results--full" : ""}`} aria-live="polite">
       <div className="result-heading">
-        <span>Calculated / equation-derived</span>
-        <b>{result.method ? "Inputs active" : "Awaiting inputs"}</b>
+        <span>{state.mode === "projected" ? "Resistance-model estimate" : state.mode === "literature" ? "Evidence comparison" : "Calculated / equation-derived"}</span>
+        <b>{result.method ? result.confidence === "measured" ? "Measured inputs" : "Model estimate" : "Awaiting inputs"}</b>
       </div>
       <div className="result-primary">
         <small>{result.powerDensityMwM2 !== null ? "Power density" : "Electrical power"}</small>
@@ -214,12 +289,20 @@ function ResultPanel({ state, result, powerReference, codReference, full = false
       <div className="result-grid">
         <span><small>Current</small><b>{displayNumber(result.currentMa, 3)}</b><i>mA</i></span>
         <span><small>Current density</small><b>{displayNumber(result.currentDensityMaM2, 2)}</b><i>mA/m²</i></span>
+        <span><small>Load voltage</small><b>{displayNumber(result.loadVoltageV, 3)}</b><i>V</i></span>
+        <span><small>Total Rint used</small><b>{displayNumber(result.internalResistanceOhm, 1)}</b><i>Ω</i></span>
         <span><small>COD removal</small><b>{displayNumber(result.codRemovalPercent, 2)}</b><i>%</i></span>
         <span><small>Energy</small><b>{displayNumber(result.energyMwh, 3)}</b><i>mWh</i></span>
       </div>
       {result.method && <p className="result-method">{result.method}</p>}
+      {result.recommendedExternalResistanceOhm !== null && (
+        <div className="resistance-readout"><span>Idealized peak-load region</span><b>Rext ≈ {displayNumber(result.recommendedExternalResistanceOhm, 1)} Ω</b><small>The simplified linear model peaks near Rext = Rint. Verify with a polarization sweep.</small></div>
+      )}
+      {result.bridgeResistanceOhm !== null && (
+        <div className="bridge-readout"><span>Bridge-only estimate</span><b>{displayNumber(result.bridgeResistanceOhm, 1)} Ω</b><small>Bulk ionic path from L/(κA); not total cell internal resistance.</small></div>
+      )}
       {canonicalInputs(state).openCircuitVoltageV !== null && (
-        <div className="ocv-readout"><span>Open-circuit voltage</span><b>{displayNumber(canonicalInputs(state).openCircuitVoltageV, 3)} V</b><small>Displayed separately; not used in power.</small></div>
+        <div className="ocv-readout"><span>Open-circuit voltage</span><b>{displayNumber(canonicalInputs(state).openCircuitVoltageV, 3)} V</b><small>{state.mode === "projected" ? "Used only in the resistance projection." : "Displayed separately; not used in measured power."}</small></div>
       )}
       {result.warnings.length > 0 && (
         <div className="calculator-warnings">
@@ -232,6 +315,7 @@ function ResultPanel({ state, result, powerReference, codReference, full = false
           <EvidenceCard reference={codReference} />
         </div>
       )}
+      {state.organism && state.substrate && <ConcentrationEvidenceCard evidence={concentrationEvidence} />}
     </aside>
   );
 }
@@ -260,9 +344,17 @@ export function CalculatorView({ staticMode = false }: { staticMode?: boolean })
     salinityGL: canonicalNumber(state.salinity),
     temperatureC: canonicalNumber(state.temperature),
     ph: canonicalNumber(state.ph),
+    substrateConcentrationGL: canonicalNumber(state.substrateConcentration),
+    separator: separatorDescriptor(state),
   }), [state, inputs.externalResistanceOhm]);
   const powerReference = useMemo(() => findEvidenceReference(evidenceInputs, "power"), [evidenceInputs]);
   const codReference = useMemo(() => findEvidenceReference(evidenceInputs, "cod"), [evidenceInputs]);
+  const concentrationEvidence = useMemo(() => interpretSubstrateConcentration({
+    organism: state.organism,
+    substrate: state.substrate,
+    concentrationGL: canonicalNumber(state.substrateConcentration),
+    reactorArchitecture: state.reactorArchitecture,
+  }), [state.organism, state.substrate, state.substrateConcentration, state.reactorArchitecture]);
 
   const validationForStep = (currentStep: number) => {
     const nextErrors: string[] = [];
@@ -278,6 +370,12 @@ export function CalculatorView({ staticMode = false }: { staticMode?: boolean })
       if (state.mode === "measured" && state.loadMode === "resistor") {
         const supplied = [inputs.loadedVoltageV, inputs.measuredCurrentMa, inputs.externalResistanceOhm].filter((value) => value !== null).length;
         if (supplied < 2) nextErrors.push("Enter at least two electrical measurements: loaded voltage, measured current or resistance.");
+      }
+      if (state.mode === "projected") {
+        if (state.loadMode !== "resistor") nextErrors.push("Resistance projection requires external-resistor mode.");
+        if (!inputs.openCircuitVoltageV || inputs.openCircuitVoltageV <= 0) nextErrors.push("Enter a positive stabilized open-circuit voltage.");
+        if (!inputs.externalResistanceOhm || inputs.externalResistanceOhm <= 0) nextErrors.push("Enter a positive candidate external resistance.");
+        if (!inputs.internalResistanceOhm || inputs.internalResistanceOhm <= 0) nextErrors.push("Enter measured total internal resistance or characterized resistance components.");
       }
       if (state.mode === "literature" && state.loadMode === "resistor" && (!inputs.externalResistanceOhm || inputs.externalResistanceOhm <= 0)) {
         nextErrors.push("Enter a positive external resistance for literature comparison.");
@@ -307,22 +405,22 @@ export function CalculatorView({ staticMode = false }: { staticMode?: boolean })
       <SiteHeader active="calculator" staticMode={staticMode} />
       <PageMasthead
         number="03"
-        kicker="Measured equations / evidence-gated comparison"
+        kicker="Measured equations / resistance-aware projection / evidence gate"
         title="Measure first. Compare responsibly."
-        abstract="Calculate current, power, density, energy and COD removal from MFC measurements, then compare the configuration with audited literature without turning a single paper into an AI prediction."
+        abstract="Calculate measured performance, examine the salt-bridge contribution, test a transparent internal-resistance scenario and compare the configuration with audited literature."
       />
 
       <section className="calculator-ledger" aria-label="Calculator evidence policy">
         <div><span>Calculated</span><strong>Physical equations</strong></div>
         <div><span>Referenced</span><strong>Audited conditions</strong></div>
-        <div><span>Estimates</span><strong>Disabled by evidence gate</strong></div>
+        <div><span>Modelled</span><strong>Transparent circuit estimate</strong></div>
         <div><span>Data handling</span><strong>Runs in your browser</strong></div>
       </section>
 
       <section className="paper-spread calculator-workspace">
         <SectionLabel number="03.1">MFC calculation workspace / beta 0.1</SectionLabel>
         <div className="calculator-toolbar">
-          <div><p className="journal-kicker">Single-cell calculator</p><h2>Five steps, one traceable result.</h2><p>Unknown values remain blank. Open-circuit voltage, loaded voltage and literature values are kept separate.</p></div>
+          <div><p className="journal-kicker">Single-cell calculator</p><h2>Five steps, one traceable result.</h2><p>Unknown values remain blank. Measured voltage, modelled resistance and literature evidence are kept separate.</p></div>
           <div><button type="button" onClick={loadExample}>Load validation example</button><button type="button" onClick={() => { setState(initialState); setStep(0); setFurthestStep(0); setErrors([]); }}>Reset</button></div>
         </div>
 
@@ -340,9 +438,10 @@ export function CalculatorView({ staticMode = false }: { staticMode?: boolean })
           <form className="calculator-form" onSubmit={(event) => event.preventDefault()}>
             {step === 0 && (
               <section className="calculator-step-panel" aria-labelledby="calculator-step-system">
-                <div className="step-heading"><span>01 / System</span><h2 id="calculator-step-system">Choose how the result should be produced.</h2><p>The measured path calculates from your values. The literature path adds a separate cited comparison.</p></div>
+                <div className="step-heading"><span>01 / System</span><h2 id="calculator-step-system">Choose how the result should be produced.</h2><p>Measured performance, resistance projection and literature comparison remain separate evidence lanes.</p></div>
                 <div className="mode-grid">
                   <button type="button" aria-pressed={state.mode === "measured"} className={state.mode === "measured" ? "is-active" : ""} onClick={() => update("mode", "measured")}><span>Calculated</span><b>Calculate from measurements</b><p>Use loaded voltage, resistance, current, area and COD measurements.</p></button>
+                  <button type="button" aria-pressed={state.mode === "projected"} className={state.mode === "projected" ? "is-active" : ""} onClick={() => { setState((current) => ({ ...current, mode: "projected", loadMode: "resistor" })); setErrors([]); }}><span>Modelled</span><b>Project with internal resistance</b><p>Use stabilized OCV, a candidate load and measured or characterized total Rint.</p></button>
                   <button type="button" aria-pressed={state.mode === "literature"} className={state.mode === "literature" ? "is-active" : ""} onClick={() => update("mode", "literature")}><span>Referenced</span><b>Compare with literature</b><p>Describe the reactor and receive one audited reference or a refusal.</p></button>
                 </div>
                 <div className="calculator-field-grid">
@@ -411,20 +510,55 @@ export function CalculatorView({ staticMode = false }: { staticMode?: boolean })
 
             {step === 3 && (
               <section className="calculator-step-panel" aria-labelledby="calculator-step-operation">
-                <div className="step-heading"><span>04 / Operation &amp; measurements</span><h2 id="calculator-step-operation">Enter what was measured under load.</h2><p>The formula path needs two electrical measurements. COD and duration unlock treatment and energy results.</p></div>
+                <div className="step-heading"><span>04 / Operation &amp; measurements</span><h2 id="calculator-step-operation">Document the ionic path and electrical evidence.</h2><p>Measured results and resistance projections use different equations. Separator geometry estimates only its bulk ionic contribution.</p></div>
                 <div className="calculator-field-grid">
-                  <Field id="loaded-voltage" label="Loaded voltage" help="Voltage measured while the stated external resistance is connected—not open-circuit voltage.">
-                    <UnitInput id="loaded-voltage" value={state.voltage} onChange={(value) => update("voltage", value)} unit={state.voltageUnit} onUnitChange={(value) => update("voltageUnit", value as FormState["voltageUnit"])} units={["V", "mV"]} min="0" describedBy="loaded-voltage-help" disabled={state.loadMode !== "resistor"} />
+                  <div className="calculator-subsection-heading calculator-field--wide"><span>Separator / salt bridge</span><p>These fields identify the proton or ion transport path and support a bridge-only resistance estimate.</p></div>
+                  <Field id="separator-type" label="Separator type">
+                    <select id="separator-type" value={state.separatorType} onChange={(event) => update("separatorType", event.target.value)}><option value="agar_salt_bridge">Agar salt bridge</option><option value="ion_exchange_membrane">Ion-exchange membrane</option><option value="membraneless">Membraneless</option><option value="other">Other / not reported</option></select>
                   </Field>
-                  <Field id="resistance" label="External resistance">
+                  <Field id="bridge-electrolyte" label="Bridge electrolyte">
+                    <select id="bridge-electrolyte" value={state.bridgeElectrolyte} onChange={(event) => update("bridgeElectrolyte", event.target.value)} disabled={state.separatorType !== "agar_salt_bridge"}><option value="KNO3">KNO₃</option><option value="KCl">KCl</option><option value="NaCl">NaCl</option><option value="other">Other</option></select>
+                  </Field>
+                  <Field id="bridge-molarity" label="Electrolyte concentration"><UnitInput id="bridge-molarity" value={state.bridgeSaltMolarity} onChange={(value) => update("bridgeSaltMolarity", value)} unit="mol/L" min="0" disabled={state.separatorType !== "agar_salt_bridge"} /></Field>
+                  <Field id="bridge-agar" label="Agar concentration"><UnitInput id="bridge-agar" value={state.bridgeAgarPercent} onChange={(value) => update("bridgeAgarPercent", value)} unit="% w/v" min="0" disabled={state.separatorType !== "agar_salt_bridge"} /></Field>
+                  <Field id="bridge-conductivity" label="Measured bridge conductivity" help="Use conductivity of the prepared gel/electrolyte, not an unrelated chamber measurement."><UnitInput id="bridge-conductivity" value={state.bridgeConductivity} onChange={(value) => update("bridgeConductivity", value)} unit="mS/cm" min="0" disabled={state.separatorType !== "agar_salt_bridge"} describedBy="bridge-conductivity-help" /></Field>
+                  <Field id="bridge-length" label="Bridge length"><UnitInput id="bridge-length" value={state.bridgeLengthCm} onChange={(value) => update("bridgeLengthCm", value)} unit="cm" min="0" disabled={state.separatorType !== "agar_salt_bridge"} /></Field>
+                  <Field id="bridge-diameter" label="Internal diameter"><UnitInput id="bridge-diameter" value={state.bridgeDiameterCm} onChange={(value) => update("bridgeDiameterCm", value)} unit="cm" min="0" disabled={state.separatorType !== "agar_salt_bridge"} /></Field>
+                  <div className="calculator-contract bridge-contract"><span>Bridge-only estimate</span><b>{displayNumber(inputs.bridgeResistanceOhm, 1)} Ω</b><p>Rbridge = L/(κA). This is not total MFC internal resistance.</p></div>
+
+                  <div className="calculator-subsection-heading calculator-field--wide"><span>Electrical measurements</span><p>{state.mode === "projected" ? "Projection requires stabilized OCV, a candidate load and total internal resistance." : "Measured power requires two compatible loaded-circuit observations."}</p></div>
+                  <Field id="loaded-voltage" label="Loaded voltage" help="Voltage measured while the stated external resistance is connected—not open-circuit voltage.">
+                    <UnitInput id="loaded-voltage" value={state.voltage} onChange={(value) => update("voltage", value)} unit={state.voltageUnit} onUnitChange={(value) => update("voltageUnit", value as FormState["voltageUnit"])} units={["V", "mV"]} min="0" describedBy="loaded-voltage-help" disabled={state.loadMode !== "resistor" || state.mode === "projected"} />
+                  </Field>
+                  <Field id="resistance" label={state.mode === "projected" ? "Candidate external resistance" : "External resistance"}>
                     <UnitInput id="resistance" value={state.resistance} onChange={(value) => update("resistance", value)} unit={state.resistanceUnit} onUnitChange={(value) => update("resistanceUnit", value as FormState["resistanceUnit"])} units={["Ω", "kΩ"]} min="0" disabled={state.loadMode !== "resistor"} />
                   </Field>
                   <Field id="measured-current" label="Measured current" help="When voltage and resistance are also present, the calculator checks consistency with V/R.">
-                    <UnitInput id="measured-current" value={state.measuredCurrent} onChange={(value) => update("measuredCurrent", value)} unit={state.currentUnit} onUnitChange={(value) => update("currentUnit", value as FormState["currentUnit"])} units={["mA", "A"]} min="0" describedBy="measured-current-help" disabled={state.loadMode !== "resistor"} />
+                    <UnitInput id="measured-current" value={state.measuredCurrent} onChange={(value) => update("measuredCurrent", value)} unit={state.currentUnit} onUnitChange={(value) => update("currentUnit", value as FormState["currentUnit"])} units={["mA", "A"]} min="0" describedBy="measured-current-help" disabled={state.loadMode !== "resistor" || state.mode === "projected"} />
                   </Field>
-                  <Field id="ocv" label="Open-circuit voltage" help="Stored and displayed separately. It never replaces loaded voltage.">
+                  <Field id="ocv" label="Open-circuit voltage" help={state.mode === "projected" ? "Required after stabilization for the simplified resistance model." : "Stored and displayed separately. It never replaces loaded voltage."}>
                     <UnitInput id="ocv" value={state.openCircuitVoltage} onChange={(value) => update("openCircuitVoltage", value)} unit={state.voltageUnit} onUnitChange={(value) => update("voltageUnit", value as FormState["voltageUnit"])} units={["V", "mV"]} min="0" describedBy="ocv-help" />
                   </Field>
+                  {state.mode === "projected" && (
+                    <>
+                      <div className="calculator-subsection-heading calculator-field--wide"><span>Total internal resistance</span><p>Prefer a value measured from a polarization curve or operational EIS. Component mode is for documented effective values near one operating point.</p></div>
+                      <Field id="rint-method" label="Rint evidence method">
+                        <select id="rint-method" value={state.internalResistanceMethod} onChange={(event) => update("internalResistanceMethod", event.target.value as InternalResistanceMethod)}><option value="direct">Measured total Rint</option><option value="components">Sum characterized components</option></select>
+                      </Field>
+                      {state.internalResistanceMethod === "direct" ? (
+                        <Field id="internal-resistance" label="Measured total internal resistance" help="Do not enter bridge resistance here unless the measurement represents the whole operating cell."><UnitInput id="internal-resistance" value={state.internalResistance} onChange={(value) => update("internalResistance", value)} unit="Ω" min="0" describedBy="internal-resistance-help" /></Field>
+                      ) : (
+                        <>
+                          <Field id="ohmic-resistance" label="Electrolyte + contacts"><UnitInput id="ohmic-resistance" value={state.ohmicResistance} onChange={(value) => update("ohmicResistance", value)} unit="Ω" min="0" /></Field>
+                          <Field id="anode-resistance" label="Anode charge transfer"><UnitInput id="anode-resistance" value={state.anodeChargeTransferResistance} onChange={(value) => update("anodeChargeTransferResistance", value)} unit="Ω" min="0" /></Field>
+                          <Field id="cathode-resistance" label="Cathode charge transfer"><UnitInput id="cathode-resistance" value={state.cathodeChargeTransferResistance} onChange={(value) => update("cathodeChargeTransferResistance", value)} unit="Ω" min="0" /></Field>
+                          <Field id="transport-resistance" label="Effective mass transport"><UnitInput id="transport-resistance" value={state.massTransportResistance} onChange={(value) => update("massTransportResistance", value)} unit="Ω" min="0" /></Field>
+                          <Field id="other-resistance" label="Other characterized loss"><UnitInput id="other-resistance" value={state.otherResistance} onChange={(value) => update("otherResistance", value)} unit="Ω" min="0" /></Field>
+                          <label className="calculator-checkbox calculator-field--wide"><input type="checkbox" checked={state.includeBridgeResistance} onChange={(event) => update("includeBridgeResistance", event.target.checked)} /><span>Include the bridge-only estimate in the characterized-component sum</span></label>
+                        </>
+                      )}
+                    </>
+                  )}
                   <Field id="cod-in" label="Initial COD"><UnitInput id="cod-in" value={state.codIn} onChange={(value) => update("codIn", value)} unit="mg/L" min="0" /></Field>
                   <Field id="cod-out" label="Final COD"><UnitInput id="cod-out" value={state.codOut} onChange={(value) => update("codOut", value)} unit="mg/L" min="0" /></Field>
                   <Field id="duration" label="Experiment duration"><UnitInput id="duration" value={state.duration} onChange={(value) => update("duration", value)} unit="h" min="0" /></Field>
@@ -434,13 +568,13 @@ export function CalculatorView({ staticMode = false }: { staticMode?: boolean })
 
             {step === 4 && (
               <section className="calculator-step-panel calculator-step-panel--results" aria-labelledby="calculator-step-results">
-                <div className="step-heading"><span>05 / Results</span><h2 id="calculator-step-results">A result with its method attached.</h2><p>Calculated values take precedence. Literature evidence remains a separate reference layer.</p></div>
+                <div className="step-heading"><span>05 / Results</span><h2 id="calculator-step-results">A result with its method attached.</h2><p>Measurements take precedence. Resistance projections and literature evidence remain clearly labelled, separate layers.</p></div>
                 <div className="result-methodology">
                   <article><span>01</span><b>Calculated</b><p>Derived from your entered measurements and physical equations.</p></article>
-                  <article><span>02</span><b>Literature reference</b><p>One closest eligible condition with its citation and limitations.</p></article>
-                  <article><span>03</span><b>Literature estimate</b><p>Disabled because no current domain has enough independent studies.</p></article>
+                  <article><span>02</span><b>Resistance projection</b><p>Derived from stabilized OCV, external load and measured or characterized total Rint.</p></article>
+                  <article><span>03</span><b>Literature context</b><p>Audited condition, concentration region and citation; never substituted for your result.</p></article>
                 </div>
-                <details className="formula-register"><summary>Show formulas and scientific boundary</summary><p><code>I = V/R</code> · <code>P = V²/R</code> · <code>J = I/A</code> · <code>PD = P/A</code> · <code>COD removal = (CODin − CODout) / CODin × 100</code></p><p>This version does not estimate internal resistance, coulombic efficiency, stack output or biological multipliers.</p></details>
+                <details className="formula-register"><summary>Show formulas and scientific boundary</summary><p><code>I = V/Rext</code> · <code>P = V²/Rext</code> · <code>Iprojected = OCV/(Rext + Rint)</code> · <code>Rbridge = L/(κA)</code> · <code>COD removal = (CODin − CODout) / CODin × 100</code></p><p>Bridge resistance is not total internal resistance. The resistance projection is a simplified local circuit model, and substrate concentration is not converted into a universal biological multiplier.</p></details>
               </section>
             )}
 
@@ -450,13 +584,13 @@ export function CalculatorView({ staticMode = false }: { staticMode?: boolean })
             </div>
           </form>
 
-          <ResultPanel state={state} result={result} powerReference={powerReference} codReference={codReference} />
+          <ResultPanel state={state} result={result} powerReference={powerReference} codReference={codReference} concentrationEvidence={concentrationEvidence} />
         </div>
       </section>
 
       <section className="paper-spread calculator-evidence-policy">
         <SectionLabel number="03.2">Phase 2 evidence boundary</SectionLabel>
-        <div><p className="journal-kicker">Current evidence gate</p><h2>References are available. Predictions are not.</h2><p>Sixteen literature conditions were reviewed. Two public halophile-acetate conditions can support power matching and eight target-specific conditions can support COD references. No domain is cleared for a pooled estimate or confidence interval.</p></div>
+        <div><p className="journal-kicker">Current evidence gate</p><h2>References inform the model; they do not impersonate measurements.</h2><p>Sixteen literature conditions support controlled comparisons. The resistance projection is a physical circuit estimate, while substrate-concentration findings remain configuration-specific evidence rather than a universal power multiplier.</p></div>
         <aside><span><b>2</b>Power match-ready conditions</span><span><b>8</b>COD match-ready conditions</span><span><b>0</b>Estimate-ready domains</span></aside>
       </section>
 

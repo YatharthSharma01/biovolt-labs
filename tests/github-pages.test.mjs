@@ -64,7 +64,10 @@ test("calculator bundle includes measured equations and evidence refusal languag
   const bundle = await readFile(`github-dist/${scriptPath.slice(2)}`, "utf8");
   for (const phrase of [
     "Calculate from measurements",
+    "Project with internal resistance",
     "Compare with literature",
+    "Bridge-only estimate",
+    "No invented multiplier",
     "Outside evidence domain",
     "No numerical estimate produced",
     "OPEN_CIRCUIT_NO_LOAD",
