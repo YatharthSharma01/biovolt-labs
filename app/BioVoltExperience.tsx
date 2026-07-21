@@ -550,7 +550,7 @@ function TwinControls() {
   return (
     <div className="twin-console">
       <form>{controls.map((control) => <label key={control.key}><span>{control.label}<b>{simulation[control.key]} {control.unit}</b></span><input type="range" min={control.min} max={control.max} step={control.step} value={simulation[control.key]} onChange={(e) => setSimulation({ ...simulation, [control.key]: Number(e.target.value) })} /></label>)}</form>
-      <div className="twin-results"><p className="journal-kicker">Synthetic response / not trained</p><div><span><small>Power density</small><strong>{result.power}</strong><i>mW/m²</i></span><span><small>COD removal</small><strong>{result.cod}</strong><i>%</i></span></div><p className="interval">Illustrative interval <b>{result.low}—{result.high} mW/m²</b></p><aside><b>Model boundary</b><p>These values demonstrate interface behavior only. They are not derived from the historical experiment.</p></aside></div>
+      <div className="twin-results"><p className="journal-kicker">Synthetic response / not trained</p><div><span><small>Power density</small><strong>{result.power}</strong><i>mW/m²</i></span><span><small>COD removal</small><strong>{result.cod}</strong><i>%</i></span></div><p className="interval">Illustrative interval <b>{result.low}—{result.high} mW/m²</b></p><aside><b>Model boundary</b><p>These values demonstrate interface behavior only. They are not derived from the laboratory experiment.</p></aside></div>
     </div>
   );
 }
@@ -560,7 +560,7 @@ export function DigitalTwinView({ staticMode = false }: { staticMode?: boolean }
     <main className="site-shell paper-page">
       <SiteHeader active="twin" staticMode={staticMode} />
       <PageMasthead number="04" kicker="Predictive system preview / transparent by design" title="Intelligence for living electricity." abstract="The planned intelligence layer will predict power density and COD removal, detect anomalies and recommend experiments—while displaying uncertainty and evidence boundaries beside every output." />
-      <section className="paper-spread twin-section"><SectionLabel number="04.1">Interactive demonstration</SectionLabel><div className="twin-intro"><h2>Explore an illustrative response surface.</h2><p>Adjust the controls to test the product interaction. The mathematical response is synthetic and deliberately labelled so it cannot be mistaken for a trained scientific model.</p></div><TwinControls /></section>
+      <section className="paper-spread twin-section"><SectionLabel number="04.1">Demonstration</SectionLabel><div className="twin-intro"><h2>Explore an illustrative response surface.</h2><p>Adjust the controls to test the product interaction. The mathematical response is synthetic and deliberately labelled so it cannot be mistaken for a trained scientific model.</p></div><TwinControls /></section>
       <section className="paper-spread system-architecture"><SectionLabel number="04.2">System architecture</SectionLabel><div className="architecture-flow">{[['01','Inputs','pH, temperature, resistance, HRT'],['02','Evidence layer','Experiments + verified literature'],['03','Prediction','Power density + COD removal'],['04','Explanation','Intervals + feature importance'],['05','Decision','Recommended next experiment']].map(([num, title, copy]) => <article key={num}><span>{num}</span><h2>{title}</h2><p>{copy}</p></article>)}</div></section>
       <section className="paper-spread model-output-grid">
         <SectionLabel number="04.3">Planned outputs</SectionLabel>
