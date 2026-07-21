@@ -353,7 +353,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
       <section className="paper-spread electrode-layout">
         <SectionLabel number="02.5">Electrode record</SectionLabel>
         <div className="electrode-copy"><p className="journal-kicker">Material note</p><h2>Graphite rod electrodes</h2><p>In MFCs, the anode material plays a major factor in deciding the system's power density [Tikam Chand Dakal et al,.2025]. The cathode material directly dominates the kinetics of oxygen reduction reaction (ORR) in the cathode chamber [Nabil. K. Abd-Elrahman et al,.2022].</p>
-          <p>Graphite is a crystalline form of carbon whose biocompatibility, strength, and large surface area make it an effective MFC anode material, supporting good energy generation and pollutant removal [Nabil. K. Abd-Elrahman et al,.2022].</p><div className="note"><b>Action required</b><span>Using graphite rods can increase the electrode’s surface area, promoting efficient microbial adhesion and biofilm formation.</span></div></div>
+          <p>Graphite is a crystalline form of carbon whose biocompatibility, strength, and large surface area make it an effective MFC anode material, supporting good energy generation and pollutant removal [Nabil. K. Abd-Elrahman et al,.2022].</p><div className="note"><b>Note</b><span>Using graphite rods can increase the electrode’s surface area, promoting efficient microbial adhesion and biofilm formation.</span></div></div>
         <figure><img src={image("graphite-electrodes.png")} alt="Pair of pointed graphite rod electrodes" /><figcaption><b>Figure 3.</b> Graphite electrodes used in the experiment.</figcaption></figure>
       </section>
       <section className="paper-spread results-section">

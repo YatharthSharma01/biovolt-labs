@@ -100,4 +100,5 @@ test("experiment page includes the revised operating record", async () => {
   assert.doesNotMatch(bundle, /Scope note/);
   assert.doesNotMatch(bundle, /Partially complete/);
   assert.doesNotMatch(bundle, /Evidence status/);
+  assert.doesNotMatch(bundle, /Action required/);
 });
