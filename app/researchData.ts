@@ -109,7 +109,7 @@ export const papers: PaperRecord[] = [
       "Membrane additives may improve proton transport or limit oxygen crossover, but stability and cost must be evaluated.",
     ],
     relevance: "Provides a future materials branch for electrode optimization and explains why surface area alone is not enough to describe an electrode.",
-    caveat: "Performance gains depend on fabrication method and reactor context; they are not directly transferable to the historical graphite-rod MFC.",
+    caveat: "Performance gains depend on fabrication method and reactor context; they are not directly transferable to the laboratory graphite-rod MFC.",
     sourcePages: "Supplied PDF 4; article pp. 1–28",
   },
   {

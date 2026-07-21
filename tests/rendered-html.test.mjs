@@ -38,6 +38,8 @@ test("server-renders the BioVolt Labs cover", async () => {
   assert.match(html, /Research/);
   assert.match(html, /Experiment/);
   assert.match(html, /Digital twin/);
+  assert.match(html, /laboratory experiments/);
+  assert.doesNotMatch(html, /historical evidence|historical experiments/i);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
@@ -91,7 +93,10 @@ test("publishes the complete literature register and researcher profile", async 
   assert.doesNotMatch(homeHtml, />Registry</);
 
   const about = await render("/about");
-  assert.match(await about.text(), /linkedin\.com\/in\/yatharth-sharma-a13395288/);
+  const aboutHtml = await about.text();
+  assert.match(aboutHtml, /linkedin\.com\/in\/yatharth-sharma-a13395288/);
+  assert.match(aboutHtml, /laboratory experiment is a production-ready digital twin/i);
+  assert.doesNotMatch(aboutHtml, /historical evidence/i);
 });
 
 test("removes the starter preview and ships project metadata", async () => {

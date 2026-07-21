@@ -1,7 +1,7 @@
 # BioVolt Labs
 
 BioVolt Labs is an interactive microbial fuel cell (MFC) research platform. The
-current public release connects Yatharth Sharma's historical college experiment,
+current public release connects Yatharth Sharma's laboratory experiment,
 a citation-ready evidence library and a clearly labelled digital-twin
 demonstration.
 
@@ -13,7 +13,7 @@ demonstration.
 - Research-paper-inspired editorial design and figure system
 - Researcher-authored MFC introduction with preserved citation keys
 - Literature register with 12 core MFC papers and 2 supporting records, including a COD-removal benchmark study
-- Historical apparatus and electrode documentation
+- Laboratory apparatus and electrode documentation
 - Pseudomonas growth-curve visualization
 - Research-paper evidence cards with verification status
 - Illustrative operating-condition simulator
@@ -85,4 +85,4 @@ are not treated as interchangeable model-training rows.
 
 ## Author
 
-Historical experimental work: [Yatharth Sharma](https://www.linkedin.com/in/yatharth-sharma-a13395288/).
+Laboratory work: [Yatharth Sharma](https://www.linkedin.com/in/yatharth-sharma-a13395288/).

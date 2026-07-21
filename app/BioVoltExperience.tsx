@@ -163,7 +163,7 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
         <div className="hero-copy">
           <p className="hero-volume">Bioelectrochemical systems / Vol. 01</p>
           <h1>From microbial<br />metabolism to<br /><em>measurable electricity.</em></h1>
-          <p className="hero-deck">A research-led microbial fuel cell platform connecting evidence, historical experiments and an explainable digital twin.</p>
+          <p className="hero-deck">A research-led microbial fuel cell platform connecting evidence, laboratory experiments and an explainable digital twin.</p>
           <div className="hero-actions">
             <a className="button button-light" href={pageHref("experiment", staticMode)}>Read the experiment <span>↗</span></a>
             <a className="button button-outline" href={pageHref("calculator", staticMode)}>Open calculator <span>↗</span></a>
@@ -210,7 +210,7 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
         <div className="directory-grid">
           {navItems.slice(1).map((item, index) => (
             <a key={item.key} href={pageHref(item.key, staticMode)}>
-              <span>{item.issue}</span><p>{index === 0 ? "Literature register" : index === 1 ? "Historical laboratory record" : index === 2 ? "Measured equations + cited evidence" : index === 3 ? "Predictive system preview" : "Project method & roadmap"}</p><h2>{item.label}</h2><i>Read article ↗</i>
+              <span>{item.issue}</span><p>{index === 0 ? "Literature register" : index === 1 ? "Laboratory experiment record" : index === 2 ? "Measured equations + cited evidence" : index === 3 ? "Predictive system preview" : "Project method & roadmap"}</p><h2>{item.label}</h2><i>Read article ↗</i>
             </a>
           ))}
         </div>
@@ -219,7 +219,7 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
       <section className="paper-spread evidence-feature">
         <SectionLabel number="00.4">Development sequence</SectionLabel>
         <figure className="process-figure"><img src={staticMode ? "images/mfc-development-process-v2.png" : "/images/mfc-development-process-v2.png"} alt="Development process for double-chamber microbial fuel cell" /><figcaption><b>Figure 1.</b> Development sequence: graphite electrodes, KNO3–agar salt bridge, bacterial inoculation, completed MFC and voltage measurement.</figcaption></figure>
-        <div className="feature-copy"><p className="journal-kicker">Experimental workflow</p><h2>From components to measurable voltage.</h2><p>The figure records the practical sequence used to construct the historical double-chamber MFC. The complete apparatus and its recovered metadata are documented on the experiment page.</p><a href={pageHref("experiment", staticMode)}>Open the full experimental record <span>↗</span></a></div>
+        <div className="feature-copy"><p className="journal-kicker">Experimental workflow</p><h2>From components to measurable voltage.</h2><p>The figure records the practical sequence used to construct the laboratory double-chamber MFC. The complete apparatus and its recorded metadata are documented on the experiment page.</p><a href={pageHref("experiment", staticMode)}>Open the full experimental record <span>↗</span></a></div>
       </section>
       <SiteFooter staticMode={staticMode} />
     </main>
@@ -344,7 +344,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
       </section>
       <section className="paper-spread apparatus-layout">
         <SectionLabel number="02.4">Reactor apparatus</SectionLabel>
-        <figure className="apparatus-figure"><img src={image("historical-mfc-setup.png")} alt="Historical double-chamber MFC apparatus" /><figcaption><b>Figure 2.</b> The experimental setup for a double chamber Microbial Fuel Cell.</figcaption></figure>
+        <figure className="apparatus-figure"><img src={image("historical-mfc-setup.png")} alt="Laboratory double-chamber MFC apparatus" /><figcaption><b>Figure 2.</b> The experimental setup for a double chamber Microbial Fuel Cell.</figcaption></figure>
         <div className="apparatus-spec">
           <p className="journal-kicker">Recorded configuration</p><h2>Double-chamber architecture</h2>
           <dl><div><dt>Anode</dt><dd>280 mL halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>280 mL of 0.6 mM KMnO₄ + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>Water + KNO₃ + agar salt bridge</dd></div><div><dt>Temperature</dt><dd>37 °C</dd></div><div><dt>Test window</dt><dd>72 hours</dd></div><div><dt>External load</dt><dd>No external resistance used</dd></div><div><dt>Measurement</dt><dd>Voltage every 1 hour for the first 6 hours, then every 6 hours through 72 hours; raw time series not retained</dd></div></dl>
@@ -413,7 +413,7 @@ const blankRegistryDraft: RegistryDraft = {
 const historicalRegistryDraft: RegistryDraft = {
   ...blankRegistryDraft,
   experimentCode: "COLLEGE-MFC-001",
-  title: "Historical Sambhar Lake halophile MFC",
+  title: "Sambhar Lake halophile laboratory MFC",
   status: "archived",
   provenance: "documented",
   organism: "Halophilic environmental isolate; species unresolved",
@@ -504,7 +504,7 @@ export function RegistryView({ staticMode = false }: { staticMode?: boolean }) {
       </section>
       <section className="paper-spread registry-form-section">
         <SectionLabel number="03.3">Prepare an experiment record</SectionLabel>
-        <div className="registry-form-intro"><p className="journal-kicker">Manual entry / no upload</p><h2>Create a standardized CSV row.</h2><p>This public form processes the draft only in your browser and downloads a CSV; it does not transmit or permanently save the record. The FastAPI service in the public source provides SQLite storage when the research workspace is run locally.</p><div className="registry-actions"><button type="button" onClick={() => setDraft(historicalRegistryDraft)}>Load historical MFC draft</button><button type="button" onClick={() => setDraft(blankRegistryDraft)}>Clear form</button></div></div>
+        <div className="registry-form-intro"><p className="journal-kicker">Manual entry / no upload</p><h2>Create a standardized CSV row.</h2><p>This public form processes the draft only in your browser and downloads a CSV; it does not transmit or permanently save the record. The FastAPI service in the public source provides SQLite storage when the research workspace is run locally.</p><div className="registry-actions"><button type="button" onClick={() => setDraft(historicalRegistryDraft)}>Load laboratory MFC draft</button><button type="button" onClick={() => setDraft(blankRegistryDraft)}>Clear form</button></div></div>
         <form className="registry-form" onSubmit={(event) => event.preventDefault()}>
           <div className="registry-core-fields">
             <label><span>Experiment code</span><input value={draft.experimentCode} onChange={(event) => update("experimentCode", event.target.value)} required /></label>
@@ -567,7 +567,7 @@ export function DigitalTwinView({ staticMode = false }: { staticMode?: boolean }
           ['Power-density prediction','Gradient-boosting regression with grouped validation.'],['COD-removal prediction','Treatment outcome with calibrated intervals.'],['Anomaly detection','Sensor drift, sudden decline and domain warnings.'],['Fouling alert','Evidence-led performance decline classification.'],['Feature importance','SHAP or permutation importance after validation.'],['Next experiment','Constrained recommendation, never unrestricted optimization.']
         ].map(([title, copy], i) => <article key={title}><span>{String(i + 1).padStart(2,'0')}</span><h2>{title}</h2><p>{copy}</p></article>)}
       </section>
-      <section className="paper-spread recommendation-panel"><SectionLabel number="04.4">Recommended next experiment</SectionLabel><div><p className="journal-kicker">Current recommendation / data acquisition</p><h2>Repeat the historical configuration with complete metadata.</h2><p>Record voltage over time, external resistance, exposed electrode area, temperature, pH, conductivity, COD before and after treatment, HRT and inoculum details. This creates the first trustworthy training row.</p></div><aside><b>Priority 01</b><span>Recover electrode dimensions</span><b>Priority 02</b><span>Confirm growth-curve units</span><b>Priority 03</b><span>Collect a polarization series</span></aside></section>
+      <section className="paper-spread recommendation-panel"><SectionLabel number="04.4">Recommended next experiment</SectionLabel><div><p className="journal-kicker">Current recommendation / data acquisition</p><h2>Repeat the laboratory configuration with complete metadata.</h2><p>Record voltage over time, external resistance, exposed electrode area, temperature, pH, conductivity, COD before and after treatment, HRT and inoculum details. This creates the first trustworthy training row.</p></div><aside><b>Priority 01</b><span>Recover electrode dimensions</span><b>Priority 02</b><span>Confirm growth-curve units</span><b>Priority 03</b><span>Collect a polarization series</span></aside></section>
       <NextArticle page="about" label="05 — Project method" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>
@@ -579,7 +579,7 @@ export function AboutView({ staticMode = false }: { staticMode?: boolean }) {
     <main className="site-shell paper-page">
       <SiteHeader active="about" staticMode={staticMode} />
       <PageMasthead number="05" kicker="Project method / open research infrastructure" title="Build slowly enough to remain scientifically useful." abstract="BioVolt Labs is a flagship project whose credibility will be built on traceable evidence, disciplined data collection, and models that clearly acknowledge uncertainty." />
-      <section className="paper-spread manifesto"><SectionLabel number="05.1">Manifesto</SectionLabel><p>BioVolt Labs should feel advanced without pretending that sparse historical evidence is a production-ready digital twin. The platform therefore separates the research archive, experimental record and predictive layer—and keeps their provenance visible.</p><aside><span>01</span><b>Evidence before automation.</b><span>02</span><b>Uncertainty before certainty.</b><span>03</span><b>Reproducibility before scale.</b></aside></section>
+      <section className="paper-spread manifesto"><SectionLabel number="05.1">Manifesto</SectionLabel><p>BioVolt Labs should feel advanced without pretending that a laboratory experiment is a production-ready digital twin. The platform therefore separates the research archive, experimental record and predictive layer—and keeps their provenance visible.</p><aside><span>01</span><b>Evidence before automation.</b><span>02</span><b>Uncertainty before certainty.</b><span>03</span><b>Reproducibility before scale.</b></aside></section>
       <section className="paper-spread roadmap"><SectionLabel number="05.2">Development roadmap</SectionLabel>{[
         ['Now','Research platform','Multipage evidence library, recovered experiment and synthetic twin interface.'],['Next','Data foundation','Verified papers, normalized experiment schema and manual data entry.'],['Then','Validated models','Grouped cross-validation, intervals, importance and anomaly detection.'],['Later','Live MFC','ESP32 sensing, streaming dashboard, alerts and controlled recommendations.']
       ].map(([phase, title, copy], index) => <article key={phase}><span>{String(index + 1).padStart(2,'0')}</span><p>{phase}</p><h2>{title}</h2><div><i /><p>{copy}</p></div></article>)}</section>

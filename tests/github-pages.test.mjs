@@ -33,6 +33,8 @@ test("static navigation points to every research article", async () => {
   assert.doesNotMatch(bundle, /Literature-audit stage/);
   assert.match(bundle, /BioVolt Labs/);
   assert.doesNotMatch(bundle, /BioVolt AI/);
+  assert.match(bundle, /laboratory experiments/);
+  assert.doesNotMatch(bundle, /historical evidence|historical experiments|Historical laboratory record/i);
 });
 
 test("historical MFC images are included in the static artifact", async () => {
