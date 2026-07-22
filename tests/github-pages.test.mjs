@@ -34,6 +34,8 @@ test("static navigation points to every research article", async () => {
   assert.doesNotMatch(bundle, /Literature-audit stage/);
   assert.match(bundle, /BioVolt Labs/);
   assert.doesNotMatch(bundle, /BioVolt AI/);
+  assert.match(bundle, /github\.com\/YatharthSharma01\/biovolt-labs/);
+  assert.doesNotMatch(bundle, /github\.com\/YatharthSharma01\/biovolt-ai/);
   assert.match(bundle, /laboratory experiments/);
   assert.doesNotMatch(bundle, /historical evidence|historical experiments|Historical laboratory record/i);
 });

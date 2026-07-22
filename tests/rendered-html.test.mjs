@@ -114,6 +114,8 @@ test("publishes the complete literature register and researcher profile", async 
   const about = await render("/about");
   const aboutHtml = await about.text();
   assert.match(aboutHtml, /linkedin\.com\/in\/yatharth-sharma-a13395288/);
+  assert.match(aboutHtml, /github\.com\/YatharthSharma01\/biovolt-labs/);
+  assert.doesNotMatch(aboutHtml, /github\.com\/YatharthSharma01\/biovolt-ai/);
   assert.match(aboutHtml, /laboratory experiment is a production-ready digital twin/i);
   assert.doesNotMatch(aboutHtml, /historical evidence/i);
 });

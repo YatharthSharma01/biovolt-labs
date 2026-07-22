@@ -5,6 +5,9 @@ current public release connects Yatharth Sharma's laboratory experiment,
 a citation-ready evidence library and a clearly labelled digital-twin
 demonstration.
 
+- Public website: https://yatharthsharma01.github.io/biovolt-labs/
+- Public source: https://github.com/YatharthSharma01/biovolt-labs
+
 ## Current capabilities
 
 - Full-viewport animated double-chamber MFC cover
