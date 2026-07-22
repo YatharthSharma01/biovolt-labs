@@ -81,17 +81,25 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /1\.21 mV/);
   assert.match(experimentHtml, /≈0\.56% \(v\/v\)/);
   assert.match(experimentHtml, /No voltage time-series dataset is available/);
-  assert.match(experimentHtml, /72 hours/);
+  assert.match(experimentHtml, /72 hours is not treated as a completed condition or a standard/);
   assert.match(experimentHtml, /external circuit provides the pathway for electron flow/i);
-  assert.match(experimentHtml, /Protocol timeline/);
-  assert.match(experimentHtml, /18 scheduled time points/);
-  assert.match(experimentHtml, /biovolt-labs-72-hour-mfc-template\.xlsx/);
+  assert.match(experimentHtml, /Uploaded-paper audit \/ selectable protocol/);
+  assert.match(experimentHtml, /No universal duration/);
+  assert.match(experimentHtml, /ALI-2017-HOURLY/);
+  assert.match(experimentHtml, /VIJAY-2018-5DAY/);
+  assert.match(experimentHtml, /biovolt-labs-literature-backed-mfc-workbook\.xlsx/);
   assert.match(experimentHtml, /should not be described as oxygen reduction/);
   assert.doesNotMatch(experimentHtml, /presentation/i);
   assert.doesNotMatch(experimentHtml, /Scope note/);
   assert.doesNotMatch(experimentHtml, /Partially complete/);
   assert.doesNotMatch(experimentHtml, /Evidence status/);
   assert.doesNotMatch(experimentHtml, /Action required/);
+  assert.doesNotMatch(experimentHtml, /biovolt-labs-72-hour-mfc-template\.xlsx/);
+
+  const twin = await render("/digital-twin");
+  const twinHtml = await twin.text();
+  assert.match(twinHtml, /Choose the evidence-compatible clock/);
+  assert.match(twinHtml, /cannot assume that every reactor follows one 72-hour window/);
 
   const home = await render();
   const homeHtml = await home.text();

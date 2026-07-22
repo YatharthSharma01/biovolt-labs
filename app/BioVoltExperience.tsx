@@ -4,6 +4,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { papers, type PaperKind } from "./researchData";
+import { monitoringProtocols, proposedMeasurementContract } from "./monitoringProtocols";
 
 export type PageKey = "home" | "research" | "experiment" | "calculator" | "twin" | "about";
 
@@ -303,6 +304,36 @@ function GrowthCurve() {
   return <canvas ref={canvasRef} className="growth-canvas" role="img" aria-label="Pseudomonas growth curve rising to 0.71 around time 25 to 29, then declining to 0.66 at time 50." />;
 }
 
+function MonitoringProtocolExplorer({ showContract = true }: { showContract?: boolean }) {
+  const [activeId, setActiveId] = useState(monitoringProtocols[2].id);
+  const active = monitoringProtocols.find((profile) => profile.id === activeId) ?? monitoringProtocols[2];
+  return (
+    <div className="monitoring-evidence">
+      <div className="monitoring-evidence-heading">
+        <p className="journal-kicker">Uploaded-paper audit / selectable protocol</p>
+        <h3>No universal duration.</h3>
+        <p>Select the profile that matches the scientific objective. Each option preserves the timing and measurement language of its source paper, including intervals the authors did not specify.</p>
+      </div>
+      <nav aria-label="Literature monitoring profiles">
+        {monitoringProtocols.map((profile) => <button type="button" key={profile.id} className={profile.id === active.id ? "active" : ""} aria-pressed={profile.id === active.id} onClick={() => setActiveId(profile.id)}><span>{profile.shortLabel}</span><small>{profile.id}</small></button>)}
+      </nav>
+      <article className="monitoring-profile">
+        <header><span>{active.id}</span><h3>{active.title}</h3><p>{active.bestFor}</p></header>
+        <dl>
+          <div><dt>Timeline</dt><dd>{active.timeline}</dd></div>
+          <div><dt>Electrical record</dt><dd>{active.electrical}</dd></div>
+          <div><dt>Chemistry</dt><dd>{active.chemistry}</dd></div>
+          <div><dt>Load plan</dt><dd>{active.loadPlan}</dd></div>
+          <div><dt>Replication</dt><dd>{active.replication}</dd></div>
+        </dl>
+        <aside><b>Transfer boundary</b><p>{active.boundary}</p></aside>
+        <footer><span>{active.sourceFile}</span><a href={active.doi} target="_blank" rel="noreferrer">{active.source} ↗</a></footer>
+      </article>
+      {showContract && <div className="measurement-contract"><p className="journal-kicker">Proposed BioVolt measurement contract</p><ol>{proposedMeasurementContract.map((rule, index) => <li key={rule}><span>{String(index + 1).padStart(2, "0")}</span><p>{rule}</p></li>)}</ol><small>This contract combines traceable practices from multiple papers. It is a proposed protocol, not a claim that any one paper used the complete combination.</small></div>}
+    </div>
+  );
+}
+
 export function ExperimentView({ staticMode = false }: { staticMode?: boolean }) {
   const image = (file: string) => staticMode ? `images/${file}` : `/images/${file}`;
   return (
@@ -321,7 +352,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <article><span>Anodic chamber</span><strong>280 mL</strong><p>Halophilic broth</p></article>
           <article><span>Cathodic chamber</span><strong>280 mL</strong><p>0.6 mM KMnO₄ solution</p></article>
           <article><span>Temperature</span><strong>37 °C</strong><p>Culture incubation condition</p></article>
-          <article><span>MFC test duration</span><strong>72 h</strong><p>Voltage every hour for the first 6 h, then every 6 h</p></article>
+          <article><span>MFC test duration</span><strong>Incomplete</strong><p>End time and sampling interval were not established</p></article>
           <article><span>Halophile incubation in broth</span><strong>48–72 h</strong><p>Before use in the MFC</p></article>
           <article><span>External resistance</span><strong>None</strong><p>No external load resistor was used</p></article>
         </div>
@@ -329,10 +360,10 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <div><p className="journal-kicker">Inoculum preparation</p><h3>1 mL inoculum + 179 mL culture medium</h3><p>One millilitre of halophilic broth was added to 179 mL of halophilic culture medium, giving a final mixture volume of approximately 180 mL.</p></div>
           <dl><div><dt>Inoculum size</dt><dd>≈0.56% (v/v)</dd></div><div><dt>Inoculum : medium</dt><dd>1:179</dd></div><div><dt>Calculation</dt><dd>1 ÷ 180 × 100</dd></div></dl>
         </div>
-        <div className="data-boundary"><b>Electrical data boundary</b><p>No voltage time-series dataset is available. The retained values are single observed readings, so stability, peak timing, rate of decline and energy production cannot be reconstructed.</p></div>
+        <div className="data-boundary"><b>Electrical data boundary</b><p>The previous MFC test was incomplete. No voltage time-series dataset is available. Its duration and sampling interval cannot be reconstructed, so 72 hours is not treated as a completed condition or a standard.</p></div>
         <div className="data-template-callout">
-          <div><p className="journal-kicker">Data-ready repeat experiment</p><h3>Use the 72-hour measurement workbook.</h3><p>The template separates raw observations from formula-derived current, power and power density, includes the complete recording schedule, and leaves unknown values blank.</p></div>
-          <a href={staticMode ? "downloads/biovolt-labs-72-hour-mfc-template.xlsx" : "/downloads/biovolt-labs-72-hour-mfc-template.xlsx"} download>Download .xlsx <span>↓</span></a>
+          <div><p className="journal-kicker">Data-ready repeat experiment</p><h3>Use the literature-backed monitoring workbook.</h3><p>The template provides five source-specific protocol profiles, a configurable measurement plan and separate raw and calculated sheets. It does not predeclare a universal run duration.</p></div>
+          <a href={staticMode ? "downloads/biovolt-labs-literature-backed-mfc-workbook.xlsx" : "/downloads/biovolt-labs-literature-backed-mfc-workbook.xlsx"} download>Download .xlsx <span>↓</span></a>
         </div>
       </section>
       <section className="paper-spread method-section">
@@ -342,7 +373,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <article><span>01</span><h3>Sample collection</h3><p>Water and salt samples were collected from Sambhar Lake, Rajasthan, as the environmental source of salt-tolerant microorganisms.</p><small>Environmental inoculum source</small></article>
           <article><span>02</span><h3>Selective cultivation</h3><p>Samples were cultured on Mueller–Hinton agar containing 7.5% NaCl and mannitol motility agar containing 5% NaCl.</p><small>37 °C / halophile incubation 24-48 h</small></article>
           <article><span>03</span><h3>Isolation &amp; screening</h3><p>Distinct colonies were subcultured to obtain pure isolates, followed by microscopy, colony morphology and biochemical tests.</p><small>Species identity not established</small></article>
-          <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in 280 mL of halophilic broth at the anode and 280 mL of 0.6 mM KMnO₄ at the cathode, joined by a water–KNO₃–agar salt bridge.</p><small>72 h test / scheduled voltage readings / no external resistor</small></article>
+          <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in 280 mL of halophilic broth at the anode and 280 mL of 0.6 mM KMnO₄ at the cathode, joined by a water–KNO₃–agar salt bridge.</p><small>Incomplete test / no retained time series / no external resistor</small></article>
         </div>
         <div className="protocol-timeline" aria-label="Experimental protocol timeline">
           <div className="protocol-timeline-heading"><p className="journal-kicker">Repeatable sequence</p><h3>Protocol timeline</h3><p>Each time window is attached to the stage it describes so cultivation, broth incubation and electrical monitoring are not confused.</p></div>
@@ -352,9 +383,10 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
             <li><span>03</span><div><b>Prepare inoculum</b><p>Add 1 mL broth culture to 179 mL medium.</p></div><small>≈0.56% v/v / 1:179</small></li>
             <li><span>04</span><div><b>Incubate broth</b><p>Develop the halophilic culture before reactor use.</p></div><small>37 °C / 48–72 h</small></li>
             <li><span>05</span><div><b>Assemble reactor</b><p>Prepare the 280 mL anode, 280 mL cathode and KNO₃–agar bridge.</p></div><small>0.6 mM KMnO₄ catholyte</small></li>
-            <li><span>06</span><div><b>Monitor MFC</b><p>Record at 0–6 h hourly, then every 6 h through 72 h.</p></div><small>18 scheduled time points</small></li>
+            <li><span>06</span><div><b>Electrical test</b><p>A single voltage reading was retained, but the planned duration and interval were not established.</p></div><small>Incomplete laboratory record</small></li>
           </ol>
         </div>
+        <MonitoringProtocolExplorer />
         <div className="reaction-strip"><p><b>Anode / generic carbohydrate</b>CH₂O + H₂O → CO₂ + 4H⁺ + 4e⁻</p><p><b>Cathode / acidic permanganate</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p><small>Illustrative half-reactions only. The retained record does not establish the broth composition or catholyte pH required for a complete reaction balance.</small></div>
         <div className="circuit-note"><b>Circuit function</b><p>The electrochemical reactions establish the potential difference. The external circuit provides the pathway for electron flow, while the internal circuit—the salt bridge—allows ionic transport, maintains charge balance and sustains the electrochemical gradient between the chambers.</p></div>
       </section>
@@ -363,7 +395,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
         <figure className="apparatus-figure"><img src={image("historical-mfc-setup.png")} alt="Laboratory double-chamber MFC apparatus" /><figcaption><b>Figure 2.</b> The experimental setup for a double chamber Microbial Fuel Cell.</figcaption></figure>
         <div className="apparatus-spec">
           <p className="journal-kicker">Recorded configuration</p><h2>Double-chamber architecture</h2>
-          <dl><div><dt>Anode</dt><dd>280 mL halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>280 mL of 0.6 mM KMnO₄ + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>Water + KNO₃ + agar salt bridge</dd></div><div><dt>Temperature</dt><dd>37 °C</dd></div><div><dt>Test window</dt><dd>72 hours</dd></div><div><dt>External load</dt><dd>No external resistance used</dd></div><div><dt>Measurement</dt><dd>Voltage every 1 hour for the first 6 hours, then every 6 hours through 72 hours; raw time series not retained</dd></div></dl>
+          <dl><div><dt>Anode</dt><dd>280 mL halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>280 mL of 0.6 mM KMnO₄ + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>Water + KNO₃ + agar salt bridge</dd></div><div><dt>Temperature</dt><dd>37 °C culture condition</dd></div><div><dt>Test window</dt><dd>Incomplete; duration not established</dd></div><div><dt>External load</dt><dd>No external resistance used</dd></div><div><dt>Measurement</dt><dd>One maximum voltage reading retained; no time series or sampling interval</dd></div></dl>
         </div>
       </section>
       <section className="paper-spread electrode-layout">
@@ -375,7 +407,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
       <section className="paper-spread results-section">
         <SectionLabel number="02.6">Results &amp; discussion</SectionLabel>
         <div className="results-lead"><p className="journal-kicker">What the electrical record supports</p><h2>Voltage was observed; current was not measured.</h2><p>The maximum recorded electrical reading for the MFC operated with <i>Pseudomonas aeruginosa</i> was <b>1.21 mV</b>. Millivolts measure potential difference, not current. Because no external resistance was used and no independent current measurement or voltage time series is available, current, power and power density cannot be calculated responsibly.</p></div>
-        <div className="result-callouts"><article><strong>1.21</strong><span>mV / maximum Pseudomonas voltage reading</span></article><article><strong>72</strong><span>hours / MFC test duration</span></article><article><strong>None</strong><span>external load resistance</span></article></div>
+        <div className="result-callouts"><article><strong>1.21</strong><span>mV / maximum Pseudomonas voltage reading</span></article><article><strong>Unknown</strong><span>test duration / incomplete record</span></article><article><strong>None</strong><span>external load resistance</span></article></div>
         <div className="discussion-note"><b>Interpretation.</b><p>The 1.21 mV value confirms a recorded potential difference under the stated configuration, but it should not be reported as current. A repeat experiment needs voltage over time and a known external resistor—or a direct current measurement—plus a polarization series, exposed electrode area and independent replicates.</p></div>
       </section>
       <section className="paper-spread halophile-growth-section">
@@ -576,14 +608,15 @@ export function DigitalTwinView({ staticMode = false }: { staticMode?: boolean }
       <SiteHeader active="twin" staticMode={staticMode} />
       <PageMasthead number="04" kicker="Predictive system preview / transparent by design" title="Intelligence for living electricity." abstract="The planned intelligence layer will predict power density and COD removal, detect anomalies and recommend experiments—while displaying uncertainty and evidence boundaries beside every output." />
       <section className="paper-spread twin-section"><SectionLabel number="04.1">Demonstration</SectionLabel><div className="twin-intro"><h2>Explore an illustrative response surface.</h2><p>Adjust the controls to test the product interaction. The mathematical response is synthetic and deliberately labelled so it cannot be mistaken for a trained scientific model.</p></div><TwinControls /></section>
-      <section className="paper-spread system-architecture"><SectionLabel number="04.2">System architecture</SectionLabel><div className="architecture-flow">{[['01','Inputs','pH, temperature, resistance, HRT'],['02','Evidence layer','Experiments + verified literature'],['03','Prediction','Power density + COD removal'],['04','Explanation','Intervals + feature importance'],['05','Decision','Recommended next experiment']].map(([num, title, copy]) => <article key={num}><span>{num}</span><h2>{title}</h2><p>{copy}</p></article>)}</div></section>
+      <section className="paper-spread twin-protocol-section"><SectionLabel number="04.2">Monitoring contract</SectionLabel><div className="twin-intro"><h2>Choose the evidence-compatible clock.</h2><p>The digital twin must inherit the experiment&apos;s actual circuit states, feed events, cycles and timestamps. It cannot assume that every reactor follows one 72-hour window.</p></div><MonitoringProtocolExplorer showContract={false} /></section>
+      <section className="paper-spread system-architecture"><SectionLabel number="04.3">System architecture</SectionLabel><div className="architecture-flow">{[['01','Inputs','Timestamped measurements + protocol state'],['02','Evidence layer','Experiments + verified literature'],['03','Prediction','Power density + COD removal'],['04','Explanation','Intervals + feature importance'],['05','Decision','Recommended next experiment']].map(([num, title, copy]) => <article key={num}><span>{num}</span><h2>{title}</h2><p>{copy}</p></article>)}</div></section>
       <section className="paper-spread model-output-grid">
-        <SectionLabel number="04.3">Planned outputs</SectionLabel>
+        <SectionLabel number="04.4">Planned outputs</SectionLabel>
         {[
           ['Power-density prediction','Gradient-boosting regression with grouped validation.'],['COD-removal prediction','Treatment outcome with calibrated intervals.'],['Anomaly detection','Sensor drift, sudden decline and domain warnings.'],['Fouling alert','Evidence-led performance decline classification.'],['Feature importance','SHAP or permutation importance after validation.'],['Next experiment','Constrained recommendation, never unrestricted optimization.']
         ].map(([title, copy], i) => <article key={title}><span>{String(i + 1).padStart(2,'0')}</span><h2>{title}</h2><p>{copy}</p></article>)}
       </section>
-      <section className="paper-spread recommendation-panel"><SectionLabel number="04.4">Recommended next experiment</SectionLabel><div><p className="journal-kicker">Current recommendation / data acquisition</p><h2>Repeat the laboratory configuration with complete metadata.</h2><p>Record voltage over time, external resistance, exposed electrode area, temperature, pH, conductivity, COD before and after treatment, HRT and inoculum details. This creates the first trustworthy training row.</p></div><aside><b>Priority 01</b><span>Recover electrode dimensions</span><b>Priority 02</b><span>Confirm growth-curve units</span><b>Priority 03</b><span>Collect a polarization series</span></aside></section>
+      <section className="paper-spread recommendation-panel"><SectionLabel number="04.5">Recommended next experiment</SectionLabel><div><p className="journal-kicker">Current recommendation / protocol selection</p><h2>Select the objective before selecting the duration.</h2><p>For the closest Sambhar Lake analogue, begin from the cited 5-day fed-batch profile, add automated electrical logging and document every deviation. Use the hourly short-batch profile only when the objective is Pseudomonas substrate response.</p></div><aside><b>Priority 01</b><span>Select one literature profile</span><b>Priority 02</b><span>Define stabilization and stop rules</span><b>Priority 03</b><span>Approve controls and replicates</span></aside></section>
       <NextArticle page="about" label="05 — Project method" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>

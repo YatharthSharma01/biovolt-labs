@@ -49,7 +49,7 @@ test("historical MFC images are included in the static artifact", async () => {
     access("github-dist/images/catalase-water.jpeg"),
     access("github-dist/images/tsi-test.jpeg"),
     access("github-dist/og.png"),
-    access("github-dist/downloads/biovolt-labs-72-hour-mfc-template.xlsx"),
+    access("github-dist/downloads/biovolt-labs-literature-backed-mfc-workbook.xlsx"),
   ]);
 });
 
@@ -83,7 +83,7 @@ test("calculator bundle includes measured equations and evidence refusal languag
   ]) assert.match(bundle, new RegExp(phrase));
 });
 
-test("experiment page includes the revised operating record", async () => {
+test("experiment page separates the incomplete record from literature monitoring profiles", async () => {
   const html = await readFile("github-dist/experiment.html", "utf8");
   const scriptPath = html.match(/src="(\.\/assets\/[^\"]+\.js)"/)?.[1];
   assert.ok(scriptPath);
@@ -93,7 +93,6 @@ test("experiment page includes the revised operating record", async () => {
     "280 mL",
     "0.6 mM KMnO₄",
     "37 °C",
-    "72 h",
     "48–72 h",
     "≈0.56% (v/v)",
     "1:179",
@@ -101,10 +100,14 @@ test("experiment page includes the revised operating record", async () => {
     "No external resistance used",
     "1.21 mV",
     "Millivolts measure potential difference, not current",
-    "Voltage every 1 hour for the first 6 hours, then every 6 hours through 72 hours",
+    "72 hours is not treated as a completed condition or a standard",
     "The external circuit provides the pathway for electron flow",
-    "Protocol timeline",
-    "18 scheduled time points",
+    "Uploaded-paper audit / selectable protocol",
+    "No universal duration",
+    "ALI-2017-HOURLY",
+    "VIJAY-2018-5DAY",
+    "different intervals, but the exact interval was not reported",
+    "test duration / incomplete record",
     "Download .xlsx",
     "should not be described as oxygen reduction",
     "Exposed area cannot be reconstructed responsibly",
@@ -113,6 +116,7 @@ test("experiment page includes the revised operating record", async () => {
   assert.doesNotMatch(bundle, /Partially complete/);
   assert.doesNotMatch(bundle, /Evidence status/);
   assert.doesNotMatch(bundle, /Action required/);
+  assert.doesNotMatch(bundle, /biovolt-labs-72-hour-mfc-template\.xlsx/);
 });
 
 test("research register exposes the corrected 2018 authors and standardized citation", async () => {
