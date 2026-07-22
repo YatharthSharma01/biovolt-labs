@@ -304,15 +304,15 @@ function GrowthCurve() {
   return <canvas ref={canvasRef} className="growth-canvas" role="img" aria-label="Pseudomonas growth curve rising to 0.71 around time 25 to 29, then declining to 0.66 at time 50." />;
 }
 
-function MonitoringProtocolExplorer({ showContract = true }: { showContract?: boolean }) {
+function MonitoringProtocolExplorer({ showContract = true, experimentMode = false }: { showContract?: boolean; experimentMode?: boolean }) {
   const [activeId, setActiveId] = useState(monitoringProtocols[2].id);
   const active = monitoringProtocols.find((profile) => profile.id === activeId) ?? monitoringProtocols[2];
   return (
     <div className="monitoring-evidence">
       <div className="monitoring-evidence-heading">
         <p className="journal-kicker">Uploaded-paper audit / selectable protocol</p>
-        <h3>No universal duration.</h3>
-        <p>Select the profile that matches the scientific objective. Each option preserves the timing and measurement language of its source paper, including intervals the authors did not specify.</p>
+        <h3>{experimentMode ? "Select a monitoring profile." : "No universal duration."}</h3>
+        <p>{experimentMode ? "Choose the paper-based profile that best matches the scientific objective. Each option preserves the timing and measurement language reported by its source." : "Select the profile that matches the scientific objective. Each option preserves the timing and measurement language of its source paper, including intervals the authors did not specify."}</p>
       </div>
       <nav aria-label="Literature monitoring profiles">
         {monitoringProtocols.map((profile) => <button type="button" key={profile.id} className={profile.id === active.id ? "active" : ""} aria-pressed={profile.id === active.id} onClick={() => setActiveId(profile.id)}><span>{profile.shortLabel}</span><small>{profile.id}</small></button>)}
@@ -386,7 +386,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
             <li><span>06</span><div><b>Electrical test</b><p>A single voltage reading was retained, but the planned duration and interval were not established.</p></div><small>Incomplete laboratory record</small></li>
           </ol>
         </div>
-        <MonitoringProtocolExplorer />
+        <MonitoringProtocolExplorer showContract={false} experimentMode />
         <div className="reaction-strip"><p><b>Anode / generic carbohydrate</b>CH₂O + H₂O → CO₂ + 4H⁺ + 4e⁻</p><p><b>Cathode / acidic permanganate</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p><small>Illustrative half-reactions only. The retained record does not establish the broth composition or catholyte pH required for a complete reaction balance.</small></div>
         <div className="circuit-note"><b>Circuit function</b><p>The electrochemical reactions establish the potential difference. The external circuit provides the pathway for electron flow, while the internal circuit—the salt bridge—allows ionic transport, maintains charge balance and sustains the electrochemical gradient between the chambers.</p></div>
       </section>

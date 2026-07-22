@@ -84,7 +84,9 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /72 hours is not treated as a completed condition or a standard/);
   assert.match(experimentHtml, /external circuit provides the pathway for electron flow/i);
   assert.match(experimentHtml, /Uploaded-paper audit \/ selectable protocol/);
-  assert.match(experimentHtml, /No universal duration/);
+  assert.match(experimentHtml, /Select a monitoring profile/);
+  assert.doesNotMatch(experimentHtml, /No universal duration/);
+  assert.doesNotMatch(experimentHtml, /Proposed BioVolt measurement contract/);
   assert.match(experimentHtml, /ALI-2017-HOURLY/);
   assert.match(experimentHtml, /VIJAY-2018-5DAY/);
   assert.match(experimentHtml, /biovolt-labs-literature-backed-mfc-workbook\.xlsx/);
@@ -100,6 +102,7 @@ test("publishes the complete literature register and researcher profile", async 
   const twinHtml = await twin.text();
   assert.match(twinHtml, /Choose the evidence-compatible clock/);
   assert.match(twinHtml, /cannot assume that every reactor follows one 72-hour window/);
+  assert.match(twinHtml, /No universal duration/);
 
   const home = await render();
   const homeHtml = await home.text();
