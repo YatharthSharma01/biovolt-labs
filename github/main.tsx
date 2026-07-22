@@ -5,7 +5,6 @@ import {
   DigitalTwinView,
   ExperimentView,
   HomeView,
-  ProtocolView,
   ResearchView,
   type PageKey,
 } from "../app/BioVoltExperience";
@@ -17,7 +16,6 @@ const views = {
   home: <HomeView staticMode />,
   research: <ResearchView staticMode />,
   experiment: <ExperimentView staticMode />,
-  protocol: <ProtocolView staticMode />,
   calculator: <CalculatorView staticMode />,
   twin: <DigitalTwinView staticMode />,
   about: <AboutView staticMode />,

@@ -47,7 +47,6 @@ test("server-renders every connected research page", async () => {
   const routes = [
     ["/research", /14 verified records/],
     ["/experiment", /recovered experiment becomes structured evidence/],
-    ["/protocol", /measurement-first Pseudomonas MFC protocol/],
     ["/digital-twin", /Intelligence for living electricity/],
     ["/about", /Build slowly enough to remain scientifically useful/],
   ];
@@ -57,20 +56,6 @@ test("server-renders every connected research page", async () => {
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), expected, path);
   }
-});
-
-test("publishes the evidence-separated Pseudomonas pilot and official social assets", async () => {
-  const protocol = await render("/protocol");
-  const html = await protocol.text();
-  assert.match(html, /BV-PSEUDO-PILOT-01/);
-  assert.match(html, /Reported by Ali et al\. \(2017\)/);
-  assert.match(html, /BioVolt pilot decisions/);
-  assert.match(html, /0-49 h pilot window/);
-  assert.match(html, /BSL-2 by ATCC/);
-  assert.match(html, /Do not culture this organism at home/);
-  assert.match(html, /github-invertocat-white\.png/);
-  assert.match(html, /linkedin-in-white\.png/);
-  assert.match(html, /x-logo-white\.png/);
 });
 
 test("publishes the complete literature register and researcher profile", async () => {
