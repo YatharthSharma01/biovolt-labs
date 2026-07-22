@@ -4,7 +4,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { papers, type PaperKind } from "./researchData";
-import { monitoringProtocols, proposedMeasurementContract } from "./monitoringProtocols";
+import { monitoringProtocols } from "./monitoringProtocols";
 
 export type PageKey = "home" | "research" | "experiment" | "calculator" | "twin" | "about";
 
@@ -304,15 +304,15 @@ function GrowthCurve() {
   return <canvas ref={canvasRef} className="growth-canvas" role="img" aria-label="Pseudomonas growth curve rising to 0.71 around time 25 to 29, then declining to 0.66 at time 50." />;
 }
 
-function MonitoringProtocolExplorer({ showContract = true, experimentMode = false }: { showContract?: boolean; experimentMode?: boolean }) {
+function MonitoringProtocolExplorer() {
   const [activeId, setActiveId] = useState(monitoringProtocols[2].id);
   const active = monitoringProtocols.find((profile) => profile.id === activeId) ?? monitoringProtocols[2];
   return (
     <div className="monitoring-evidence">
       <div className="monitoring-evidence-heading">
         <p className="journal-kicker">Uploaded-paper audit / selectable protocol</p>
-        <h3>{experimentMode ? "Select a monitoring profile." : "No universal duration."}</h3>
-        <p>{experimentMode ? "Choose the paper-based profile that best matches the scientific objective. Each option preserves the timing and measurement language reported by its source." : "Select the profile that matches the scientific objective. Each option preserves the timing and measurement language of its source paper, including intervals the authors did not specify."}</p>
+        <h3>No universal duration.</h3>
+        <p>Select the profile that matches the scientific objective. Each option preserves the timing and measurement language of its source paper, including intervals the authors did not specify.</p>
       </div>
       <nav aria-label="Literature monitoring profiles">
         {monitoringProtocols.map((profile) => <button type="button" key={profile.id} className={profile.id === active.id ? "active" : ""} aria-pressed={profile.id === active.id} onClick={() => setActiveId(profile.id)}><span>{profile.shortLabel}</span><small>{profile.id}</small></button>)}
@@ -329,7 +329,6 @@ function MonitoringProtocolExplorer({ showContract = true, experimentMode = fals
         <aside><b>Transfer boundary</b><p>{active.boundary}</p></aside>
         <footer><span>{active.sourceFile}</span><a href={active.doi} target="_blank" rel="noreferrer">{active.source} ↗</a></footer>
       </article>
-      {showContract && <div className="measurement-contract"><p className="journal-kicker">Proposed BioVolt measurement contract</p><ol>{proposedMeasurementContract.map((rule, index) => <li key={rule}><span>{String(index + 1).padStart(2, "0")}</span><p>{rule}</p></li>)}</ol><small>This contract combines traceable practices from multiple papers. It is a proposed protocol, not a claim that any one paper used the complete combination.</small></div>}
     </div>
   );
 }
@@ -386,7 +385,6 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
             <li><span>06</span><div><b>Electrical test</b><p>A single voltage reading was retained, but the planned duration and interval were not established.</p></div><small>Incomplete laboratory record</small></li>
           </ol>
         </div>
-        <MonitoringProtocolExplorer showContract={false} experimentMode />
         <div className="reaction-strip"><p><b>Anode / generic carbohydrate</b>CH₂O + H₂O → CO₂ + 4H⁺ + 4e⁻</p><p><b>Cathode / acidic permanganate</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p><small>Illustrative half-reactions only. The retained record does not establish the broth composition or catholyte pH required for a complete reaction balance.</small></div>
         <div className="circuit-note"><b>Circuit function</b><p>The electrochemical reactions establish the potential difference. The external circuit provides the pathway for electron flow, while the internal circuit—the salt bridge—allows ionic transport, maintains charge balance and sustains the electrochemical gradient between the chambers.</p></div>
       </section>
@@ -608,7 +606,7 @@ export function DigitalTwinView({ staticMode = false }: { staticMode?: boolean }
       <SiteHeader active="twin" staticMode={staticMode} />
       <PageMasthead number="04" kicker="Predictive system preview / transparent by design" title="Intelligence for living electricity." abstract="The planned intelligence layer will predict power density and COD removal, detect anomalies and recommend experiments—while displaying uncertainty and evidence boundaries beside every output." />
       <section className="paper-spread twin-section"><SectionLabel number="04.1">Demonstration</SectionLabel><div className="twin-intro"><h2>Explore an illustrative response surface.</h2><p>Adjust the controls to test the product interaction. The mathematical response is synthetic and deliberately labelled so it cannot be mistaken for a trained scientific model.</p></div><TwinControls /></section>
-      <section className="paper-spread twin-protocol-section"><SectionLabel number="04.2">Monitoring contract</SectionLabel><div className="twin-intro"><h2>Choose the evidence-compatible clock.</h2><p>The digital twin must inherit the experiment&apos;s actual circuit states, feed events, cycles and timestamps. It cannot assume that every reactor follows one 72-hour window.</p></div><MonitoringProtocolExplorer showContract={false} /></section>
+      <section className="paper-spread twin-protocol-section"><SectionLabel number="04.2">Monitoring contract</SectionLabel><div className="twin-intro"><h2>Choose the evidence-compatible clock.</h2><p>The digital twin must inherit the experiment&apos;s actual circuit states, feed events, cycles and timestamps. It cannot assume that every reactor follows one 72-hour window.</p></div><MonitoringProtocolExplorer /></section>
       <section className="paper-spread system-architecture"><SectionLabel number="04.3">System architecture</SectionLabel><div className="architecture-flow">{[['01','Inputs','Timestamped measurements + protocol state'],['02','Evidence layer','Experiments + verified literature'],['03','Prediction','Power density + COD removal'],['04','Explanation','Intervals + feature importance'],['05','Decision','Recommended next experiment']].map(([num, title, copy]) => <article key={num}><span>{num}</span><h2>{title}</h2><p>{copy}</p></article>)}</div></section>
       <section className="paper-spread model-output-grid">
         <SectionLabel number="04.4">Planned outputs</SectionLabel>
