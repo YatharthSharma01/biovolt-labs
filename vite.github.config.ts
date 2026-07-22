@@ -15,6 +15,7 @@ export default defineConfig({
         home: resolve("github/index.html"),
         research: resolve("github/research.html"),
         experiment: resolve("github/experiment.html"),
+        protocol: resolve("github/protocol.html"),
         calculator: resolve("github/calculator.html"),
         twin: resolve("github/digital-twin.html"),
         about: resolve("github/about.html"),

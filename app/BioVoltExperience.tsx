@@ -6,12 +6,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { papers, type PaperKind } from "./researchData";
 import { monitoringProtocols } from "./monitoringProtocols";
 
-export type PageKey = "home" | "research" | "experiment" | "calculator" | "twin" | "about";
+export type PageKey = "home" | "research" | "experiment" | "protocol" | "calculator" | "twin" | "about";
 
 const navItems: Array<{ key: PageKey; label: string; issue: string }> = [
   { key: "home", label: "Home", issue: "00" },
   { key: "research", label: "Research", issue: "01" },
   { key: "experiment", label: "Experiment", issue: "02" },
+  { key: "protocol", label: "Protocol", issue: "02.1" },
   { key: "calculator", label: "Calculator", issue: "03" },
   { key: "twin", label: "Digital twin", issue: "04" },
   { key: "about", label: "About", issue: "05" },
@@ -26,6 +27,7 @@ const staticPageHrefs: Record<PageKey, string> = {
   home: "./index.html",
   research: "./research.html",
   experiment: "./experiment.html",
+  protocol: "./protocol.html",
   calculator: "./calculator.html",
   twin: "./digital-twin.html",
   about: "./about.html",
@@ -35,6 +37,7 @@ const hostedPageHrefs: Record<PageKey, string> = {
   home: "/",
   research: "/research",
   experiment: "/experiment",
+  protocol: "/protocol",
   calculator: "/calculator",
   twin: "/digital-twin",
   about: "/about",
@@ -43,6 +46,15 @@ const hostedPageHrefs: Record<PageKey, string> = {
 function pageHref(page: PageKey, staticMode: boolean) {
   return staticMode ? staticPageHrefs[page] : hostedPageHrefs[page];
 }
+
+const directoryDescriptions: Record<Exclude<PageKey, "home">, string> = {
+  research: "Literature register",
+  experiment: "Laboratory experiment record",
+  protocol: "Standardized repeat-experiment design",
+  calculator: "Measured equations + cited evidence",
+  twin: "Predictive system preview",
+  about: "Project method & roadmap",
+};
 
 export function SiteHeader({ active, staticMode = false, overHero = false }: {
   active: PageKey | "registry";
@@ -68,6 +80,7 @@ export function SiteHeader({ active, staticMode = false, overHero = false }: {
 }
 
 export function SiteFooter({ staticMode = false }: { staticMode?: boolean }) {
+  const brandAsset = (file: string) => staticMode ? `brands/${file}` : `/brands/${file}`;
   return (
     <footer className="journal-footer">
       <div className="footer-topline">
@@ -87,11 +100,11 @@ export function SiteFooter({ staticMode = false }: { staticMode?: boolean }) {
         <div>
           <p className="footer-kicker">Research profiles</p>
           <div className="social-row" aria-label="Research profiles">
-            <a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer" aria-label="BioVolt Labs on GitHub">GH</a>
-            <a href="https://www.linkedin.com/in/yatharth-sharma-a13395288/" target="_blank" rel="noreferrer" aria-label="Yatharth Sharma on LinkedIn">in</a>
-            <span aria-label="X profile link pending" title="Profile link pending">X</span>
+            <a href="https://github.com/YatharthSharma01/biovolt-ai" target="_blank" rel="noreferrer" aria-label="BioVolt Labs on GitHub"><img src={brandAsset("github-invertocat-white.png")} alt="" /></a>
+            <a href="https://www.linkedin.com/in/yatharth-sharma-a13395288/" target="_blank" rel="noreferrer" aria-label="Yatharth Sharma on LinkedIn"><img src={brandAsset("linkedin-in-white.png")} alt="" /></a>
+            <span aria-label="X profile link pending" title="Profile link pending"><img src={brandAsset("x-logo-white.png")} alt="" /></span>
           </div>
-          <small className="profile-note">GitHub and LinkedIn are live. X profile comming soon.</small>
+          <small className="profile-note">GitHub and LinkedIn are live. X profile coming soon.</small>
         </div>
       </div>
       <div className="footer-bottom"><p>© 2026 Yatharth Sharma. All rights reserved.</p><p>Designed as a living research manuscript.</p></div>
@@ -209,9 +222,9 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
       <section className="paper-spread page-directory">
         <SectionLabel number="00.3">Contents</SectionLabel>
         <div className="directory-grid">
-          {navItems.slice(1).map((item, index) => (
+          {navItems.slice(1).map((item) => (
             <a key={item.key} href={pageHref(item.key, staticMode)}>
-              <span>{item.issue}</span><p>{index === 0 ? "Literature register" : index === 1 ? "Laboratory experiment record" : index === 2 ? "Measured equations + cited evidence" : index === 3 ? "Predictive system preview" : "Project method & roadmap"}</p><h2>{item.label}</h2><i>Read article ↗</i>
+              <span>{item.issue}</span><p>{directoryDescriptions[item.key as Exclude<PageKey, "home">]}</p><h2>{item.label}</h2><i>Read article ↗</i>
             </a>
           ))}
         </div>
@@ -433,6 +446,85 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
         <div className="growth-heading"><p className="journal-kicker">Pseudomonas workbook</p><h2>Pseudomonas growth curve</h2><p>Maximum recorded absorbance: <b>0.71</b> at time values 25–29. Final recorded absorbance: <b>0.66</b> at time 50. The maximum observed MFC voltage associated with <i>Pseudomonas aeruginosa</i> was <b>1.21 mV</b>.</p></div>
         <figure><GrowthCurve /><figcaption><b>Figure 5.</b> Reconstructed from the supplied spreadsheet. Time units, measurement wavelength and replicate count remain unconfirmed, so this record is not merged with the halophile experiment.</figcaption></figure>
       </section>
+      <NextArticle page="protocol" label="02.1 — Repeat protocol" staticMode={staticMode} />
+      <SiteFooter staticMode={staticMode} />
+    </main>
+  );
+}
+
+export function ProtocolView({ staticMode = false }: { staticMode?: boolean }) {
+  const workbook = staticMode ? "downloads/biovolt-labs-literature-backed-mfc-workbook.xlsx" : "/downloads/biovolt-labs-literature-backed-mfc-workbook.xlsx";
+  return (
+    <main className="site-shell paper-page protocol-page">
+      <SiteHeader active="protocol" staticMode={staticMode} />
+      <PageMasthead number="02.1" kicker="Repeat experiment / pre-registered measurement design" title="A measurement-first Pseudomonas MFC protocol." abstract="This protocol converts the most traceable settings in Ali et al. (2017) into a data-ready pilot. Paper-reported conditions, BioVolt design decisions and unresolved choices remain visibly separate." />
+
+      <section className="paper-spread protocol-question">
+        <SectionLabel number="02.1.1">Research question</SectionLabel>
+        <div><p className="journal-kicker">Primary pilot</p><h2>How does glucose concentration alter loaded voltage, power and COD removal?</h2><p>Hold the reactor configuration and external load constant while comparing a pre-registered glucose concentration series. The first objective is a reproducible response curve—not maximum power.</p></div>
+        <aside><span>Protocol ID</span><b>BV-PSEUDO-PILOT-01</b><span>Status</span><b>Pre-experimental</b><span>Training-data status</span><b>Not yet eligible</b></aside>
+      </section>
+
+      <section className="paper-spread protocol-provenance">
+        <SectionLabel number="02.1.2">Evidence separation</SectionLabel>
+        <article><p className="journal-kicker">Reported by Ali et al. (2017)</p><h2>Source-matched core</h2><ul><li>Twenty-one-day <i>P. aeruginosa</i> anode-biofilm stage.</li><li>Medium refreshed every three days.</li><li>Glucose, fructose or sucrose tested from 1-5 g/L.</li><li>Loaded operation at 100 Ω with voltage recorded every hour.</li><li>Initial and final COD and BOD<sub>5</sub>; experiments conducted in duplicate.</li><li>Polarization from 20-80,000 Ω after stable voltage.</li></ul></article>
+        <article><p className="journal-kicker">BioVolt pilot decisions</p><h2>Improvements to pre-register</h2><ul><li>Use glucose as the first substrate and declare every concentration before starting.</li><li>Target three independent reactors per condition; retain two only as the source-paper minimum.</li><li>Add an abiotic control and keep it outside biological replicate counts.</li><li>Record pH, temperature, conductivity and salinity with timestamps.</li><li>Label a graphite-rod or salt-bridge reactor as an adaptation, not a replication.</li><li>Record deviations before inspecting outcomes.</li></ul></article>
+        <div className="protocol-source-note"><b>Transfer boundary</b><p>Ali et al. used 3 × 5 cm² carbon cloth electrodes, a platinum-coated cathode, a membrane-separated reactor, 280 mL anodic medium and 300 mL of 0.6 mM KMnO₄ catholyte. A graphite-rod salt-bridge MFC is scientifically useful, but it is not the same configuration.</p></div>
+      </section>
+
+      <section className="paper-spread protocol-clock">
+        <SectionLabel number="02.1.3">Experimental clock</SectionLabel>
+        <div className="protocol-clock-intro"><p className="journal-kicker">Event-based timeline</p><h2>Time starts at substrate loading.</h2><p>The batch clock, circuit state and every feed or resistance change must be stored as data—not only described in notes.</p></div>
+        <ol>
+          <li><span>Gate 00</span><div><b>Authorization</b><p>Approve organism, facility, personnel, chemical handling and waste routes.</p></div><small>Before experiment</small></li>
+          <li><span>Phase 01</span><div><b>Biofilm development</b><p>Source duration: 21 days; source medium refresh: every 3 days.</p></div><small>Paper-reported</small></li>
+          <li><span>Phase 02</span><div><b>Open-circuit baseline</b><p>Record OCV separately until the pre-declared stability rule is satisfied.</p></div><small>Duration not reported</small></li>
+          <li><span>Phase 03</span><div><b>Loaded batch response</b><p>Apply 100 Ω and record loaded voltage every hour from substrate loading.</p></div><small>0-49 h pilot window</small></li>
+          <li><span>Phase 04</span><div><b>Chemistry endpoint</b><p>Pair final COD and BOD₅ with the initial sample and batch ID.</p></div><small>Same treatment window</small></li>
+          <li><span>Phase 05</span><div><b>Polarization</b><p>Run after stable output; store every resistance as a separate observation.</p></div><small>20-80,000 Ω source range</small></li>
+        </ol>
+        <div className="protocol-design-note"><b>Why 49 hours?</b><p>The source glucose trace reached its first maximum at 24 h and declined by 49 h. BioVolt uses 0-49 h as a provisional pilot window to capture both rise and decline; it is a declared design choice, not a general MFC standard.</p></div>
+      </section>
+
+      <section className="paper-spread protocol-measurements">
+        <SectionLabel number="02.1.4">Measurement contract</SectionLabel>
+        <div className="protocol-measurement-heading"><p className="journal-kicker">One row / one observation</p><h2>Every value needs a clock and a state.</h2></div>
+        <div className="protocol-measurement-table" role="table" aria-label="Pseudomonas MFC measurement contract">
+          <div role="row"><b role="columnheader">Record</b><b role="columnheader">Frequency</b><b role="columnheader">Rule</b></div>
+          {[
+            ["Timestamp + elapsed time", "Every row", "Use one time zone and an ISO timestamp."],
+            ["Circuit state", "Every row", "OCV, loaded, polarization or disconnected."],
+            ["Loaded voltage + Rext", "Hourly in Phase 03", "Never substitute OCV for loaded voltage."],
+            ["Temperature + pH", "Start, daily, end", "Record instrument and calibration status."],
+            ["Conductivity + salinity", "Start, daily, end", "Keep units explicit; do not treat them as interchangeable."],
+            ["Substrate + concentration", "At every feed", "Store nominal and measured values when available."],
+            ["COD + BOD₅", "Paired start/end", "Use the same batch ID and analytical method."],
+            ["Electrode area + geometry", "Before operation", "Block power density when exposed area is unknown."],
+          ].map((row) => <div role="row" key={row[0]}>{row.map((cell) => <span role="cell" key={cell}>{cell}</span>)}</div>)}
+        </div>
+        <div className="protocol-equations"><p><b>Current</b>I = V<sub>loaded</sub> / R<sub>ext</sub></p><p><b>Power</b>P = V<sub>loaded</sub> × I</p><p><b>Power density</b>P / exposed anode area</p><p><b>COD removal</b>(COD<sub>in</sub> - COD<sub>out</sub>) / COD<sub>in</sub> × 100</p></div>
+      </section>
+
+      <section className="paper-spread protocol-quality">
+        <SectionLabel number="02.1.5">Readiness gates</SectionLabel>
+        <div><p className="journal-kicker">Before model training</p><h2>A run passes only when its evidence is complete.</h2></div>
+        <ol>{[
+          "Protocol ID, reactor ID, biological replicate and control type are present.",
+          "Electrical rows include timestamp, circuit state and resistance where applicable.",
+          "No current or power value is calculated from open-circuit voltage.",
+          "Exposed electrode area and normalization basis are documented.",
+          "Initial and final COD share the same batch and treatment window.",
+          "Missing observations remain missing; they are never replaced by zero.",
+          "Protocol deviations are recorded before data interpretation.",
+        ].map((rule, index) => <li key={rule}><span>{String(index + 1).padStart(2, "0")}</span><p>{rule}</p></li>)}</ol>
+      </section>
+
+      <section className="paper-spread protocol-safety">
+        <SectionLabel number="02.1.6">Biosafety boundary</SectionLabel>
+        <div><p className="journal-kicker">Laboratory use only</p><h2>This page is a measurement design—not a culture SOP.</h2><p><i>Pseudomonas aeruginosa</i> strains are commonly assigned BSL-2 by ATCC. Work must occur only in an appropriately approved laboratory with trained supervision, institutional risk assessment, suitable containment, PPE, decontamination and regulated waste handling. Do not culture this organism at home.</p></div>
+        <aside><a href="https://www.atcc.org/products/27581" target="_blank" rel="noreferrer">ATCC biosafety record ↗</a><a href="https://doi.org/10.15171/ijb.1608" target="_blank" rel="noreferrer">Ali et al. (2017) ↗</a><a href={workbook} download>Download data workbook ↓</a></aside>
+      </section>
+
       <NextArticle page="calculator" label="03 — MFC calculator" staticMode={staticMode} />
       <SiteFooter staticMode={staticMode} />
     </main>

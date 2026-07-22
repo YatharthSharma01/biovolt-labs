@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("GitHub Pages build contains six linked page entries", async () => {
+test("GitHub Pages build contains seven linked page entries", async () => {
   const pages = [
     ["index.html", "home"],
     ["research.html", "research"],
     ["experiment.html", "experiment"],
+    ["protocol.html", "protocol"],
     ["calculator.html", "calculator"],
     ["digital-twin.html", "twin"],
     ["about.html", "about"],
@@ -26,7 +27,7 @@ test("static navigation points to every research article", async () => {
   const scriptPath = html.match(/src="(\.\/assets\/[^\"]+\.js)"/)?.[1];
   assert.ok(scriptPath);
   const bundle = await readFile(`github-dist/${scriptPath.slice(2)}`, "utf8");
-  for (const href of ["research.html", "experiment.html", "calculator.html", "digital-twin.html", "about.html"]) {
+  for (const href of ["research.html", "experiment.html", "protocol.html", "calculator.html", "digital-twin.html", "about.html"]) {
     assert.match(bundle, new RegExp(href.replace(".", "\\.")));
   }
   assert.doesNotMatch(bundle, /registry\.html/);
@@ -49,6 +50,9 @@ test("historical MFC images are included in the static artifact", async () => {
     access("github-dist/images/catalase-water.jpeg"),
     access("github-dist/images/tsi-test.jpeg"),
     access("github-dist/og.png"),
+    access("github-dist/brands/github-invertocat-white.png"),
+    access("github-dist/brands/linkedin-in-white.png"),
+    access("github-dist/brands/x-logo-white.png"),
     access("github-dist/downloads/biovolt-labs-literature-backed-mfc-workbook.xlsx"),
   ]);
 });
@@ -117,6 +121,24 @@ test("experiment page separates the incomplete record from literature monitoring
   assert.doesNotMatch(bundle, /Evidence status/);
   assert.doesNotMatch(bundle, /Action required/);
   assert.doesNotMatch(bundle, /biovolt-labs-72-hour-mfc-template\.xlsx/);
+});
+
+test("protocol page exposes the evidence-separated Pseudomonas pilot", async () => {
+  const html = await readFile("github-dist/protocol.html", "utf8");
+  const scriptPath = html.match(/src="(\.\/assets\/[^\"]+\.js)"/)?.[1];
+  assert.ok(scriptPath);
+  const bundle = await readFile(`github-dist/${scriptPath.slice(2)}`, "utf8");
+  for (const phrase of [
+    "BV-PSEUDO-PILOT-01",
+    "Source-matched core",
+    "BioVolt pilot decisions",
+    "0-49 h pilot window",
+    "Every value needs a clock and a state",
+    "This page is a measurement design",
+    "github-invertocat-white.png",
+    "linkedin-in-white.png",
+    "x-logo-white.png",
+  ]) assert.match(bundle, new RegExp(phrase));
 });
 
 test("research register exposes the corrected 2018 authors and standardized citation", async () => {
