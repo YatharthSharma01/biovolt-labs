@@ -412,7 +412,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
             <li><span>06</span><div><b>Electrical test</b><p>A single voltage reading was retained, but the planned duration and interval were not established.</p></div><small>Not completed</small></li>
           </ol>
         </div>
-        <div className="reaction-strip"><p><b>Anode / generic carbohydrate</b>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>+6H<sub>2</sub>O -> 6CO<sub>2</sub>24H<sup>+</sup>+24e<sup>-</sup></p><p><b>Cathode / acidic permanganate</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p><small>Redox reaction of Microbial Fuel Cell.</small></div>
+        <div className="reaction-strip"> <p><b>Anode / generic carbohydrate</b>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6H<sub>2</sub>O → 6CO<sub>2</sub> + 24H<sup>+</sup> + 24e<sup>−</sup></p><p><b>Cathode / acidic permanganate</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p><small>Redox reaction of Microbial Fuel Cell.</small></div>
         <div className="circuit-note"><b>Circuit function</b><p>The electrochemical reactions establish the potential difference. The external circuit provides the pathway for electron flow, while the internal circuit—the salt bridge—allows ionic transport, maintains charge balance and sustains the electrochemical gradient between the chambers.</p></div>
       </section>
       <section className="paper-spread apparatus-layout">
