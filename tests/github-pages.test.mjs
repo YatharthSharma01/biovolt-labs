@@ -104,7 +104,7 @@ test("experiment page separates the incomplete record from literature monitoring
     "48–72 h",
     "≈0.56% (v/v)",
     "1:179",
-    "No voltage time-series dataset is available",
+    "continuous voltage time-series dataset was not recorded",
     "No external resistance used",
     "1.21 mV",
     "Millivolts measure potential difference, not current",
