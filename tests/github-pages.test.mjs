@@ -108,22 +108,25 @@ test("experiment page separates the incomplete record from literature monitoring
     "No external resistance used",
     "1.21 mV",
     "Millivolts measure potential difference, not current",
-    "72 hours is not treated as a completed condition or a standard",
+    "recorded MFC test duration",
     "The external circuit provides the pathway for electron flow",
     "Uploaded-paper audit / selectable protocol",
     "No universal duration",
     "ALI-2017-HOURLY",
     "VIJAY-2018-5DAY",
     "different intervals, but the exact interval was not reported",
-    "test duration / incomplete record",
+    "72 h test / no retained time series / no external resistor",
     "Download .xlsx",
-"Redox reaction of Microbial Fuel Cell.",
-"The material name alone is therefore not enough to predict power density",
+    "Redox reaction of Microbial Fuel Cell.",
+    "The material name alone is therefore not enough to predict power density",
+    "dimensions of 6 × 1 × 1 cm",
   ]) assert.match(bundle, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.doesNotMatch(bundle, /Scope note/);
   assert.doesNotMatch(bundle, /Partially complete/);
   assert.doesNotMatch(bundle, /Evidence status/);
   assert.doesNotMatch(bundle, /Action required/);
+  assert.doesNotMatch(bundle, /test duration \/ 48 H/);
+  assert.doesNotMatch(bundle, /72 hours is not treated as a completed condition or a standard/);
   assert.doesNotMatch(bundle, /biovolt-labs-72-hour-mfc-template\.xlsx/);
 });
 

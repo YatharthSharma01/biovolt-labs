@@ -378,7 +378,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <article><span>Anodic chamber</span><strong>280 mL</strong><p>Halophilic broth</p></article>
           <article><span>Cathodic chamber</span><strong>280 mL</strong><p>0.6 mM KMnO₄ solution</p></article>
           <article><span>Temperature</span><strong>37 °C</strong><p>Culture incubation condition</p></article>
-          <article><span>MFC test duration</span><strong>72 H</strong><p>End time and sampling interval were not established</p></article>
+          <article><span>MFC test duration</span><strong>72 h</strong><p>Recorded experiment duration; sampling interval not retained</p></article>
           <article><span>Halophile incubation in broth</span><strong>48–72 h</strong><p>Before use in the MFC</p></article>
           <article><span>External resistance</span><strong>None</strong><p>No external load resistor was used</p></article>
         </div>
@@ -399,7 +399,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <article><span>01</span><h3>Sample collection</h3><p>Water and salt samples were collected from Sambhar Lake, Rajasthan, as the environmental source of salt-tolerant microorganisms.</p><small>Environmental inoculum source</small></article>
           <article><span>02</span><h3>Selective cultivation</h3><p>Samples were cultured on Mueller–Hinton agar containing 7.5% NaCl and mannitol motility agar containing 5% NaCl.</p><small>37 °C / halophile incubation 24-48 h</small></article>
           <article><span>03</span><h3>Isolation &amp; screening</h3><p>Distinct colonies were subcultured to obtain pure isolates, followed by microscopy, colony morphology and biochemical tests.</p><small>Species identity not established</small></article>
-          <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in 280 mL of halophilic broth at the anode and 280 mL of 0.6 mM KMnO₄ at the cathode, joined by a water–KNO₃–agar salt bridge.</p><small>Incomplete test / no retained time series / no external resistor</small></article>
+          <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in 280 mL of halophilic broth at the anode and 280 mL of 0.6 mM KMnO₄ at the cathode, joined by a water–KNO₃–agar salt bridge.</p><small>72 h test / no retained time series / no external resistor</small></article>
         </div>
         <div className="protocol-timeline" aria-label="Experimental protocol timeline">
           <div className="protocol-timeline-heading"><p className="journal-kicker">Repeatable sequence</p><h3>Protocol timeline</h3><p>Each time window is attached to the stage it describes so cultivation, broth incubation and electrical monitoring are not confused.</p></div>
@@ -409,7 +409,7 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
             <li><span>03</span><div><b>Prepare inoculum</b><p>Add 1 mL broth culture to 179 mL medium.</p></div><small>≈0.56% v/v / 1:179</small></li>
             <li><span>04</span><div><b>Incubate broth</b><p>Develop the halophilic culture before reactor use.</p></div><small>37 °C / 48–72 h</small></li>
             <li><span>05</span><div><b>Assemble reactor</b><p>Prepare the 280 mL anode, 280 mL cathode and KNO₃–agar bridge.</p></div><small>0.6 mM KMnO₄ catholyte</small></li>
-            <li><span>06</span><div><b>Electrical test</b><p>A single voltage reading was retained, but the planned duration and interval were not established.</p></div><small>Not completed</small></li>
+            <li><span>06</span><div><b>Electrical test</b><p>The test ran for 72 h and a single voltage reading was retained, but the sampling interval was not documented.</p></div><small>Incomplete voltage record</small></li>
           </ol>
         </div>
         <div className="reaction-strip"> <p><b>Anode / generic carbohydrate</b>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6H<sub>2</sub>O → 6CO<sub>2</sub> + 24H<sup>+</sup> + 24e<sup>−</sup></p><p><b>Cathode / acidic permanganate</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p><small>Redox reaction of Microbial Fuel Cell.</small></div>
@@ -426,13 +426,13 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
       <section className="paper-spread electrode-layout">
         <SectionLabel number="02.5">Electrode record</SectionLabel>
         <div className="electrode-copy"><p className="journal-kicker">Material note</p><h2>Graphite rod electrodes</h2><p>Electrode material, geometry, accessible surface, conductivity and surface chemistry can all influence biofilm attachment, charge transfer and cell resistance. The material name alone is therefore not enough to predict power density <a className="inline-citation" href="https://doi.org/10.3390/molecules27217483" target="_blank" rel="noreferrer">(Abd-Elrahman et al., 2022)</a>.</p>
-          <p>Graphite is two-species hybridized crystalline form of carbon atom. Rough surface of graphite provide reasonable results in terms of energy generation and pollutant removal effeciency. Graphite have the potential advantage in providing biocompatbility, mechanical strength and large surface area, make it an excellent material for the anode in MFCs.</p><div className="note"><b>Note :</b><span>The graphite electrodes used as an anode and cathode in the experiment have the dimensions of 6 × 1 × 1 cm.</span></div></div>
+          <p>Graphite is an sp²-hybridized crystalline allotrope of carbon. Its rough surface can support microbial adhesion and provides a practical electrode surface for energy generation and pollutant removal. Graphite combines biocompatibility, mechanical strength, conductivity and accessible surface area, making it a suitable anode material for MFCs.</p><div className="note"><b>Note:</b><span>The graphite electrodes used as the anode and cathode in the experiment had dimensions of 6 × 1 × 1 cm.</span></div></div>
         <figure><img src={image("graphite-electrodes.png")} alt="Pair of pointed graphite rod electrodes" /><figcaption><b>Figure 3.</b> Graphite electrodes used in the experiment.</figcaption></figure>
       </section>
       <section className="paper-spread results-section">
         <SectionLabel number="02.6">Results &amp; discussion</SectionLabel>
         <div className="results-lead"><p className="journal-kicker">What the electrical record supports</p><h2>Voltage was observed; current was not measured.</h2><p>The maximum recorded electrical reading for the MFC operated with <i>Pseudomonas aeruginosa</i> was <b>1.21 mV</b>. Millivolts measure potential difference, not current. Because no external resistance was used and no independent current measurement or voltage time series is available, current, power and power density cannot be calculated responsibly.</p></div>
-        <div className="result-callouts"><article><strong>1.21</strong><span>mV / maximum Pseudomonas voltage reading</span></article><article><strong>Unknown</strong><span>test duration / 48 H</span></article><article><strong>None</strong><span>external load resistance</span></article></div>
+        <div className="result-callouts"><article><strong>1.21</strong><span>mV / maximum Pseudomonas voltage reading</span></article><article><strong>72</strong><span>hours / recorded MFC test duration</span></article><article><strong>None</strong><span>external load resistance</span></article></div>
         <div className="discussion-note"><b>Interpretation.</b><p>The 1.21 mV value confirms a recorded potential difference under the stated configuration, but it should not be reported as current. A repeat experiment needs voltage over time and a known external resistor—or a direct current measurement—plus a polarization series, exposed electrode area and independent replicates.</p></div>
       </section>
       <section className="paper-spread halophile-growth-section">
@@ -492,11 +492,13 @@ const historicalRegistryDraft: RegistryDraft = {
   organism: "Halophilic environmental isolate; species unresolved",
   inoculumSource: "Water and salt samples from Sambhar Lake, Rajasthan",
   substrate: "Halophilic broth; composition not retained",
+  temperature: "37",
   anodeMaterial: "Graphite rod",
   cathodeMaterial: "Graphite rod in KMnO₄ catholyte",
+  reactorVolume: "280",
   membrane: "Water + KNO₃ + agar salt bridge",
   voltage: "0.61",
-  notes: "Voltage is approximate and image-derived. Reactor volume, resistance, exposed electrode area, COD, HRT, replicate count and time series are missing.",
+  notes: "Voltage is approximate and image-derived. Each chamber contained 280 mL; the MFC test ran for 72 h with no external resistor. Electrode dimensions were 6 × 1 × 1 cm. Exposed area, COD, HRT, replicate count, sampling interval and continuous voltage time series are missing.",
 };
 
 const registryFields: Array<{ key: keyof RegistryDraft; label: string; unit?: string; type?: string; placeholder?: string }> = [

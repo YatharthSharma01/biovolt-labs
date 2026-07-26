@@ -17,6 +17,7 @@ demonstration.
 - Researcher-authored MFC introduction with preserved citation keys
 - Literature register with 12 core MFC papers and 2 supporting records, including a COD-removal benchmark study
 - Laboratory apparatus and electrode documentation
+- Documented 72-hour laboratory MFC duration with an explicitly incomplete voltage record
 - Pseudomonas growth-curve visualization
 - Research-paper evidence cards with verification status
 - Illustrative operating-condition simulator

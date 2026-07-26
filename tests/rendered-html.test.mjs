@@ -80,8 +80,8 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /Triple sugar iron/);
   assert.match(experimentHtml, /1\.21 mV/);
   assert.match(experimentHtml, /≈0\.56% \(v\/v\)/);
-  assert.match(experimentHtml, /No voltage time-series dataset is available/);
-  assert.match(experimentHtml, /72 hours is not treated as a completed condition or a standard/);
+  assert.match(experimentHtml, /continuous voltage time-series dataset was not recorded/);
+  assert.match(experimentHtml, /72.*hours \/ recorded MFC test duration/s);
   assert.match(experimentHtml, /external circuit provides the pathway for electron flow/i);
   assert.doesNotMatch(experimentHtml, /Uploaded-paper audit \/ selectable protocol/);
   assert.doesNotMatch(experimentHtml, /Select a monitoring profile/);
@@ -90,7 +90,9 @@ test("publishes the complete literature register and researcher profile", async 
   assert.doesNotMatch(experimentHtml, /ALI-2017-HOURLY/);
   assert.doesNotMatch(experimentHtml, /VIJAY-2018-5DAY/);
   assert.match(experimentHtml, /biovolt-labs-literature-backed-mfc-workbook\.xlsx/);
-  assert.match(experimentHtml, /should not be described as oxygen reduction/);
+  assert.match(experimentHtml, /Redox reaction of Microbial Fuel Cell/);
+  assert.match(experimentHtml, /dimensions of 6 × 1 × 1 cm/);
+  assert.doesNotMatch(experimentHtml, /test duration \/ 48 H/);
   assert.doesNotMatch(experimentHtml, /presentation/i);
   assert.doesNotMatch(experimentHtml, /Scope note/);
   assert.doesNotMatch(experimentHtml, /Partially complete/);

@@ -2,7 +2,7 @@
 
 ## Decision
 
-The previous college MFC experiment was incomplete and did not retain a voltage time series. A 72-hour test duration must therefore not be shown as a completed condition or as a universal standard.
+The previous college MFC experiment was conducted for 72 hours, but it did not retain a continuous voltage time series or a documented sampling interval. The 72-hour duration is therefore retained as a condition of that laboratory experiment, not presented as a universal MFC standard.
 
 BioVolt Labs now treats monitoring duration as a protocol choice tied to the scientific objective and reactor configuration.
 
