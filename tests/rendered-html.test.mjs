@@ -33,8 +33,8 @@ test("server-renders the BioVolt Labs cover", async () => {
   const html = await response.text();
   assert.match(html, /<title>BioVolt Labs \| From microbial metabolism/i);
   assert.doesNotMatch(html, /BioVolt AI/);
-  assert.match(html, /Before an MFC can/);
-  assert.match(html, /documented and understood/);
+  assert.match(html, /From microbial/);
+  assert.match(html, /measurable electricity/);
   assert.match(html, /Research/);
   assert.match(html, /Experiment/);
   assert.match(html, /Digital twin/);
