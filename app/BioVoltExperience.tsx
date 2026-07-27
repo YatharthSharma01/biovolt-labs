@@ -190,7 +190,7 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
         <FullPageReactor />
         <div className="hero-copy">
           <p className="hero-volume">Bioelectrochemical systems / Vol. 01</p>
-          <h1>From microbial<br />metabolism to<br /><em>measurable electricity.</em></h1>
+          <h1 className="hero-statement">Before an MFC can<br />be predicted, its evidence<br />must be measured,<br /><em>documented and understood.</em></h1>
           <p className="hero-deck">A research-led microbial fuel cell platform connecting evidence, laboratory experiments and an explainable digital twin.</p>
           <div className="hero-actions">
             <a className="button button-light" href={pageHref("experiment", staticMode)}>Read the experiment <span>↗</span></a>
