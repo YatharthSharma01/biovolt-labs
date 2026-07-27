@@ -56,6 +56,12 @@ test("server-renders every connected research page", async () => {
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), expected, path);
   }
+
+  const about = await render("/about");
+  const aboutHtml = await about.text();
+  assert.match(aboutHtml, /mailto:yatharth\.01sharma@gmail\.com/);
+  assert.match(aboutHtml, /linkedin\.com\/in\/yatharth-sharma-a13395288/);
+  assert.doesNotMatch(aboutHtml, /Open-source repository/);
 });
 
 test("publishes the complete literature register and researcher profile", async () => {
