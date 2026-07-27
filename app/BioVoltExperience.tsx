@@ -412,12 +412,16 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
             <li><span>06</span><div><b>Electrical test</b><p>The test ran for 72 h and a single voltage reading was retained, but the sampling interval was not documented.</p></div><small>Incomplete voltage record</small></li>
           </ol>
         </div>
-        <div className="reaction-strip"> <p><b>Anode / generic carbohydrate</b>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6H<sub>2</sub>O → 6CO<sub>2</sub> + 24H<sup>+</sup> + 24e<sup>−</sup></p><p><b>Cathode / acidic permanganate</b>MnO₄⁻ + 4H⁺ + 3e⁻ → MnO₂ + 2H₂O</p><small>Redox reaction of Microbial Fuel Cell.</small></div>
+        <div className="reaction-strip">
+          <p><b>Anode / glucose oxidation</b><span className="chemical-equation">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6H<sub>2</sub>O → 6CO<sub>2</sub> + 24H<sup>+</sup> + 24e<sup>−</sup></span></p>
+          <p><b>Cathode / acidic permanganate</b><span className="chemical-equation">MnO<sub>4</sub><sup>−</sup> + 4H<sup>+</sup> + 3e<sup>−</sup> → MnO<sub>2</sub> + 2H<sub>2</sub>O</span></p>
+          <small>Redox reactions of the microbial fuel cell.</small>
+        </div>
         <div className="circuit-note"><b>Circuit function</b><p>The electrochemical reactions establish the potential difference. The external circuit provides the pathway for electron flow, while the internal circuit—the salt bridge—allows ionic transport, maintains charge balance and sustains the electrochemical gradient between the chambers.</p></div>
       </section>
       <section className="paper-spread apparatus-layout">
         <SectionLabel number="02.4">Reactor apparatus</SectionLabel>
-        <figure className="apparatus-figure"><img src={image("historical-mfc-setup.png")} alt="Laboratory double-chamber MFC apparatus" /><figcaption><b>Figure 2.</b> The experimental setup for a double chamber Microbial Fuel Cell.</figcaption></figure>
+        <figure className="apparatus-figure"><img src={image("double-chamber-mfc-setup.jpg")} alt="Double-chamber microbial fuel cell apparatus with a digital multimeter" /><figcaption><b>Figure 2.</b> The experimental setup for a double-chamber microbial fuel cell.</figcaption></figure>
         <div className="apparatus-spec">
           <p className="journal-kicker">Recorded configuration</p><h2>Double-chamber architecture</h2>
           <dl><div><dt>Anode</dt><dd>280 mL halophilic broth + graphite rod</dd></div><div><dt>Cathode</dt><dd>280 mL of 0.6 mM KMnO₄ + graphite rod</dd></div><div><dt>Ion pathway</dt><dd>Water + KNO₃ + agar salt bridge</dd></div><div><dt>Temperature</dt><dd>37 °C culture condition</dd></div><div><dt>Test window</dt><dd>72 Hours</dd></div><div><dt>External load</dt><dd>No external resistance used</dd></div><div><dt>Measurement</dt><dd>One maximum voltage reading retained; no time series or sampling interval</dd></div></dl>

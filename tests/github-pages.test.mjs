@@ -42,7 +42,7 @@ test("static navigation points to every research article", async () => {
 
 test("historical MFC images are included in the static artifact", async () => {
   await Promise.all([
-    access("github-dist/images/historical-mfc-setup.png"),
+    access("github-dist/images/double-chamber-mfc-setup.jpg"),
     access("github-dist/images/graphite-electrodes.png"),
     access("github-dist/images/voltage-evidence.png"),
     access("github-dist/images/mfc-development-process-v2.png"),
@@ -117,7 +117,9 @@ test("experiment page separates the incomplete record from literature monitoring
     "different intervals, but the exact interval was not reported",
     "72 h test / no retained time series / no external resistor",
     "Download .xlsx",
-    "Redox reaction of Microbial Fuel Cell.",
+    "Redox reactions of the microbial fuel cell.",
+    "Anode / glucose oxidation",
+    "double-chamber-mfc-setup.jpg",
     "The material name alone is therefore not enough to predict power density",
     "dimensions of 6 × 1 × 1 cm",
   ]) assert.match(bundle, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
@@ -125,6 +127,7 @@ test("experiment page separates the incomplete record from literature monitoring
   assert.doesNotMatch(bundle, /Partially complete/);
   assert.doesNotMatch(bundle, /Evidence status/);
   assert.doesNotMatch(bundle, /Action required/);
+  assert.doesNotMatch(bundle, /historical-mfc-setup\.png/);
   assert.doesNotMatch(bundle, /test duration \/ 48 H/);
   assert.doesNotMatch(bundle, /72 hours is not treated as a completed condition or a standard/);
   assert.doesNotMatch(bundle, /biovolt-labs-72-hour-mfc-template\.xlsx/);
