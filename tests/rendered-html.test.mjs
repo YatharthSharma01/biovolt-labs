@@ -48,7 +48,7 @@ test("server-renders every connected research page", async () => {
     ["/research", /14 verified records/],
     ["/experiment", /recovered experiment becomes structured evidence/],
     ["/digital-twin", /Intelligence for living electricity/],
-    ["/about", /Build slowly enough to remain scientifically useful/],
+    ["/about", /Before an MFC can be predicted/],
   ];
 
   for (const [path, expected] of routes) {
