@@ -85,7 +85,8 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /Biochemical characterization/);
   assert.match(experimentHtml, /Triple sugar iron/);
   assert.match(experimentHtml, /1\.21 mV/);
-  assert.match(experimentHtml, /≈0\.56% \(v\/v\)/);
+  assert.match(experimentHtml, /50 mL enrichment culture/);
+  assert.match(experimentHtml, /final anodic working volume of 280 mL/);
   assert.match(experimentHtml, /continuous voltage time-series dataset was not recorded/);
   assert.match(experimentHtml, /72.*hours \/ recorded MFC test duration/s);
   assert.match(experimentHtml, /external circuit provides the pathway for electron flow/i);
@@ -99,10 +100,13 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /Redox reactions of the microbial fuel cell/);
   assert.match(experimentHtml, /C<sub>6<\/sub>H<sub>12<\/sub>O<sub>6<\/sub> \+ 6H<sub>2<\/sub>O/);
   assert.match(experimentHtml, /double-chamber-mfc-setup\.jpg/);
-  assert.match(experimentHtml, /Isolate halophiles/);
-  assert.match(experimentHtml, /Purify and characterize/);
-  assert.match(experimentHtml, /Recorded volume discrepancy/);
-  assert.match(experimentHtml, /Operate and measure/);
+  assert.match(experimentHtml, /Isolate halophilic colonies/);
+  assert.match(experimentHtml, /Purify and characterize the isolates/);
+  assert.match(experimentHtml, /Prepare the enrichment culture/);
+  assert.match(experimentHtml, /280 mL anodic working volume/);
+  assert.match(experimentHtml, /Operate and measure electrical output/);
+  assert.doesNotMatch(experimentHtml, /Recorded volume discrepancy/);
+  assert.doesNotMatch(experimentHtml, /0\.56%|1:179/);
   assert.doesNotMatch(experimentHtml, /<b>Select<\/b>/);
   assert.doesNotMatch(experimentHtml, /historical-mfc-setup\.png/);
   assert.match(experimentHtml, /dimensions of 6 × 1 × 1 cm/);

@@ -102,8 +102,9 @@ test("experiment page separates the incomplete record from literature monitoring
     "0.6 mM KMnO₄",
     "37 °C",
     "48–72 h",
-    "≈0.56% (v/v)",
-    "1:179",
+    "50 mL enrichment culture",
+    "1 mL into 179 mL",
+    "280 mL anodic working volume",
     "continuous voltage time-series dataset was not recorded",
     "No external resistance used",
     "1.21 mV",
@@ -131,6 +132,7 @@ test("experiment page separates the incomplete record from literature monitoring
   assert.doesNotMatch(bundle, /test duration \/ 48 H/);
   assert.doesNotMatch(bundle, /72 hours is not treated as a completed condition or a standard/);
   assert.doesNotMatch(bundle, /biovolt-labs-72-hour-mfc-template\.xlsx/);
+  assert.doesNotMatch(bundle, /0\.56%|1:179|Recorded volume discrepancy/);
 });
 
 test("research register exposes the corrected 2018 authors and standardized citation", async () => {

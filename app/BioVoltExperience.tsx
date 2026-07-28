@@ -383,8 +383,8 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <article><span>External resistance</span><strong>None</strong><p>No external load resistor was used</p></article>
         </div>
         <div className="inoculum-record">
-          <div><p className="journal-kicker">Inoculum preparation</p><h3>1 mL inoculum + 179 mL culture medium</h3><p>One millilitre of halophilic broth was added to 179 mL of halophilic culture medium, giving a final mixture volume of approximately 180 mL.</p></div>
-          <dl><div><dt>Inoculum size</dt><dd>≈0.56% (v/v)</dd></div><div><dt>Inoculum : medium</dt><dd>1:179</dd></div><div><dt>Calculation</dt><dd>1 ÷ 180 × 100</dd></div></dl>
+          <div><p className="journal-kicker">Inoculum preparation</p><h3>50 mL enrichment culture → 1 mL transfer → 280 mL anode</h3><p>A purified colony was incubated in 50 mL of halophilic broth at 37 °C for 48–72 hours. One millilitre of this enrichment culture was transferred into 179 mL of fresh halophilic broth, and additional broth was added as required to obtain a final anodic working volume of 280 mL.</p></div>
+          <dl><div><dt>Enrichment culture</dt><dd>50 mL</dd></div><div><dt>Transfer step</dt><dd>1 mL into 179 mL</dd></div><div><dt>Anodic working volume</dt><dd>280 mL</dd></div></dl>
         </div>
         <div className="data-boundary"><b>Electrical data boundary</b><p>The previous MFC experiment was conducted for 72 hours; however, the results remain incomplete because a continuous voltage time-series dataset was not recorded.</p></div>
         <div className="data-template-callout">
@@ -402,16 +402,16 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in 280 mL of halophilic broth at the anode and 280 mL of 0.6 mM KMnO₄ at the cathode, joined by a water–KNO₃–agar salt bridge.</p><small>72 h test / no retained time series / no external resistor</small></article>
         </div>
         <div className="protocol-timeline" aria-label="Experimental protocol timeline">
-          <div className="protocol-timeline-heading"><p className="journal-kicker">Scientific sequence</p><h3>Protocol timeline</h3><p>The timeline separates isolation, purification, inoculum development, reactor preparation and electrical operation. Recorded values that do not yet reconcile remain explicitly marked.</p></div>
+          <div className="protocol-timeline-heading"><p className="journal-kicker">Scientific sequence</p><h3>Protocol timeline</h3><p>The workflow follows the documented progression from environmental sampling and isolate preparation to inoculum development, reactor assembly and electrical measurement.</p></div>
           <ol>
-            <li><span>01</span><div><b>Collect samples</b><p>Collect water and salt samples from Sambhar Lake.</p></div><small>Environmental source</small></li>
-            <li><span>02</span><div><b>Isolate halophiles</b><p>Inoculate salt-containing solid media and incubate to recover salt-tolerant colonies.</p></div><small>37 °C / 24–48 h</small></li>
-            <li><span>03</span><div><b>Purify and characterize</b><p>Subculture distinct colonies, then perform microscopy, morphological and biochemical tests.</p></div><small>Species identity not established</small></li>
-            <li><span>04</span><div><b>Prepare inoculum</b><p>Add 1 mL of broth culture to 179 mL of culture medium.</p></div><small>≈180 mL final / ≈0.56% v/v</small></li>
-            <li><span>05</span><div><b>Incubate culture</b><p>Develop the halophilic broth culture before introducing it into the MFC.</p></div><small>37 °C / 48–72 h</small></li>
-            <li><span>06</span><div><b>Prepare reactor</b><p>Position the graphite electrodes and prepare the KNO₃–agar salt bridge and KMnO₄ catholyte.</p></div><small>0.6 mM KMnO₄</small></li>
-            <li><span>07</span><div><b>Load chambers</b><p>The record states 280 mL of halophilic broth at the anode and 280 mL of catholyte at the cathode; its relationship to the ≈180 mL inoculum mixture is unresolved.</p></div><small>Recorded volume discrepancy</small></li>
-            <li><span>08</span><div><b>Operate and measure</b><p>Operate the MFC for 72 h and measure voltage; one reading was retained, but its sampling time was not documented.</p></div><small>No external load resistor / incomplete voltage record</small></li>
+            <li><span>01</span><div><b>Collect environmental samples</b><p>Collect water and salt samples from Sambhar Lake as sources of halophilic microorganisms.</p></div><small>Environmental source</small></li>
+            <li><span>02</span><div><b>Isolate halophilic colonies</b><p>Inoculate the samples onto salt-containing solid culture media and incubate them to obtain discrete microbial colonies.</p></div><small>Selective solid media</small></li>
+            <li><span>03</span><div><b>Purify and characterize the isolates</b><p>Subculture selected colonies to obtain pure cultures, then perform microscopic, morphological and biochemical characterization.</p></div><small>Species identity not established</small></li>
+            <li><span>04</span><div><b>Prepare the enrichment culture</b><p>Prepare 50 mL of halophilic broth, inoculate it with a purified colony and incubate it to increase the halophilic microbial population.</p></div><small>37 °C / 48–72 h</small></li>
+            <li><span>05</span><div><b>Prepare and inoculate the anodic medium</b><p>Transfer 1 mL of enrichment culture into 179 mL of fresh halophilic broth, then add broth as required to obtain a final anodic working volume of 280 mL.</p></div><small>280 mL anodic working volume</small></li>
+            <li><span>06</span><div><b>Assemble the MFC reactor</b><p>Assemble the double-chamber MFC, position the graphite electrodes and connect the chambers using the KNO₃–agar salt bridge.</p></div><small>Graphite electrodes / salt bridge</small></li>
+            <li><span>07</span><div><b>Load the reactor chambers</b><p>Load the anode with 280 mL of inoculated halophilic broth and the cathode with 280 mL of 0.6 mM KMnO₄ solution, then complete the electrode connections.</p></div><small>280 mL anode / 280 mL cathode</small></li>
+            <li><span>08</span><div><b>Operate and measure electrical output</b><p>Operate the MFC for 72 h and measure the generated voltage. Only one result was retained, and its exact measurement time was not documented.</p></div><small>No external load resistor / incomplete voltage record</small></li>
           </ol>
         </div>
         <div className="reaction-strip">
