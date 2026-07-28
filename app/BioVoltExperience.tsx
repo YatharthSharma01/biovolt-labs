@@ -196,9 +196,9 @@ export function HomeView({ staticMode = false }: { staticMode?: boolean }) {
             <a className="button button-light" href={pageHref("experiment", staticMode)}>Read the experiment <span>↗</span></a>
             <a className="button button-outline" href={pageHref("calculator", staticMode)}>Open calculator <span>↗</span></a>
           </div>
+          <div className="scroll-cue"><span>Scroll to abstract</span><i /></div>
         </div>
         <div className="hero-figure-note"><b>Fig. 00</b><span>Conceptual double-chamber MFC. Move your pointer to inspect the field.</span></div>
-        <div className="scroll-cue"><span>Scroll to abstract</span><i /></div>
       </section>
 
       <section className="issue-ledger">
