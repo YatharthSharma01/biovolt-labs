@@ -99,6 +99,11 @@ test("publishes the complete literature register and researcher profile", async 
   assert.match(experimentHtml, /Redox reactions of the microbial fuel cell/);
   assert.match(experimentHtml, /C<sub>6<\/sub>H<sub>12<\/sub>O<sub>6<\/sub> \+ 6H<sub>2<\/sub>O/);
   assert.match(experimentHtml, /double-chamber-mfc-setup\.jpg/);
+  assert.match(experimentHtml, /Isolate halophiles/);
+  assert.match(experimentHtml, /Purify and characterize/);
+  assert.match(experimentHtml, /Recorded volume discrepancy/);
+  assert.match(experimentHtml, /Operate and measure/);
+  assert.doesNotMatch(experimentHtml, /<b>Select<\/b>/);
   assert.doesNotMatch(experimentHtml, /historical-mfc-setup\.png/);
   assert.match(experimentHtml, /dimensions of 6 × 1 × 1 cm/);
   assert.doesNotMatch(experimentHtml, /test duration \/ 48 H/);

@@ -402,14 +402,16 @@ export function ExperimentView({ staticMode = false }: { staticMode?: boolean })
           <article><span>04</span><h3>MFC assembly</h3><p>Graphite rods were placed in 280 mL of halophilic broth at the anode and 280 mL of 0.6 mM KMnO₄ at the cathode, joined by a water–KNO₃–agar salt bridge.</p><small>72 h test / no retained time series / no external resistor</small></article>
         </div>
         <div className="protocol-timeline" aria-label="Experimental protocol timeline">
-          <div className="protocol-timeline-heading"><p className="journal-kicker">Repeatable sequence</p><h3>Protocol timeline</h3><p>Each time window is attached to the stage it describes so cultivation, broth incubation and electrical monitoring are not confused.</p></div>
+          <div className="protocol-timeline-heading"><p className="journal-kicker">Scientific sequence</p><h3>Protocol timeline</h3><p>The timeline separates isolation, purification, inoculum development, reactor preparation and electrical operation. Recorded values that do not yet reconcile remain explicitly marked.</p></div>
           <ol>
-            <li><span>01</span><div><b>Collect</b><p>Water and salt samples from Sambhar Lake.</p></div><small>Environmental source</small></li>
-            <li><span>02</span><div><b>Select</b><p>Inoculate salt-containing solid media.</p></div><small>37 °C / 24–48 h</small></li>
-            <li><span>03</span><div><b>Prepare inoculum</b><p>Add 1 mL broth culture to 179 mL medium.</p></div><small>≈0.56% v/v / 1:179</small></li>
-            <li><span>04</span><div><b>Incubate broth</b><p>Develop the halophilic culture before reactor use.</p></div><small>37 °C / 48–72 h</small></li>
-            <li><span>05</span><div><b>Assemble reactor</b><p>Prepare the 280 mL anode, 280 mL cathode and KNO₃–agar bridge.</p></div><small>0.6 mM KMnO₄ catholyte</small></li>
-            <li><span>06</span><div><b>Electrical test</b><p>The test ran for 72 h and a single voltage reading was retained, but the sampling interval was not documented.</p></div><small>Incomplete voltage record</small></li>
+            <li><span>01</span><div><b>Collect samples</b><p>Collect water and salt samples from Sambhar Lake.</p></div><small>Environmental source</small></li>
+            <li><span>02</span><div><b>Isolate halophiles</b><p>Inoculate salt-containing solid media and incubate to recover salt-tolerant colonies.</p></div><small>37 °C / 24–48 h</small></li>
+            <li><span>03</span><div><b>Purify and characterize</b><p>Subculture distinct colonies, then perform microscopy, morphological and biochemical tests.</p></div><small>Species identity not established</small></li>
+            <li><span>04</span><div><b>Prepare inoculum</b><p>Add 1 mL of broth culture to 179 mL of culture medium.</p></div><small>≈180 mL final / ≈0.56% v/v</small></li>
+            <li><span>05</span><div><b>Incubate culture</b><p>Develop the halophilic broth culture before introducing it into the MFC.</p></div><small>37 °C / 48–72 h</small></li>
+            <li><span>06</span><div><b>Prepare reactor</b><p>Position the graphite electrodes and prepare the KNO₃–agar salt bridge and KMnO₄ catholyte.</p></div><small>0.6 mM KMnO₄</small></li>
+            <li><span>07</span><div><b>Load chambers</b><p>The record states 280 mL of halophilic broth at the anode and 280 mL of catholyte at the cathode; its relationship to the ≈180 mL inoculum mixture is unresolved.</p></div><small>Recorded volume discrepancy</small></li>
+            <li><span>08</span><div><b>Operate and measure</b><p>Operate the MFC for 72 h and measure voltage; one reading was retained, but its sampling time was not documented.</p></div><small>No external load resistor / incomplete voltage record</small></li>
           </ol>
         </div>
         <div className="reaction-strip">
