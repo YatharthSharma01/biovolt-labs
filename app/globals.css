@@ -426,3 +426,142 @@ figcaption b { color: var(--ink); }
   .result-methodology article { min-height: 155px; border-right: 0; border-bottom: 1px solid var(--rule); }.result-methodology article:last-child { border-bottom: 0; }
   .scientific-trace summary { grid-template-columns: 1fr; gap: 4px; padding: 12px 0; }.scientific-trace summary b { text-align: left; }.scientific-trace dl > div { grid-template-columns: 1fr; gap: 5px; }.calculator-validation-suite { gap: 30px; }.validation-suite-heading h2 { font-size: 41px; }.validation-case-grid { grid-template-columns: 1fr; }.validation-case-grid article { min-height: 330px; padding: 22px; }.validation-case-grid dl > div { grid-template-columns: 1fr; gap: 7px; }.calculator-evidence-policy { gap: 35px; }.calculator-evidence-policy h2 { font-size: 41px; }
 }
+
+/* Compact phone typography. Desktop and laptop rules above remain unchanged. */
+@media (max-width: 540px) {
+  :root { --page: calc(100vw - 28px); }
+  body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  h1, h2, h3, p, blockquote, dd { overflow-wrap: anywhere; }
+
+  .site-header { padding-inline: 14px; }
+  .brand-copy strong { font-size: 15px; }
+  .primary-nav { width: calc(100vw - 28px); scrollbar-width: none; }
+  .primary-nav::-webkit-scrollbar { display: none; }
+  .primary-nav a { padding-inline: 10px; font-size: 10px; }
+
+  .full-hero { min-height: 740px; }
+  .hero-copy { width: calc(100% - 28px); margin-left: 14px; padding-top: 150px; }
+  .hero-volume { margin-bottom: 18px; font-size: 8px; }
+  .hero-copy h1 { font-size: clamp(42px, 12vw, 52px); line-height: .92; letter-spacing: -.06em; }
+  .hero-deck { margin-top: 24px; font-size: 15px; line-height: 1.5; }
+  .hero-actions { margin-top: 26px; }
+  .button { min-height: 52px; gap: 22px; padding-inline: 20px; font-size: 12px; }
+  .scroll-cue { margin-top: 22px; padding-bottom: 24px; }
+
+  .issue-ledger div, .calculator-ledger div { min-height: 78px; padding: 14px; }
+  .issue-ledger strong, .calculator-ledger strong { font-size: 12px; }
+  .paper-spread { padding: 52px 0; }
+  .section-label { grid-template-columns: 40px 1fr; margin-bottom: 28px; }
+  .section-label span { font-size: 9px; }
+  .section-label p { padding: 9px 0 9px 12px; font-size: 8px; letter-spacing: .1em; }
+
+  .lead-copy p { font-size: 16px; line-height: 1.55; }
+  .lead-copy .drop-cap::first-letter { margin-top: -5px; font-size: 64px; }
+  .margin-note p { font-size: 16px; }
+  .introduction-lead h2 { margin-bottom: 22px; font-size: 34px; }
+  .introduction-lead > p:last-child { font-size: 18px; }
+  .introduction-body p { font-size: 15px; line-height: 1.6; }
+  .directory-grid a { min-height: 190px; padding: 18px; }
+  .directory-grid h2 { font-size: 30px; }
+  .directory-grid p { margin-top: 20px; }
+
+  .page-masthead { padding-top: 38px; }
+  .masthead-number { font-size: 62px; }
+  .masthead-copy { padding: 10px 0 48px; }
+  .masthead-copy h1 { margin: 15px 0 24px; font-size: clamp(36px, 10.8vw, 48px); line-height: .97; letter-spacing: -.045em; }
+  .masthead-abstract { font-size: 15px; line-height: 1.55; }
+
+  .feature-copy h2, .matrix-copy h2, .twin-intro h2, .repository-note h2,
+  .audit-stage-copy h2, .apparatus-spec h2, .electrode-copy h2, .growth-heading h2,
+  .experiment-aims h2, .condition-intro h2, .method-intro h2, .results-lead h2,
+  .halophile-growth-copy h2, .character-heading h2, .registry-principles h2,
+  .benchmark-heading h2, .registry-form-intro h2, .recommendation-panel h2,
+  .calculator-toolbar h2, .validation-suite-heading h2, .calculator-evidence-policy h2 {
+    margin-top: 14px;
+    margin-bottom: 20px;
+    font-size: 32px;
+    line-height: 1.06;
+  }
+  .feature-copy > p:not(.journal-kicker), .matrix-copy p, .twin-intro p, .repository-note p,
+  .audit-stage-copy > p:not(.journal-kicker), .editorial-note > p,
+  .microbiology-layout article > p:last-child, .experiment-aims > div > p:last-child,
+  .method-intro > p:last-child, .results-lead > p:last-child, .character-heading > p:last-child,
+  .condition-intro > p:last-child, .registry-principles > div > p:last-child,
+  .benchmark-heading > p:last-child, .registry-form-intro > p:nth-of-type(2),
+  .recommendation-panel > div > p:last-child, .author-note > div > p:not(.journal-kicker),
+  .calculator-toolbar p:last-child, .validation-suite-heading > p:last-child,
+  .calculator-evidence-policy > div > p:last-child {
+    font-size: 15px;
+    line-height: 1.58;
+  }
+
+  .evidence-feature img, .apparatus-figure img { height: 280px; }
+  .citation-card { padding: 20px 0; }
+  .citation-card h2 { font-size: 23px; line-height: 1.2; }
+  .paper-summary { margin-top: 18px; font-size: 15px; line-height: 1.58; }
+  .editorial-note blockquote { font-size: 27px; line-height: 1.22; }
+  .filter-row button { min-height: 48px; padding: 10px; }
+
+  .microbiology-layout article { min-height: auto; padding: 28px 18px; }
+  .microbiology-layout article > span { right: 14px; top: 16px; font-size: 88px; }
+  .microbiology-layout h2 { font-size: 30px; }
+  .apparatus-layout, .electrode-layout { gap: 28px; }
+  .electrode-layout figure { padding: 16px; }
+  .electrode-layout img, .micrograph-grid img { height: 270px; }
+  .growth-canvas { height: 285px; }
+
+  .condition-grid article, .condition-grid article:nth-child(3n), .condition-grid article:nth-child(n+4) { min-height: 122px; padding: 18px; }
+  .condition-grid strong, .result-callouts strong { font-size: 31px; }
+  .inoculum-record { gap: 22px; padding: 20px; }
+  .inoculum-record h3, .data-template-callout h3, .protocol-timeline-heading h3, .monitoring-evidence-heading h3 { font-size: 27px; }
+  .inoculum-record dl div { grid-template-columns: 105px 1fr; gap: 12px; }
+  .data-template-callout, .discussion-note, .circuit-note { padding: 20px; }
+  .method-grid article { min-height: 185px; padding: 22px; }
+  .method-grid h3 { margin-top: 30px; font-size: 23px; }
+  .protocol-timeline li { gap: 10px; min-height: 68px; }
+  .protocol-timeline li b { font-size: 14px; }
+  .chemical-equation { font-size: 14px; }
+  .result-callouts article { min-height: 100px; padding: 20px; }
+  .assay-gallery { gap: 9px; }
+
+  .twin-console form, .twin-results { padding: 24px 20px; }
+  .twin-results strong { font-size: 46px; }
+  .interval { align-items: flex-start; flex-direction: column; gap: 7px; }
+  .architecture-flow article { min-height: 145px; padding: 20px; }
+  .architecture-flow h2 { margin-top: 32px; font-size: 23px; }
+  .model-output-grid article { min-height: 185px; padding: 24px; }
+  .model-output-grid h2 { margin-top: 46px; font-size: 24px; }
+
+  .manifesto > p { font-size: 27px; line-height: 1.28; }
+  .author-note h2 { font-size: 36px; }
+  .author-note blockquote { padding: 26px 0; font-size: 27px; }
+  .roadmap h2 { font-size: 24px; }
+  .next-article { min-height: 124px; margin-bottom: 70px; padding: 20px; }
+  .next-article strong { font-size: 25px; }
+  .footer-grid { gap: 36px; padding: 50px 0; }
+  .footer-grid h2 { font-size: 34px; }
+  .footer-email { font-size: 10px; overflow-wrap: anywhere; }
+
+  .calculator-workspace { padding-top: 56px; }
+  .calculator-toolbar { margin-bottom: 30px; }
+  .calculator-step-panel { padding: 24px 16px 34px; }
+  .step-heading { margin-bottom: 30px; }
+  .step-heading h2 { font-size: 30px; }
+  .step-heading p { font-size: 14px; }
+  .mode-grid button { min-height: 145px; padding: 20px; }
+  .mode-grid b { font-size: 21px; }
+  .calculator-field > select, .unit-input input, .unit-input select { font-size: 16px; }
+  .normalization-note { grid-template-columns: 1fr; gap: 8px; }
+  .calculator-navigation { padding: 14px 16px; }
+  .calculator-navigation button { padding-inline: 12px; font-size: 9px; }
+  .calculator-results { padding: 22px 18px; }
+  .result-primary { min-height: 175px; }
+  .result-primary strong { font-size: 50px; }
+  .result-grid b { font-size: 21px; }
+  .calculator-evidence-card > strong { font-size: 34px; }
+  .calculator-evidence-card dl { grid-template-columns: 1fr; }
+  .calculator-evidence-card dl div { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .calculator-evidence-card dl div:last-child { border-bottom: 0; }
+  .validation-case-grid article { min-height: 285px; padding: 20px; }
+  .validation-category { margin-top: 38px; font-size: 24px; }
+}

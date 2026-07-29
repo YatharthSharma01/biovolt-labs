@@ -164,3 +164,15 @@ test("removes the starter preview and ships project metadata", async () => {
   await assert.rejects(access(new URL("app/_sites-preview", projectRoot)));
   await access(new URL("public/og.png", projectRoot));
 });
+
+test("ships compact phone typography without altering laptop breakpoints", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const marker = "/* Compact phone typography. Desktop and laptop rules above remain unchanged. */";
+  const phoneStyles = css.slice(css.indexOf(marker));
+
+  assert.match(phoneStyles, /@media \(max-width: 540px\)/);
+  assert.match(phoneStyles, /\.hero-copy h1 \{ font-size: clamp\(42px, 12vw, 52px\)/);
+  assert.match(phoneStyles, /\.masthead-copy h1[^}]*font-size: clamp\(36px, 10\.8vw, 48px\)/s);
+  assert.match(phoneStyles, /\.primary-nav::\-webkit-scrollbar \{ display: none; \}/);
+  assert.match(phoneStyles, /\.calculator-field > select, \.unit-input input, \.unit-input select \{ font-size: 16px; \}/);
+});
