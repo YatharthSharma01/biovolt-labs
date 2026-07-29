@@ -439,15 +439,26 @@ figcaption b { color: var(--ink); }
   .primary-nav::-webkit-scrollbar { display: none; }
   .primary-nav a { padding-inline: 10px; font-size: 10px; }
 
-  .full-hero { min-height: 920px; }
-  .hero-copy { width: calc(100% - 28px); margin-left: 14px; padding-top: 150px; }
-  .hero-volume { margin-bottom: 18px; font-size: 8px; }
-  .hero-copy h1 { font-size: clamp(42px, 12vw, 52px); line-height: .92; letter-spacing: -.06em; }
-  .hero-deck { margin-top: 24px; font-size: 15px; line-height: 1.5; }
-  .hero-actions { margin-top: 255px; }
-  .button { min-height: 52px; gap: 22px; padding-inline: 20px; font-size: 12px; }
-  .scroll-cue { margin-top: 22px; padding-bottom: 24px; }
-  .hero-reactor-stage { right: 6px; top: 43%; width: 82vw; height: 62vw; opacity: .82; }
+  .full-hero { min-height: 820px; overflow: hidden; }
+  .hero-copy { width: calc(100% - 28px); margin-left: 14px; padding-top: 126px; }
+  .hero-volume { margin-bottom: 14px; font-size: 8px; }
+  .hero-copy h1 { font-size: clamp(39px, 10.8vw, 46px); line-height: .91; letter-spacing: -.055em; }
+  .hero-deck { max-width: 345px; margin-top: 18px; font-size: 14px; line-height: 1.45; }
+  .hero-actions { gap: 10px; margin-top: 225px; }
+  .button { min-height: 50px; gap: 22px; padding-inline: 20px; font-size: 12px; }
+  .scroll-cue { margin-top: 16px; padding-bottom: 18px; }
+  .hero-reactor-stage {
+    left: 50%;
+    right: auto;
+    top: 46%;
+    width: min(78vw, 320px);
+    height: min(56vw, 230px);
+    opacity: .84;
+    transform: translateX(-50%) rotateX(var(--hero-rx)) rotateY(var(--hero-ry));
+  }
+  .hero-orbit { opacity: .42; }
+  .wire-sphere { right: -27vw; bottom: 5%; width: 54vw; opacity: .42; }
+  .label-electron { display: none; }
 
   .issue-ledger div, .calculator-ledger div { min-height: 78px; padding: 14px; }
   .issue-ledger strong, .calculator-ledger strong { font-size: 12px; }

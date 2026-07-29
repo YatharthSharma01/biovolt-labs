@@ -171,12 +171,14 @@ test("ships compact phone typography without altering laptop breakpoints", async
   const phoneStyles = css.slice(css.indexOf(marker));
 
   assert.match(phoneStyles, /@media \(max-width: 540px\)/);
-  assert.match(phoneStyles, /\.hero-copy h1 \{ font-size: clamp\(42px, 12vw, 52px\)/);
+  assert.match(phoneStyles, /\.hero-copy h1 \{ font-size: clamp\(39px, 10\.8vw, 46px\)/);
   assert.match(phoneStyles, /\.masthead-copy h1[^}]*font-size: clamp\(36px, 10\.8vw, 48px\)/s);
   assert.match(phoneStyles, /\.primary-nav::\-webkit-scrollbar \{ display: none; \}/);
   assert.match(phoneStyles, /\.calculator-field > select, \.unit-input input, \.unit-input select \{ font-size: 16px; \}/);
-  assert.match(phoneStyles, /\.hero-actions \{ margin-top: 255px; \}/);
-  assert.match(phoneStyles, /\.hero-reactor-stage \{ right: 6px; top: 43%; width: 82vw; height: 62vw; opacity: \.82; \}/);
+  assert.match(phoneStyles, /\.full-hero \{ min-height: 820px; overflow: hidden; \}/);
+  assert.match(phoneStyles, /\.hero-actions \{ gap: 10px; margin-top: 225px; \}/);
+  assert.match(phoneStyles, /\.hero-reactor-stage \{[\s\S]*left: 50%;[\s\S]*top: 46%;[\s\S]*width: min\(78vw, 320px\);[\s\S]*height: min\(56vw, 230px\);[\s\S]*opacity: \.84;/);
+  assert.match(phoneStyles, /\.label-electron \{ display: none; \}/);
   assert.match(phoneStyles, /\.footer-grid \{ grid-template-columns: 1fr 1fr; gap: 26px 18px; padding: 34px 0; \}/);
   assert.match(phoneStyles, /\.footer-grid > div:first-child \{ grid-column: 1 \/ -1; \}/);
 });
