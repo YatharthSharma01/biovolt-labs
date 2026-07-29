@@ -175,4 +175,8 @@ test("ships compact phone typography without altering laptop breakpoints", async
   assert.match(phoneStyles, /\.masthead-copy h1[^}]*font-size: clamp\(36px, 10\.8vw, 48px\)/s);
   assert.match(phoneStyles, /\.primary-nav::\-webkit-scrollbar \{ display: none; \}/);
   assert.match(phoneStyles, /\.calculator-field > select, \.unit-input input, \.unit-input select \{ font-size: 16px; \}/);
+  assert.match(phoneStyles, /\.hero-actions \{ margin-top: 255px; \}/);
+  assert.match(phoneStyles, /\.hero-reactor-stage \{ right: 6px; top: 43%; width: 82vw; height: 62vw; opacity: \.82; \}/);
+  assert.match(phoneStyles, /\.footer-grid \{ grid-template-columns: 1fr 1fr; gap: 26px 18px; padding: 34px 0; \}/);
+  assert.match(phoneStyles, /\.footer-grid > div:first-child \{ grid-column: 1 \/ -1; \}/);
 });
