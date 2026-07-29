@@ -37,6 +37,10 @@ test("static navigation points to every research article", async () => {
   assert.match(bundle, /github\.com\/YatharthSharma01\/biovolt-labs/);
   assert.doesNotMatch(bundle, /github\.com\/YatharthSharma01\/biovolt-ai/);
   assert.match(bundle, /laboratory experiments/);
+  assert.match(bundle, /Calculation system preview/);
+  assert.match(bundle, /Power-density calculation/);
+  assert.match(bundle, /COD-removal calculation/);
+  assert.doesNotMatch(bundle, /Predictive system preview|Power-density prediction|COD-removal prediction|Before an MFC can be predicted/);
   assert.doesNotMatch(bundle, /historical evidence|historical experiments|Historical laboratory record/i);
 });
 
@@ -121,7 +125,7 @@ test("experiment page separates the incomplete record from literature monitoring
     "Redox reactions of the microbial fuel cell.",
     "Anode / glucose oxidation",
     "double-chamber-mfc-setup.jpg",
-    "The material name alone is therefore not enough to predict power density",
+    "The material name alone is therefore not enough to calculate power density",
     "dimensions of 6 × 1 × 1 cm",
   ]) assert.match(bundle, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.doesNotMatch(bundle, /Scope note/);

@@ -34,7 +34,7 @@ export const calculatorValidationCases: CalculatorValidationCase[] = [
     category: "Evidence retrieval",
     status: "Passed",
     inputs: "Halophilic enrichment; sodium acetate; dual chamber; 40 g/L NaCl; 37 °C; pH 7; 100 Ω",
-    expected: "Return BV-LIT-011-40 as a single-study reference: 162.09 ± 3 mW/m², not a prediction or interval.",
+    expected: "Return BV-LIT-011-40 as a single-study reference: 162.09 ± 3 mW/m², not a calculated result or interval.",
     observed: "The calculator returns the correct condition, DOI, normalization basis and single-study warning.",
     sourceLabel: "Vijay, Ghosh & Mukherji (2023)",
     sourceUrl: "https://doi.org/10.3390/en16020877",

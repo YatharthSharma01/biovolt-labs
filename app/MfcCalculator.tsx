@@ -231,13 +231,13 @@ function EquationTrace({ state, result }: { state: FormState; result: ReturnType
   if (state.mode === "literature") {
     equation = "Weighted similarity → closest eligible audited condition";
     usedInputs = "Reactor, biology, substrate, electrodes, load and operating conditions entered for comparison.";
-    applicability = "Contextual comparison only; one paper produces a reference, not a prediction or confidence interval.";
+    applicability = "Contextual comparison only; one paper produces a reference, not a calculated result or confidence interval.";
     assumptions = ["Only gate-approved primary-study conditions can return a value.", "Missing fields reduce completeness; unlike normalization bases are not pooled."];
   } else if (state.mode === "projected") {
     equation = "I = OCV/(Rext + Rint); Vload = I·Rext; P = I²·Rext";
     usedInputs = `OCV ${displayNumber(inputs.openCircuitVoltageV, 3)} V; Rext ${displayNumber(inputs.externalResistanceOhm, 1)} Ω; Rint ${displayNumber(inputs.internalResistanceOhm ?? null, 1)} Ω.`;
     applicability = "A local, linear circuit projection near one operating state; verify with a polarization sweep.";
-    assumptions = ["OCV and total internal resistance are treated as constant over the scenario.", "Biological dynamics, activation losses and mass-transfer nonlinearity are not predicted."];
+    assumptions = ["OCV and total internal resistance are treated as constant over the scenario.", "Biological dynamics, activation losses and mass-transfer nonlinearity are not calculated by this simplified circuit model."];
   } else if (result.method?.includes("voltage and resistance")) {
     equation = "I = Vload/Rext; P = Vload²/Rext";
     usedInputs = `Loaded voltage ${displayNumber(inputs.loadedVoltageV, 3)} V; external resistance ${displayNumber(inputs.externalResistanceOhm, 1)} Ω.`;

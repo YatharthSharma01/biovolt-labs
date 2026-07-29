@@ -25,8 +25,8 @@ demonstration.
   synthetic values
 - Responsive and reduced-motion-friendly interface
 
-The digital-twin outputs in this release are illustrative. They are not trained
-predictions and must not be used to operate an MFC.
+The digital-twin outputs in this release are illustrative calculations. They
+are not validated experimental results and must not be used to operate an MFC.
 
 ## MFC calculator development
 
@@ -43,7 +43,7 @@ from entering the public calculator:
 
 The Phase 2 decision is **go** for the measured formula calculator and cited
 single-study references. Pooled estimates, confidence intervals and trained AI
-predictions remain disabled until sufficiently comparable independent studies
+models remain disabled until sufficiently comparable independent studies
 are available.
 
 Phase 3 implements the first public calculator release at `/calculator`:
@@ -75,11 +75,11 @@ npm run test:pages
 
 ## Project direction
 
-The planned intelligence layer will add power-density and COD-removal
-prediction, anomaly detection, fouling alerts, confidence intervals, feature
-importance and evidence-bounded experiment recommendations. Those models will
-only be activated after sufficient experimental data and grouped validation are
-available.
+The planned calculation layer will add transparent power-density and COD-removal
+calculations, anomaly detection, fouling alerts, uncertainty ranges, parameter
+sensitivity and evidence-bounded experiment recommendations. Advanced models
+will only be activated after sufficient experimental data and grouped validation
+are available.
 
 ## Evidence policy
 

@@ -48,7 +48,7 @@ test("server-renders every connected research page", async () => {
     ["/research", /14 verified records/],
     ["/experiment", /recovered experiment becomes structured evidence/],
     ["/digital-twin", /Intelligence for living electricity/],
-    ["/about", /Before an MFC can be predicted/],
+    ["/about", /Before MFC performance can be calculated/],
   ];
 
   for (const [path, expected] of routes) {
@@ -120,6 +120,9 @@ test("publishes the complete literature register and researcher profile", async 
 
   const twin = await render("/digital-twin");
   const twinHtml = await twin.text();
+  assert.match(twinHtml, /Calculation system preview/);
+  assert.match(twinHtml, /Power-density calculation/);
+  assert.match(twinHtml, /COD-removal calculation/);
   assert.match(twinHtml, /Choose the evidence-compatible clock/);
   assert.match(twinHtml, /cannot assume that every reactor follows one 72-hour window/);
   assert.match(twinHtml, /No universal duration/);
@@ -138,6 +141,12 @@ test("publishes the complete literature register and researcher profile", async 
   assert.doesNotMatch(aboutHtml, /github\.com\/YatharthSharma01\/biovolt-ai/);
   assert.match(aboutHtml, /laboratory experiment is a production-ready digital twin/i);
   assert.doesNotMatch(aboutHtml, /historical evidence/i);
+
+  const calculator = await render("/calculator");
+  const calculatorHtml = await calculator.text();
+  for (const html of [homeHtml, researchHtml, experimentHtml, calculatorHtml, twinHtml, aboutHtml]) {
+    assert.doesNotMatch(html, /\bpredict(?:ion|ive|ed|able|s)?\b/i);
+  }
 });
 
 test("removes the starter preview and ships project metadata", async () => {

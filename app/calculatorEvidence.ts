@@ -147,6 +147,6 @@ export function findEvidenceReference(inputs: EvidenceInputs, target: "power" | 
     resistanceOhm: best.row.externalResistanceOhm,
     normalizationBasis: best.decision.normalizationBasis,
     warnings: Array.from(new Set([...best.decision.warnings, "SINGLE_STUDY_REFERENCE"])),
-    message: "Closest audited condition. This is a cited single-study reference, not a prediction or confidence interval.",
+    message: "Closest audited condition. This is a cited single-study reference, not your calculated result or a confidence interval.",
   };
 }

@@ -58,7 +58,7 @@ export function interpretSubstrateConcentration({
       benchmark: benchmarks.glucose,
       sourceUrl,
     };
-    return { ...outside, match: "partial", headline: "Outside the reported 1–5 g/L envelope", message: "Extrapolation is disabled. A matched concentration experiment is required before treating this input as predictive.", benchmark: benchmarks.glucose };
+    return { ...outside, match: "partial", headline: "Outside the reported 1–5 g/L envelope", message: "Extrapolation is disabled. A matched concentration experiment is required before using this input in a calculated result.", benchmark: benchmarks.glucose };
   }
   return {
     match: "eligible",
