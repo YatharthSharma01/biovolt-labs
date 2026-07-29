@@ -215,6 +215,52 @@ figcaption b { color: var(--ink); }
 
 .footer-bottom { min-height: 78px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.16); color: rgba(255,255,255,.45); font: 9px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
 
+/* Research-paper body alignment. Headings, labels, metadata and interface copy stay left-aligned. */
+.masthead-abstract,
+.lead-copy p,
+.introduction-lead > p:last-child,
+.introduction-body p,
+.feature-copy > p:not(.journal-kicker),
+.matrix-copy p,
+.audit-stage-copy > p:not(.journal-kicker),
+.paper-summary,
+.paper-detail-grid p,
+.editorial-note > p,
+.microbiology-layout article > p:last-child,
+.experiment-aims > div > p:last-child,
+.condition-intro > p:last-child,
+.inoculum-record > div > p:last-child,
+.data-boundary p,
+.data-template-callout p:last-child,
+.method-intro > p:last-child,
+.protocol-timeline-heading > p:last-child,
+.monitoring-evidence-heading > p:last-child,
+.electrode-copy > p:not(.journal-kicker),
+.results-lead > p:last-child,
+.discussion-note p,
+.circuit-note p,
+.halophile-growth-copy p,
+.character-heading > p:last-child,
+.growth-heading p,
+.twin-intro p,
+.registry-principles > div > p:last-child,
+.benchmark-heading > p:last-child,
+.benchmark-citation p,
+.registry-form-intro > p:nth-of-type(2),
+.registry-schema aside p,
+.repository-note p,
+.recommendation-panel > div > p:last-child,
+.author-note > div > p:not(.journal-kicker),
+.roadmap article div p,
+.calculator-toolbar p:last-child,
+.validation-suite-heading > p:last-child,
+.calculator-evidence-policy > div > p:last-child {
+  text-align: justify;
+  text-justify: inter-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
 @keyframes float { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(18px,-30px,50px); } }
 @keyframes tumble { to { transform: rotate(422deg) translate3d(20px,-15px,0); } }
 @keyframes sphere-spin { to { transform: rotate(360deg); } }

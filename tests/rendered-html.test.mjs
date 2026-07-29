@@ -182,3 +182,19 @@ test("ships compact phone typography without altering laptop breakpoints", async
   assert.match(phoneStyles, /\.footer-grid \{ grid-template-columns: 1fr 1fr; gap: 26px 18px; padding: 34px 0; \}/);
   assert.match(phoneStyles, /\.footer-grid > div:first-child \{ grid-column: 1 \/ -1; \}/);
 });
+
+test("justifies long-form research prose without changing headings", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const alignmentRule = css.slice(
+    css.indexOf("/* Research-paper body alignment."),
+    css.indexOf("@keyframes float"),
+  );
+
+  assert.match(alignmentRule, /\.introduction-body p,/);
+  assert.match(alignmentRule, /\.electrode-copy > p:not\(\.journal-kicker\),/);
+  assert.match(alignmentRule, /\.paper-summary,/);
+  assert.match(alignmentRule, /\.results-lead > p:last-child,/);
+  assert.match(alignmentRule, /text-align: justify;/);
+  assert.match(alignmentRule, /hyphens: auto;/);
+  assert.doesNotMatch(alignmentRule, /\bh[1-6]\b/);
+});
